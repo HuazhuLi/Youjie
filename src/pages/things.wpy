@@ -1,0 +1,294 @@
+<style scoped="true" lang="less">
+.list{
+  position: relative;
+  box-sizing: border-box;
+  top: 80rpx;
+  padding-bottom: 95rpx;
+  &.my{
+    top: 0;
+  }
+}
+.hidden{
+  padding-bottom: 0rpx;
+}
+.empty{
+  text-align: center;
+  image{
+    display: block;
+    margin: auto;
+  }
+}
+</style>
+<template>
+  <view class="container list {{tabIndexB == 4 ? 'my' : ''}}">
+    <view hidden="{{tabIndexB != 0}}">
+      <toptabsA :tabbar="topTabA"></toptabsA>
+      <view  hidden="{{thingslist.list.length != 0}}" class="empty">
+        <image src="../images/icons/empty_pic.png" mode="aspectFit"></image>
+        <text>暂时没有东西哦(⊙o⊙)</text>
+      </view>
+      <repeat for="{{thingslist.list}}" index="index" item="item" key="index">
+        <listitem  :thingsitem="item" :indexa="index"></listitem>
+      </repeat>
+    </view>
+    <view hidden="{{tabIndexB != 1}}">
+      <toptabsA :tabbar="topTabA"></toptabsA>
+      <view  hidden="{{rentlist.list.length != 0}}" class="empty">
+        <image src="../images/icons/empty_pic.png" mode="aspectFit"></image>
+        <text>暂时没有东西哦(⊙o⊙)</text>
+      </view>
+      <repeat for="{{rentlist.list}}" index="index" item="item" key="index">
+        <listitem  :thingsitem="item" :indexa="index"></listitem>
+      </repeat>
+    </view>
+    <view class="container" hidden="{{tabIndexB != 3}}">
+      <toptabsB :tabbar="topTabB"></toptabsB>
+      <circle></circle>
+    </view>
+    <view class="container" hidden="{{tabIndexB != 4}}">
+      <my :userinfo="{{userInfo}}"></my>
+    </view>
+    <bottomtabs></bottomtabs>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import BottomTabs from '../components/bottomtabs'
+  import TopTabs from '../components/toptabs'
+  import ListItem from '../components/listitem'
+  import Group from '../components/group'
+  import My from '../components/my'
+  import Circle from '../components/circle'
+
+  export default class Things extends wepy.page {
+    config = {
+      navigationBarTitleText: '租品',
+      enablePullDownRefresh: true
+    }
+
+    components = {
+      bottomtabs: BottomTabs,
+      toptabsA: TopTabs,
+      toptabsB: TopTabs,
+      listitem: ListItem,
+      group: Group,
+      my: My,
+      circle: Circle
+    }
+
+    data = {
+      titles: ['租品', '求租', '发布',  '圈子', '我的'],
+      tabIndexB: 0,
+      tabIndexT: 0,
+      userInfo: {},
+      topTabB:{
+        color: '#a9a29f',
+        selectedColor: '#3e3835',
+        backgroundColor: '#ffffff',
+        borderStyle: 'black',
+        list: [
+        {
+          text: '楼栋排行',
+          selected: true
+        },
+        {
+          text: '微信群排行',
+          selected: false
+        }
+        ],
+        position: 'top'
+      },
+      topTabA:{
+        color: '#a9a29f',
+        selectedColor: '#3e3835',
+        backgroundColor: '#ffffff',
+        borderStyle: 'black',
+        list: [
+        {
+          text: '最新',
+          selected: true
+        },
+        {
+          text: '最近',
+          selected: false
+        },
+        {
+          text: '最贵',
+          selected: false
+        }
+        ],
+        position: 'top'
+      },
+      thingslist: {
+        list: [
+          {
+            id: 10,
+            type: 'things',
+            title: '山地车出售',
+            images: [
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png'
+            ],
+            price: '152',
+            descript: '求来人一套带走',
+            position: '韵苑23栋',
+            time: '3小时前'
+          },
+          {
+            id: 10,
+            type: 'things',
+            title: '山地车出售',
+            images: [
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png'
+            ],
+            price: '152',
+            descript: '求来人一套带走',
+            position: '韵苑23栋',
+            time: '3小时前'
+          },{
+            id: 10,
+            type: 'things',
+            title: '山地车出售',
+            images: [
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png'
+            ],
+            price: '152',
+            descript: '求来人一套带走',
+            position: '韵苑23栋',
+            time: '3小时前'
+          },{
+            id: 10,
+            type: 'things',
+            title: '山地车出售',
+            images: [
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png'
+            ],
+            price: '152',
+            descript: '求来人一套带走',
+            position: '韵苑23栋',
+            time: '3小时前'
+          }
+        ],
+        type: 'things'
+      },
+      rentlist: {
+        list: [
+          {
+            id: 10,
+            type: 'rent',
+            title: '求租大宝宝',
+            images: [
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png'
+            ],
+            price: '152',
+            descript: '哦项有哇哦等你请我i你的',
+            position: '韵苑23栋',
+            time: '3小时前'
+          },
+          {
+            id: 10,
+            type: 'rent',
+            title: '求租大宝宝',
+            images: [
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png'
+            ],
+            price: '152',
+            descript: '哦项有哇哦等你请我i你的',
+            position: '韵苑23栋',
+            time: '3小时前'
+          },{
+            id: 10,
+            type: 'rent',
+            title: '求租大宝宝',
+            images: [
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png'
+            ],
+            price: '152',
+            descript: '哦项有哇哦等你请我i你的',
+            position: '韵苑23栋',
+            time: '3小时前'
+          },{
+            id: 10,
+            type: 'rent',
+            title: '求租大宝宝',
+            images: [
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png'
+            ],
+            price: '152',
+            descript: '哦项有哇哦等你请我i你的',
+            position: '韵苑23栋',
+            time: '3小时前'
+          }
+        ],
+        type: 'rent'
+      }
+    }
+
+    computed = {
+      userInfos () {
+        return this.userInfo
+      }
+    }
+
+    methods = {
+      openInfo (e) {
+        let type = e.target.dataset.type
+        let id = e.target.dataset.itemid
+        console.log(213)
+        if (type === 'things') {
+          wx.navigateTo({
+            url: 'thingsinfo?id=' + id
+          })
+        } else {
+          wx.navigateTo({
+            url: 'RentInfo?id=' + id
+          })
+        }
+      }
+    }
+
+    events = {
+      'tab-changeB': (...args) => {
+        let index = args[0]
+        let self = this
+        this.tabIndexB = index
+        wx.setNavigationBarTitle({
+          title: self.titles[index]
+        })
+        this.$apply()
+      },
+      'tab-changeT': (...args) => {
+        let index = args[0]
+        this.tabIndexT = index
+        this.$apply()
+      },
+    }
+
+    onLoad() {
+      let self = this
+      this.$parent.getUserInfo(function (userInfo) {
+        if (userInfo) {
+          self.userInfo = userInfo
+        }
+        console.log(userInfo)
+        self.$apply()
+      })
+    }
+  }
+</script>

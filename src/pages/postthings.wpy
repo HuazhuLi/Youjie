@@ -1,0 +1,264 @@
+<style scoped="true" lang="less">
+.input_list{
+  background: #ffffff;
+  box-shadow:0 2px 4px 0 rgba(0,0,0,0.05);
+  width: 100%;
+  box-sizing: border-box;
+  &.title{
+    padding: 35rpx 31rpx 33rpx 30rpx;
+    height: 550rpx;
+  }
+  &.type{
+    margin: 29rpx 0 20rpx 0;
+    padding: 35rpx 31rpx 33rpx 30rpx;
+    height: 200rpx;
+  }
+  &.contact{
+    padding: 35rpx 31rpx 33rpx 30rpx;
+    height: 100rpx;
+  }
+  &.cansold{
+    margin: 20rpx 0 28rpx 0;
+    padding: 35rpx 31rpx 33rpx 30rpx;
+    height: 100rpx;
+  }
+}
+.input_bar{
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 28rpx;
+  background-color: #ffffff;
+  text-align: left;
+  .label{
+    display: inline-block;
+    transform: translateY(-2rpx);
+  }
+  &.title{
+    margin-bottom: 24rpx;
+    input{
+      width: 90%;
+      height: 54rpx;
+      float: right;
+    }
+    label{
+      line-height: 54rpx;
+      vertical-align: middle;
+      color: #3e3835;
+    }
+  }
+  &.descript{
+    margin-top: 21rpx;
+    height: 415rpx;
+    textarea{
+      padding-top: 1rpx;
+      line-height: 40rpx;
+      width: 90%;
+      float: right;
+      height: 182rpx;
+    }
+    .label{
+      display: inline-block;
+      color: #3e3835;
+      transform: translateY(2rpx);
+    }
+  }
+  &.type{
+    margin-bottom: 28rpx;
+    .label{
+      display: inline-block;
+    }
+    picker{
+      width: 85rpx;
+      float: right;
+      color:#3e3835;
+      text-align: right;
+    }
+  }
+  &.price{
+    margin-top: 24rpx;
+    height: 40rpx;
+    .label{
+      display: inline-block;
+    }
+    input{
+      text-align: right;
+      width: 180rpx;
+      height: 40rpx;
+      transform: translateY(-4rpx);
+      float: right;
+      color:#3e3835;
+    }
+  }
+  &.contact{
+    .label{
+      display: inline-block;
+    }
+    input{
+      transform: translateY(-5rpx);
+      width: 180rpx;
+      text-align: right;
+      height: 40rpx;
+      float: right;
+      color:#3e3835;
+    }
+  }
+  &.cansold{
+    .label{
+      display: inline-block;
+    }
+    checkbox-group{
+      display:inline-block;
+      float:right;
+    }
+    checkbox{
+      float: right;
+      color:#3e3835;
+      transform: translateY(-5rpx);
+      background:#e1e1e1;
+      width:48rpx;
+      height:48rpx;
+      border-radius:100%;
+    }
+  }
+}
+
+.post_btn{
+  transition: all 0.5s;
+  background:#9c9c9c;
+  width:640rpx;
+  height:75rpx;
+  font-size:28rpx;
+  color:#ffffff;
+  letter-spacing:0;
+  text-align:center;
+  &.ok{
+    background:#ff4949;
+  }
+}
+.line{
+  background: #ededed;
+  width:686rpx;
+  height: 2rpx;
+}
+.upborad{
+  display: none;
+  &.open{
+    display: block;
+    height: 500rpx;
+  }
+}
+</style>
+<template>
+  <view class="container postthings" bindinput="handleInput">
+    <view class="input_list title">
+      <view class="input_bar title">
+        <label>标题</label>
+        <input bindinput="titleInput" focus="{{true}}" confirm-hold="{{true}}" value="{{postForm.title}}" type="text" confirm-type="next" placeholder="请输入物品名称（15字以内）"/>
+      </view>
+      <view class="line"></view>
+      <view class="input_bar descript">
+        <view class="label">描述</view>
+        <textarea bindinput="descriptInput" maxlength="{{100}}" value="{{postForm.descript}}" confirm-type="next" placeholder="描述一下你要借出的物品吧！100字以内哦。"></textarea>
+      </view>
+    </view>
+    <view class="input_list type">
+      <view class="input_bar type">
+        <view class="label">选择类别</view>
+        <picker bindchange="typeInput"  range="{{pickList}}"  value="{{postForm.type}}" >{{pickList[postForm.type]}}</picker>
+      </view>
+      <view class="line"></view>
+      <view class="input_bar price">
+        <view class="label">价格</view>
+        <input bindinput="priceInput" placeholder-style="text-align:right; float:right; vertical-align:middle;line-height:40rpx" type="number" placeholder="￥0.00" value="{{postForm.price}}" />
+      </view>
+    </view>
+    <view class="input_list contact">
+      <view class="input_bar contact">
+        <view class="label">联系方式</view>
+        <input bindinput="contactInput" cursor-spacing="{{10}}" type="text" placeholder="未填写" value="{{postForm.contact}}"/>
+      </view>
+    </view>
+    <view class="input_list cansold">
+      <view class="input_bar cansold">
+        <view class="label">可卖</view>
+        <checkbox-group bindchange="cansoldInput">
+          <checkbox  checked="{{false}}" value="{{true}}"/>
+        </checkbox-group>
+      </view>
+    </view>
+    <button class="post_btn {{formOk ? 'ok' : ''}}">确认发布</button>
+    <view class="upborad {{upborad ? 'open' : ''}}"></view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class Things extends wepy.page {
+    config = {
+      navigationBarTitleText: '发布租品'
+    }
+
+    components = {
+    }
+
+    data = {
+      upborad: true,
+      postForm: {
+        title: '',
+        descript: '',
+        type: 0,
+        price: null,
+        contact: '',
+        canSold: false
+      },
+      pickList: [
+        '未选择',
+        '美妆',
+        '交通',
+        '学习'
+      ]
+    }
+
+    computed = {
+      formOk () {
+        for (let item in this.postForm) {
+          let value = this.postForm[item]
+          if (value == undefined || value == null || value.length == 0) {
+            return 0
+          }
+        }
+        return 1
+      }
+    }
+
+    methods = {
+      titleInput (e) {
+        this.postForm.title = e.detail.value
+      },
+      descriptInput (e) {
+        this.postForm.descript = e.detail.value
+      },
+      priceInput (e) {
+        this.postForm.price = e.detail.value
+      },
+      contactInput (e) {
+        this.postForm.contact = e.detail.value
+      },
+      typeInput (e) {
+        this.postForm.type = e.detail.value
+      },
+      cansoldInput (e) {
+        this.postForm.canSold = (e.detail.value[0] == 'true')
+      }
+    }
+
+    events = {
+
+    }
+
+    onLoad() {
+
+    }
+  }
+</script>

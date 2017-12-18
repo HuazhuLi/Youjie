@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 150 150">
+  <defs>
+    <linearGradient id="in-a" x1="50%" x2="50%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#FF797F"/>
+      <stop offset="100%" stop-color="#FF4EA1"/>
+    </linearGradient>
+    <linearGradient id="in-b" x1="50%" x2="50%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFAA5A"/>
+      <stop offset="100%" stop-color="#FF49A5"/>
+    </linearGradient>
+    <linearGradient id="in-c" x1="50%" x2="50%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#FF9B65"/>
+      <stop offset="100%" stop-color="#FF926D"/>
+    </linearGradient>
+  </defs>
+  <g fill="none" fill-rule="evenodd" transform="translate(42 25)">
+    <polygon fill="url(#in-a)" points="10.777 25.769 0 41.231 67 41.231 57.983 25.769"/>
+    <path fill="url(#in-b)" d="M0,41.2307692 L67,41.2307692 L67,82.6153846 L67,82.6153846 C67,85.3768084 64.7614237,87.6153846 62,87.6153846 L5,87.6153846 L5,87.6153846 C2.23857625,87.6153846 -5.50001544e-16,85.3768084 -8.8817842e-16,82.6153846 L0,41.2307692 Z"/>
+    <path fill="url(#in-c)" d="M36.9358974,19.0295858 L36.9358974,41.2307692 L27.4871795,41.2307692 L27.4871795,19.0295858 L18.0384615,19.0295858 L32.2115385,0 L46.3846154,19.0295858 L36.9358974,19.0295858 Z" transform="matrix(1 0 0 -1 0 41.23)"/>
+  </g>
+</svg>

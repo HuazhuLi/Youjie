@@ -1,0 +1,282 @@
+<style lang="less">
+.thingsinfo{
+  background-color: #faf9f8;
+  width: 100%;
+}
+.slider{
+  width: 100%;
+  height: 500rpx;
+}
+.slide-image{
+  width: 100%;
+  height: 500rpx;
+}
+.list_box{
+  background-color: #ffffff;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow:0 2px 4px 0 rgba(0,0,0,0.05);
+  width: 100%;
+  &.first{
+    margin-top: 30rpx;
+    padding: 30rpx 30rpx 30rpx 30rpx;
+  }
+  &.second{
+    height: 90rpx;
+    margin: 30rpx 0 19rpx 0;
+    padding: 30rpx 30rpx 30rpx 30rpx;
+  }
+  &.third{
+    height: 110rpx;
+    padding: 30rpx 30rpx 30rpx 30rpx;
+  }
+}
+.list_item{
+  width: 100%;
+  display: flex;
+  &.first{
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &.second{
+    margin: 25rpx 0 19rpx 0;
+  }
+  &.third{
+    margin-top: 21rpx;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &.four{
+    font-size:24rpx;
+    color:#3e3835;
+    letter-spacing:0.86rpx;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &.five{
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+.line{
+  background: #eeeeee;
+  width:725rpx;
+  height:2rpx;
+}
+.title{
+  font-size:36rpx;
+  color:#3e3835;
+  letter-spacing:1rpx;
+}
+.price{
+  font-size:36rpx;
+  color:#ff4c4c;
+  letter-spacing:0;
+}
+.descript{
+  font-size:32rpx;
+  color:#3e3835;
+  letter-spacing:1.14rpx;
+}
+.position{
+  font-size:22rpx;
+  color:#a9a29f;
+  letter-spacing:0.79rpx;
+}
+.time{
+  font-size:24rpx;
+  color:#a9a29f;
+  letter-spacing:0.86rpx;
+}
+.canSold{
+  checkbox{
+    transform: scale(.6);
+  }
+  text{
+    font-size:24rpx;
+    color:#3e3835;
+    letter-spacing:0.86rpx;
+  }
+}
+.prices{
+  text-align: right;
+  .now{
+    font-size:28rpx;
+    color:#ff4c4c;
+    letter-spacing:1rpx;
+  }
+  .old{
+    font-size:20rpx;
+    color:#3e3835;
+    letter-spacing:0.71rpx;
+  }
+}
+.bottomtabs{
+  height: 97rpx;
+  display: flex;
+  position: fixed;
+  z-index: 1012;
+  bottom: 0;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  .line{
+    width:1rpx;
+    height:78rpx;
+    background: #ededed;
+  }
+  .item{
+    flex-grow: 1;
+    color: #FF4AA6;
+    font-size:22rpx;
+    letter-spacing:0.79rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    image{
+      width: 50rpx;
+      height: 50rpx;
+    }
+  }
+  .want{
+    flex-grow: 1;
+    width: 270rpx;
+    height: 97rpx;
+    background-image:linear-gradient(-90deg, #ffae57 0%, #ff48a6 100%);
+    font-size:32rpx;
+    color:#ffffff;
+    letter-spacing:0;
+    line-height: 97rpx;
+    vertical-align: middle;
+    text-align: center;
+  }
+}
+</style>
+<template>
+  <view class="thingsinfo">
+    <swiper indicator-dots="true" circular="true" class="slider">
+      <block wx:for="{{thingsinfo.images}}">
+        <swiper-item>
+          <image mode="aspectFit" src="{{item}}" class="slide-image" />
+        </swiper-item>
+      </block>
+    </swiper>
+    <view class="list_box first">
+
+      <view class="list_item first">
+        <view class="title">{{thingsinfo.title}}</view>
+        <view class="price">￥{{thingsinfo.price}}</view>
+      </view>
+
+      <view class="list_item second">
+        <view class="descript">{{thingsinfo.descript}}</view>
+      </view>
+
+      <view class="line"></view>
+
+      <view class="list_item third">
+        <view class="position">{{thingsinfo.position}}</view>
+        <view class="time">{{thingsinfo.time}}</view>
+      </view>
+    </view>
+
+    <view class="list_box second">
+      <view class="list_item four">
+        被浏览{{iteminfo.liulan}}次 收藏{{iteminfo.shoucang}}次 喜欢{{iteminfo.like}}次 租用{{iteminfo.borrow}}次
+      </view>
+    </view>
+
+    <view class="list_box third">
+      <view class="list_item five">
+        <view class="canSold">
+          <checkbox disabled="false" checked="{{thingsinfo.canSold}}"/>
+          <text>{{thingsinfo.canSold ? '此产品可卖' : '此产品不可卖'}}</text>
+        </view>
+        <view class="prices">
+          <view class="now">{{thingsinfo.price}}元</view>
+          <view class="old">原价{{thingsinfo.oldVal}}元</view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="bottomtabs">
+    <view class="item">
+      <image mode="aspectFit" src="../images/icons/favor.svg"></image>
+      <text>收藏</text>
+    </view>
+    <view class="line"></view>
+    <view class="item">
+      <image mode="aspectFit" src="../images/icons/heart.svg"></image>
+      <text>喜欢</text>
+    </view>
+    <view class="line"></view>
+    <view class="item">
+      <image mode="aspectFit" src="../images/icons/share.svg"></image>
+      <text>分享</text>
+    </view>
+    <view class="want">
+      我想租
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class RentInfo extends wepy.page {
+    config = {
+      navigationBarTitleText: '求租详情'
+    }
+
+    components = {
+    }
+
+    data = {
+      thingsinfo: {
+        title: '山地车出售',
+        images: [
+          '../images/icons/empty_pic.png',
+          '../images/icons/empty_pic.png',
+          '../images/icons/empty_pic.png',
+          '../images/icons/empty_pic.png'
+        ],
+        price: '152',
+        oldVal: '300',
+        descript: '求来人一套带走求来人一套带走求来人一套带走求来人一套带走求来人一套带走求来人一套带走求来人一套带走求来人一套带走求来人一套带走求来人一套带走求来人一套带走',
+        position: '韵苑23栋',
+        time: '3小时前',
+        canSold: true
+      },
+      iteminfo: {
+        liulan: 109,
+        shoucang: 13,
+        like: 21,
+        borrow: 5
+      }
+    }
+
+    computed = {
+
+    }
+
+    methods = {
+
+    }
+
+    events = {
+
+    }
+
+    onLoad() {
+
+    }
+  }
+</script>

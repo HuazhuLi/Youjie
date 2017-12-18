@@ -1,0 +1,126 @@
+<style scoped="true" type="less">
+.listitem{
+  height: 200rpx;
+  background:#ffffff;
+  border-bottom: 1px solid #eeeeee;
+  display: flex;
+  box-sizing: border-box;
+  padding: 55rpx 21rpx 64rpx 41rpx;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.names{
+  .title{
+    font-size:32rpx;
+    color:#3e3835;
+    letter-spacing:1.14rpx;
+    text-align:left;
+  }
+  .money{
+    margin-top: 2rpx;
+    font-size:24rpx;
+    color:#fe8e4f;
+    letter-spacing:0.86rpx;
+    text-align:left;
+  }
+}
+.button{
+  border:1rpx solid #ff823c;
+  width:123rpx;
+  height:48rpx;
+  font-size:28rpx;
+  color:#ff823c;
+  letter-spacing:1rpx;
+  text-align: center;
+  line-height: 48rpx;
+  vertical-align: middle;
+}
+.circle{
+  width: 100%;
+}
+</style>
+<template>
+  <view class="circle">
+  <view wx:for="{{circlelist}}" wx:for-item="item" class="listitem">
+    <view class="names">
+      <view class="title">{{item.name}}</view>
+      <view class="money">财力值{{item.money}}</view>
+    </view>
+    <view class="button">去逛逛</view>
+  </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+
+  export default class Circle extends wepy.component {
+    props = {
+    }
+    data = {
+      circlelist: [
+        {
+          name: '韵苑5栋',
+          money: 10980
+        },
+        {
+          name: '韵苑5栋',
+          money: 10980
+        },
+        {
+          name: '韵苑5栋',
+          money: 10980
+        },
+        {
+          name: '韵苑5栋',
+          money: 10980
+        },
+        {
+          name: '韵苑5栋',
+          money: 10980
+        },
+        {
+          name: '韵苑5栋',
+          money: 10980
+        },
+        {
+          name: '韵苑5栋',
+          money: 10980
+        },
+        {
+          name: '韵苑5栋',
+          money: 10980
+        },
+        {
+          name: '韵苑5栋',
+          money: 10980
+        },
+        {
+          name: '韵苑5栋',
+          money: 10980
+        },
+        {
+          name: '韵苑5栋',
+          money: 10980
+        },
+        {
+          name: '韵苑5栋',
+          money: 10980
+        },
+        {
+          name: '韵苑5栋',
+          money: 10980
+        }
+      ]
+    }
+    computed = {
+
+    }
+    methods = {
+      tap () {
+        this.gitem.childname = `Child Random(${Math.random()})`
+        console.log(`Clicked Group ${this.$parent.$index}. Item ${this.$index}, ID is ${this.gitem.childid}`)
+      }
+    }
+  }
+</script>

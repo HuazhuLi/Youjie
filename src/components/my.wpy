@@ -1,0 +1,172 @@
+<style scoped="true" type="less">
+page{
+  width: 100%;
+}
+.list_box{
+  background:#ffffff;
+  width: 100%;
+  display: flex;
+  box-sizing: border-box;
+  &.first{
+    flex-direction: column;
+    align-items: center;
+    padding: 55rpx 31rpx 14rpx 30rpx;
+    height: 400rpx;
+  }
+}
+.list_item{
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  &.first{
+    height: 175rpx;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  &.second{
+    height: 147rpx;
+    padding: 0 44rpx 0 44rpx;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  &.third{
+    height: 67rpx;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+.title{
+  height: 88rpx;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  .name{
+    font-size:36rpx;
+    color:#3e3835;
+    letter-spacing:1.29rpx;
+    text-align:left;
+  }
+  .money{
+    margin-top: 5rpx;
+    font-size:24rpx;
+    color:#ff823c;
+    letter-spacing:0.86rpx;
+    text-align:left;
+  }
+}
+.userInfo{
+  flex-direction: column;
+  align-items:flex-end;
+  justify-content:center;
+  display: flex;
+  text-align: right;
+  width: 50%;
+  height: 114rpx;
+  .avatar{
+    width: 80rpx;
+    height: 80rpx;
+    border-radius: 100%;
+  }
+  .identify{
+    margin-top: 6rpx;
+    margin-right: -5rpx;
+    font-size:20rpx;
+    color:#64d544;
+    letter-spacing:0.71px;
+    text-align:left;
+  }
+}
+.myinfos{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .number{
+    font-size:32rpx;
+    color:#3e3835;
+    letter-spacing:1.14rpx;
+  }
+  .type{
+    font-size:24rpx;
+    color:#aba4a1;
+    letter-spacing:0.86rpx;
+  }
+}
+.line{
+  background: #eeeeee;
+  width:725rpx;
+  height:2rpx;
+}
+.circle{
+  font-size:24rpx;
+  color:#5c5754;
+  letter-spacing:0.86rpx;
+  text-align:left;
+}
+</style>
+<template>
+  <view class="list_box first">
+    <view class="list_item first">
+      <view class="title">
+        <text class="name">陪月书</text>
+        <text class="money">已赚200元</text>
+      </view>
+      <view class="userInfo">
+        <image class="avatar" mode="aspectFill" src="{{userinfo.avatarUrl}}"></image>
+        <text class="identify">{{userinfo.identify}}已通过认证</text>
+      </view>
+    </view>
+
+    <view class="line"></view>
+
+    <view class="list_item second">
+      <view class="myinfos">
+        <text class="number">10</text>
+        <text class="type">我的租品</text>
+      </view>
+      <view class="myinfos">
+        <text class="number">2300</text>
+        <text class="type">被浏览</text>
+      </view>
+      <view class="myinfos">
+        <text class="number">80</text>
+        <text class="type">被收藏</text>
+      </view>
+      <view class="myinfos">
+        <text class="number">30</text>
+        <text class="type">被想租</text>
+      </view>
+    </view>
+
+    <view class="line"></view>
+
+    <view class="list_item third">
+      <text class="circle">我的圈子:韵苑16栋</text>
+    </view>
+
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+
+  export default class My extends wepy.component {
+    props = {
+      userinfo: {}
+    }
+    data = {
+    }
+    computed = {
+
+    }
+    methods = {
+      tap () {
+        this.gitem.childname = `Child Random(${Math.random()})`
+        console.log(`Clicked Group ${this.$parent.$index}. Item ${this.$index}, ID is ${this.gitem.childid}`)
+      }
+    }
+  }
+</script>

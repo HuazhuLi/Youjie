@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 150 150">
+  <defs>
+    <linearGradient id="rent-a" x1="14.645%" x2="85.355%" y1="14.645%" y2="85.355%">
+      <stop offset="0%" stop-color="#FFAB5A"/>
+      <stop offset="100%" stop-color="#FF49A6"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#rent-a)" fill-rule="evenodd" d="M0.812778736,36.1317693 L0.812778736,0.688247821 L36.2828135,0.688247821 L77.2950068,40.8158947 L41.639815,77.4378154 L0.812778736,36.1317693 Z M25,34 C30.5228475,34 35,29.5228475 35,24 C35,18.4771525 30.5228475,14 25,14 C19.4771525,14 15,18.4771525 15,24 C15,29.5228475 19.4771525,34 25,34 Z" transform="translate(50 49)"/>
+</svg>
