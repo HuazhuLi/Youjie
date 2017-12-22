@@ -1,45 +1,95 @@
-<style lang="less">
-
+<style scoped="true" lang="less">
+.enter{
+  width: 14rpx;
+  height: 25rpx;
+  transform: scale(2.3);
+  margin-left:10rpx;
+}
+.listitem{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 120rpx;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 38rpx 30rpx 42rpx 30rpx;
+  background: #ffffff;
+  .title{
+    font-size:28rpx;
+    color:#3e3835;
+    letter-spacing:1rpx;
+  }
+  .descript{
+    font-size:28rpx;
+    color:#aba4a1;
+    letter-spacing:1rpx;
+    &.identify{
+      color:#64d544;
+    }
+  }
+}
+.line{
+  background: #eeeeee;
+  width:725rpx;
+  height:2rpx;
+}
 </style>
 <template>
   <view class="container">
-    <toptabs></toptabs>
-    <scroll-view>
-      <repeat for="{{groupList}}" index="index" item="item" key="key">
-        <listitem :grouplist="item" :indexa="index"></listitem>
-      </repeat>
-    </scroll-view>
-    <bottomtabs></bottomtabs>
+    <block wx:for="{{groupList}}" index="index" item="item" wx:key="key">
+      <view class="listitem">
+        <text class="title">{{item.title}}</text>
+        <view class="descript {{item.type == 'id' ? 'identify' : ''}}">
+          <image wx:if="{{item.type == 'id' && item.state == 'pass'}}" class="enter" mode="aspectFill" src="../images/icons/yes.svg"/>
+          {{item.descript}}
+          <image class="enter" mode="aspectFill" src="../images/icons/enter.svg"/>
+        </view>
+      </view>
+      <view wx:if="{{item.type != 'id'}}" class="line"></view>
+    </block>
   </view>
 </template>
 
 <script>
   import wepy from 'wepy'
-  import BottomTabs from '../components/bottomtabs'
-  import TopTabs from '../components/toptabs'
-  import ListItem from '../components/listitem'
-  import Group from '../components/group'
 
-  export default class Things extends wepy.page {
+  export default class MyInfo extends wepy.page {
     config = {
-      navigationBarTitleText: '求租'
+      navigationBarTitleText: '编辑个人信息'
     }
 
     components = {
-      bottomtabs: BottomTabs,
-      toptabs: TopTabs,
-      listitem: ListItem,
-      group: Group,
     }
 
     data = {
-      thingslist: {
-        list: [
-          {name: '123'},
-          {name: '456'}
-        ],
-        type: ''
-      }
+      groupList: [
+        {
+          title: '学院设置',
+          descript: '软件学院',
+          type: ''
+        },
+        {
+          title: '年级设置',
+          descript: '15级',
+          type: ''
+        },
+        {
+          title: '楼栋设置',
+          descript: '韵苑23栋',
+          type: ''
+        },
+        {
+          title: '联系方式',
+          descript: 'weixin199607',
+          type: ''
+        },
+        {
+          title: '校园身份认证',
+          descript: '已通过',
+          state: 'pass',
+          type: 'id'
+        }
+      ]
     }
 
     computed = {

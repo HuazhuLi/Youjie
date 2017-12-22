@@ -71,13 +71,12 @@
     data = {
     }
     events = {
-
     }
 
     methods = {
       handleViewTap (event) {
         let index = parseInt(event.target.dataset.tabId)
-        console.log(event.target, index)
+        // console.log(event.target, index)
         let state = this.tabbar.list[index].selected
 
         for (let item in this.tabbar.list) {

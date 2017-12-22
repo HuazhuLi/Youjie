@@ -1,44 +1,150 @@
-<style lang="less">
-
+<style scoped="true" lang="less">
+.post{
+  margin-top: 80rpx;
+}
+.share{
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 30rpx;
+  height: 100rpx;
+  width: 100%;
+  justify-content: space-between;
+  font-size:24rpx;
+  color:#3e3835;
+  letter-spacing:1.5rpx;
+  background-color: #ffffff;
+  margin-top: 20rpx;
+  .btn{
+    font-size:24rpx;
+    color:#3e3835;
+    letter-spacing:1.5rpx;
+    text-align: center;
+    border-radius:8rpx;
+    width:118rpx;
+    height:48rpx;
+    line-height: 48rpx;
+    vertical-align: middle;
+    border:1rpx solid #3e3835;
+  }
+}
 </style>
 <template>
-  <view class="container">
-    <toptabs></toptabs>
-    <scroll-view>
-      <repeat for="{{groupList}}" index="index" item="item" key="key">
-        <listitem :grouplist="item" :indexa="index"></listitem>
-      </repeat>
-    </scroll-view>
-    <bottomtabs></bottomtabs>
+  <view class="container post">
+    <toptabsC :tabbar="topTabC"></toptabsC>
+    <repeat wx:for="{{thingslist.list}}" wx:index="index" wx:for-item="item" wx:key="index">
+      <listitem4  :thingsitem.sync="item" :indexa.sync="index"></listitem4>
+    </repeat>
   </view>
 </template>
 
 <script>
   import wepy from 'wepy'
-  import BottomTabs from '../components/bottomtabs'
+  import ListItem4 from '../components/listitem4'
   import TopTabs from '../components/toptabs'
-  import ListItem from '../components/listitem'
-  import Group from '../components/group'
 
-  export default class Things extends wepy.page {
+  export default class MyFavor extends wepy.page {
     config = {
-      navigationBarTitleText: '求租'
+      navigationBarTitleText: '我发布的'
     }
 
     components = {
-      bottomtabs: BottomTabs,
-      toptabs: TopTabs,
-      listitem: ListItem,
-      group: Group,
+      listitem4: ListItem4,
+      toptabsC: TopTabs
     }
 
     data = {
+      topTabC:{
+        color: '#a9a29f',
+        selectedColor: '#3e3835',
+        backgroundColor: '#ffffff',
+        borderStyle: 'black',
+        list: [
+        {
+          text: '发布租品',
+          selected: true
+        },
+        {
+          text: '发布求租',
+          selected: false
+        }
+        ],
+        position: 'top'
+      },
       thingslist: {
         list: [
-          {name: '123'},
-          {name: '456'}
+          {
+            id: 10,
+            type: 'things',
+            title: '山地车出售',
+            images: [
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png'
+            ],
+            price: '152',
+            descript: '',
+            position: '韵苑23栋',
+            time: ''
+          },
+          {
+            id: 10,
+            type: 'things',
+            title: '山地车出售',
+            images: [
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png'
+            ],
+            price: '152',
+            descript: '',
+            position: '韵苑23栋',
+            time: ''
+          },
+          {
+            id: 10,
+            type: 'things',
+            title: '山地车出售',
+            images: [
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png'
+            ],
+            price: '152',
+            descript: '',
+            position: '韵苑23栋',
+            time: ''
+          },
+          {
+            id: 10,
+            type: 'things',
+            title: '山地车出售',
+            images: [
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png'
+            ],
+            price: '152',
+            descript: '',
+            position: '韵苑23栋',
+            time: ''
+          },
+          {
+            id: 10,
+            type: 'things',
+            title: '山地车出售',
+            images: [
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png'
+            ],
+            price: '152',
+            descript: '',
+            position: '韵苑23栋',
+            time: ''
+          }
         ],
-        type: ''
+        type: 'things'
       }
     }
 
@@ -54,7 +160,7 @@
 
     }
 
-    onLoad() {
+    onLoad () {
 
     }
   }

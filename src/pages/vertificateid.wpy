@@ -1,45 +1,69 @@
 <style lang="less">
-
+.listitem{
+  background:#ffffff;
+  width:750rpx;
+  height:120rpx;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 38rpx 30rpx 42rpx 30rpx;
+  &.two{
+    margin-top: 20rpx;
+  }
+  .title{
+    font-size:28rpx;
+    color:#3e3835;
+    letter-spacing:1rpx;
+  }
+  input{
+    width: 50%;
+    font-size:28rpx;
+    color:#aba4a1;
+    letter-spacing:1rpx;
+    text-align:right;
+  }
+}
 </style>
 <template>
   <view class="container">
-    <toptabs></toptabs>
-    <scroll-view>
-      <repeat for="{{groupList}}" index="index" item="item" key="key">
-        <listitem :grouplist="item" :indexa="index"></listitem>
-      </repeat>
-    </scroll-view>
-    <bottomtabs></bottomtabs>
+    <view class="listitem">
+      <text class="title">姓名</text>
+      <input value="{{name}}" placeholder="请输入姓名" type="text"/>
+    </view>
+    <view wx:if="{{item.type != 'id'}}" class="line"></view>
+    <view class="listitem">
+      <text class="title">证件类型</text>
+      <input value="{{name}}" placeholder="请输入证件" type="text"/>
+    </view>
+    <view wx:if="{{item.type != 'id'}}" class="line"></view>
+    <view class="listitem">
+      <text class="title">学号</text>
+      <input value="{{name}}" placeholder="请输入学号" type="text"/>
+    </view>
+    <view class="listitem two">
+      <text class="title">联系方式</text>
+      <input value="{{name}}" placeholder="请输入微信号" type="text"/>
+    </view>
   </view>
 </template>
 
 <script>
   import wepy from 'wepy'
-  import BottomTabs from '../components/bottomtabs'
-  import TopTabs from '../components/toptabs'
-  import ListItem from '../components/listitem'
-  import Group from '../components/group'
 
-  export default class Things extends wepy.page {
+  export default class VertificateID extends wepy.page {
     config = {
-      navigationBarTitleText: '求租'
+      navigationBarTitleText: '身份认证'
     }
 
     components = {
-      bottomtabs: BottomTabs,
-      toptabs: TopTabs,
-      listitem: ListItem,
-      group: Group,
     }
 
     data = {
-      thingslist: {
-        list: [
-          {name: '123'},
-          {name: '456'}
-        ],
-        type: ''
-      }
+      name: '小萌',
+      identifyType: '校园卡',
+      code: '',
+      image: '',
+      contact: 'weixin123'
     }
 
     computed = {

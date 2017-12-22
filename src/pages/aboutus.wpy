@@ -16,7 +16,7 @@
 <script>
   import wepy from 'wepy'
 
-  export default class FirstKnow extends wepy.page {
+  export default class AboutUs extends wepy.page {
     config = {
       navigationBarTitleText: '租凭须知'
     }

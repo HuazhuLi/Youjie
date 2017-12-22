@@ -5,7 +5,7 @@
   box-sizing: border-box;
   box-shadow:0 2px 4px 0 rgba(0,0,0,0.05);
   width:100%;
-  height:500rpx;
+  height:420rpx;
   position: relative;
   margin-top: 10rpx;
   margin-bottom: 19rpx;
@@ -15,7 +15,6 @@
   height: 45rpx;
   line-height: 45rpx;
   vertical-align: middle;
-  margin-top: 6rpx;
 }
 .images{
   display: flex;
@@ -47,6 +46,7 @@
   margin-top: 18rpx;
 }
 .info{
+  font-size:24rpx;
   margin-top: 13rpx;
   height: 30rpx;
   line-height: 30rpx;
@@ -86,49 +86,37 @@
 
 </style>
 <template>
-  <view  catchtap="openInfo" data-itemid="{{thingsitem._id}}" data-type="{{thingsitem.type}}" class="listitem">
+  <view  catchtap="openInfo" data-itemid="{{thingsitem.id}}" data-type="{{thingsitem.type}}" class="listitem">
     <view class="title">
       <text class="font title">{{thingsitem.title}}</text>
       <text class="font price">￥{{thingsitem.price}}</text>
     </view>
     <view class="images">
-      <image class="image" wx:for="{{thingsitem.pictures}}" wx:index="index" wx:for-item="item" wx:key="index" mode="aspectFill" src="{{item}}">
+      <image class="image" wx:for="{{thingsitem.images}}" wx:index="index" wx:for-item="item" wx:key="index" mode="aspectFill" src="{{item}}">
       </image>
-    </view>
-    <view class="descript">
-      <text class="font descript">{{thingsitem.description}}</text>
     </view>
     <view class="line"></view>
     <view class="info">
       <text class="font position">{{thingsitem.position}}</text>
-      <text class="font time">{{thingsitem.pubtime}}发布</text>
     </view>
   </view>
 </template>
 <script>
   import wepy from 'wepy'
 
-  export default class ListItem extends wepy.component {
+  export default class ListItem2 extends wepy.component {
     props = {
       thingsitem: {}
     }
     data = {
     }
     computed = {
-      adtitle () {
-
-      },
-      addescript () {
-
-      },
-      pubtime () {
-      }
     }
     methods = {
       openInfo (e) {
         let type = e.currentTarget.dataset.type
         let id = e.currentTarget.dataset.itemid
-        if (type === '1') {
+        if (type === 'things') {
           wx.navigateTo({
             url: 'thingsinfo?id=' + id
           })

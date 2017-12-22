@@ -1,0 +1,94 @@
+<style scoped="true" type="less">
+.listitem {
+  padding: 0rpx;
+  background:#ffffff;
+  box-sizing: border-box;
+  box-shadow:0 2px 4px 0 rgba(0,0,0,0.05);
+  width:100%;
+  height:450rpx;
+  position: relative;
+  margin-bottom: 20rpx;
+  text-align: center;
+}
+
+.title{
+  margin-top: 34rpx;
+}
+
+.descript{
+  margin-top: 17rpx;
+}
+.font{
+  color:#b8b3b0;
+  &.title{
+    color:#3e3835;
+    font-size: 32rpx;
+    font-weight: bold;
+    letter-spacing: 7rpx;
+  }
+  &.descript{
+    margin-top: 17rpx;
+    font-size: 24rpx;
+    color:#a9a29f;
+    letter-spacing: 2rpx;
+  }
+}
+.swiper{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 16rpx;
+  height: 225rpx;
+  overflow-x: scroll;
+  image{
+    flex-shrink: 1.1;
+    margin-right: 5rpx;
+    height: 225rpx;
+    width: 225rpx;
+  }
+}
+</style>
+<template>
+  <view  catchtap="openInfo" data-category="{{thingsitem.category}}" class="listitem">
+    <view class="title">
+      <text class="font title">{{thingsitem.title}}</text>
+    </view>
+    <view class="descript">
+      <text class="font descript">{{thingsitem.description}}</text>
+    </view>
+    <scroll-view class="swiper" scroll-x="true">
+      <block wx:for="{{thingsitem.pictures}}" wx:index="index" wx:for-item="item" wx:key="index">
+          <image class="image" mode="aspectFill" src="{{item}}"></image>
+      </block>
+    </scroll-view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+
+  export default class ListItem extends wepy.component {
+    props = {
+      thingsitem: {}
+    }
+    data = {
+    }
+    computed = {
+    }
+    methods = {
+      openInfo (e) {
+        let type = e.currentTarget.dataset.type
+        let id = e.currentTarget.dataset.itemid
+        if (type === 'things') {
+          wx.navigateTo({
+            url: 'thingsinfo?id=' + id
+          })
+        } else {
+          wx.navigateTo({
+            url: 'rentinfo?id=' + id
+          })
+        }
+      }
+    }
+  }
+</script>

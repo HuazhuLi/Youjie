@@ -69,6 +69,7 @@
     width: 100%;
     height: 95rpx;
     box-shadow:0 2px 4px 0 rgba(0,0,0,0.31);
+    background-color: #ffffff;
 }
 
 .tabbar_nav{
@@ -290,7 +291,7 @@
     methods = {
       handleViewTap (event) {
         let tabid = event.target.dataset.tabId
-        console.log(event.target)
+        // console.log(event.target)
         if (tabid == undefined) return
         let index = parseInt(tabid)
         let state = this.tabbar.list[index].selected

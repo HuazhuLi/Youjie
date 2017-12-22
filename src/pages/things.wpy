@@ -13,40 +13,175 @@
 }
 .empty{
   text-align: center;
+  box-sizing: border-box;
+  padding: 111rpx 0 0 0;
   image{
     display: block;
     margin: auto;
   }
+  text{
+    font-size:24rpx;
+    margin-top: 17rpx;
+    color:#a59894;
+    letter-spacing:0.86px;
+  }
+
+  .gotorent{
+    background:#ff7777;
+    border-radius:15rpx;
+    width:180rpx;
+    height:60rpx;
+    font-size:32rpx;
+    line-height: 60rpx;
+    vertical-align: middle;
+    color:#ffffff;
+    letter-spacing:1.14rpx;
+    text-align:center;
+    margin:auto;
+    margin-top: 18rpx;
+  }
+}
+.floatbtn{
+  background:#ffffff;
+  box-shadow:2rpx 4rpx 7rpx 0 rgba(0,0,0,0.23);
+  width:90rpx;
+  height:90rpx;
+  border-radius:100%;
+  position: fixed;
+  z-index: 999;
+  bottom: 128rpx;
+  right: 68rpx;
+  image{
+    width:90rpx;
+    height:90rpx;
+  }
+}
+.searchbox{
+  display: flex;
+  width: 100%;
+  height: 100rpx;
+  box-sizing: border-box;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 32rpx 25rpx 30rpx;
+  .container{
+    transition: all 0.5s;
+    transform-origin: left;
+    display: flex;
+    padding: 11rpx 0 12rpx 16rpx;
+    box-sizing: border-box;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background:#ffffff;
+    border-radius:15rpx;
+    width:688rpx;
+    height:50rpx;
+    margin: 0;
+    &.open{
+      width: 640rpx;
+    }
+    image{
+      height: 28rpx;
+      width: 28rpx;
+      transform: scale(2);
+    }
+    input{
+      width: 93%;
+      height: 30rpx;
+      font-size:22rpx;
+      color:#a9a29f;
+      letter-spacing:0.79rpx;
+    }
+  }
+  .searchlabel{
+    transition: all .5s;
+    position: absolute;
+    transform: translateX(0rpx);
+    right: 12rpx;
+    width: 54rpx;
+    opacity: 0;
+    height: 31rpx;
+    font-size:24rpx;
+    margin-left: 12rpx;
+    color:#3e3835;
+    letter-spacing:1.33rpx;
+    &.open{
+      transform: translateX(0rpx);
+      opacity: 1;
+    }
+  }
+}
+.searchPanel{
+  transition: all .5s;
+  height: 0rpx;
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  padding-top: 0rpx;
+  &.open{
+    height: 750rpx;
+    padding-top: 16rpx;
+  }
+  p{
+    margin-left: 32rpx;
+    margin-top: 16rpx;
+    line-height: 30rpx;
+    display: block;
+    font-size:24rpx;
+    color:#a9a29f;
+    letter-spacing:0.86rpx;
+  }
+}
+.listcontainer{
+  width: 750rpx;
 }
 </style>
 <template>
   <view class="container list {{tabIndexB == 4 ? 'my' : ''}}">
-    <view hidden="{{tabIndexB != 0}}">
+    <view class="listcontainer" hidden="{{tabIndexB != 0}}">
       <toptabsA :tabbar="topTabA"></toptabsA>
-      <view  hidden="{{thingslist.list.length != 0}}" class="empty">
+      <view class="searchbox {{inputState ? 'open' : ''}}">
+        <view class="container {{inputState ? 'open' : ''}}">
+          <image mode="aspectFit" src="../images/icons/search.svg" />
+          <input bindfocus="openSearch" bindblur="closeSearch" @confirm="searchHandler" placeholder="搜索闲置物品"></input>
+        </view>
+        <label class="searchlabel {{inputState ? 'open' : ''}}" catchtap="closeSearch">取消</label>
+      </view>
+      <view class="searchPanel {{inputState ? 'open' : ''}}">
+        <p>热门搜索</p>
+        <p>{{getHotItems}}</p>
+      </view>
+      <view hidden="{{thingsNotEmpty}}" class="empty">
+        <image src="../images/icons/empty_pic.png" mode="aspectFit"></image>
+        <text>还没有相关租品!</text>
+        <navigator url="postrent" class="gotorent">去求租</navigator>
+      </view>
+      <repeat wx:for="{{getThingsList}}" wx:index="index" wx:item="item" wx:key="index">
+        <listitem  :thingsitem.sync="item" :indexa.sync="index"></listitem>
+      </repeat>
+      <navigator url="filter" class="floatbtn">
+        <image src="../images/icons/fliter.svg" mode="aspectFit" />
+      </navigator>
+    </view>
+    <view class="listcontainer" hidden="{{tabIndexB != 1}}">
+      <toptabsA :tabbar="topTabA"></toptabsA>
+      <view  hidden="{{rentNotEmpty}}" class="empty">
         <image src="../images/icons/empty_pic.png" mode="aspectFit"></image>
         <text>暂时没有东西哦(⊙o⊙)</text>
       </view>
-      <repeat for="{{thingslist.list}}" index="index" item="item" key="index">
-        <listitem  :thingsitem="item" :indexa="index"></listitem>
+      <repeat wx:for="{{getRentList}}" wx:index="index" wx:item="item" wx:key="index">
+        <listitem  :thingsitem.sync="item" :indexa.sync="index"></listitem>
       </repeat>
     </view>
-    <view hidden="{{tabIndexB != 1}}">
-      <toptabsA :tabbar="topTabA"></toptabsA>
-      <view  hidden="{{rentlist.list.length != 0}}" class="empty">
-        <image src="../images/icons/empty_pic.png" mode="aspectFit"></image>
-        <text>暂时没有东西哦(⊙o⊙)</text>
-      </view>
-      <repeat for="{{rentlist.list}}" index="index" item="item" key="index">
-        <listitem  :thingsitem="item" :indexa="index"></listitem>
-      </repeat>
-    </view>
-    <view class="container" hidden="{{tabIndexB != 3}}">
+    <view class="listcontainer" hidden="{{tabIndexB != 3}}">
       <toptabsB :tabbar="topTabB"></toptabsB>
       <circle></circle>
     </view>
-    <view class="container" hidden="{{tabIndexB != 4}}">
-      <my :userinfo="{{userInfo}}"></my>
+    <view class="listcontainer" hidden="{{tabIndexB != 4}}">
+      <myinfo :myInfo.sync="userInfo"></myinfo>
     </view>
     <bottomtabs></bottomtabs>
   </view>
@@ -61,27 +196,42 @@
   import My from '../components/my'
   import Circle from '../components/circle'
 
+  const TITLEALLOWLENGTH = 15
+  const DESALLOWLENGTH = 22
+
   export default class Things extends wepy.page {
     config = {
       navigationBarTitleText: '租品',
       enablePullDownRefresh: true
     }
-
+    onPullDownRefresh () {
+      wx.showLoading({
+        title: '加载中',
+      })
+      this.init().then((res) => {
+        wx.stopPullDownRefresh()
+        wx.hideLoading()
+      })
+    }
     components = {
       bottomtabs: BottomTabs,
       toptabsA: TopTabs,
       toptabsB: TopTabs,
       listitem: ListItem,
       group: Group,
-      my: My,
+      myinfo: My,
       circle: Circle
     }
 
     data = {
+      cacheThings: null,
+      hotItems: ['自行车', '电脑', '数位板', 'YSL', '熨斗', '吹风机', '电动车'],
+      inputState: false,
       titles: ['租品', '求租', '发布',  '圈子', '我的'],
       tabIndexB: 0,
       tabIndexT: 0,
-      userInfo: {},
+      userInfo: {
+      },
       topTabB:{
         color: '#a9a29f',
         selectedColor: '#3e3835',
@@ -122,147 +272,145 @@
       },
       thingslist: {
         list: [
-          {
-            id: 10,
-            type: 'things',
-            title: '山地车出售',
-            images: [
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png'
-            ],
-            price: '152',
-            descript: '求来人一套带走',
-            position: '韵苑23栋',
-            time: '3小时前'
-          },
-          {
-            id: 10,
-            type: 'things',
-            title: '山地车出售',
-            images: [
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png'
-            ],
-            price: '152',
-            descript: '求来人一套带走',
-            position: '韵苑23栋',
-            time: '3小时前'
-          },{
-            id: 10,
-            type: 'things',
-            title: '山地车出售',
-            images: [
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png'
-            ],
-            price: '152',
-            descript: '求来人一套带走',
-            position: '韵苑23栋',
-            time: '3小时前'
-          },{
-            id: 10,
-            type: 'things',
-            title: '山地车出售',
-            images: [
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png'
-            ],
-            price: '152',
-            descript: '求来人一套带走',
-            position: '韵苑23栋',
-            time: '3小时前'
-          }
         ],
         type: 'things'
       },
       rentlist: {
         list: [
-          {
-            id: 10,
-            type: 'rent',
-            title: '求租大宝宝',
-            images: [
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png'
-            ],
-            price: '152',
-            descript: '哦项有哇哦等你请我i你的',
-            position: '韵苑23栋',
-            time: '3小时前'
-          },
-          {
-            id: 10,
-            type: 'rent',
-            title: '求租大宝宝',
-            images: [
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png'
-            ],
-            price: '152',
-            descript: '哦项有哇哦等你请我i你的',
-            position: '韵苑23栋',
-            time: '3小时前'
-          },{
-            id: 10,
-            type: 'rent',
-            title: '求租大宝宝',
-            images: [
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png'
-            ],
-            price: '152',
-            descript: '哦项有哇哦等你请我i你的',
-            position: '韵苑23栋',
-            time: '3小时前'
-          },{
-            id: 10,
-            type: 'rent',
-            title: '求租大宝宝',
-            images: [
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png'
-            ],
-            price: '152',
-            descript: '哦项有哇哦等你请我i你的',
-            position: '韵苑23栋',
-            time: '3小时前'
-          }
         ],
         type: 'rent'
       }
     }
 
+    listFilter (item) {
+      let date = new Date()
+      let begintime = item.pub_time
+      let title = item.title
+      let descript = item.description
+      let endtime = date.getTime()
+      let nTime = endtime - begintime
+      let day = nTime/86400000
+      let str = ''
+      if (day < 1) {
+        let hours = day * 24
+        if (hours < 1) {
+          str = Math.floor(hours * 60).toString() + '分钟前'
+        } else {
+          str = Math.floor(hours).toString() + '小时前'
+        }
+      } else {
+        str = Math.floor(day).toString() + '天前'
+      }
+      if (descript.length > DESALLOWLENGTH + 3) {
+        item.description = descript.slice(0, DESALLOWLENGTH) + '...'
+      }
+      if (title.length > TITLEALLOWLENGTH + 3) {
+        item.title = title.slice(0, TITLEALLOWLENGTH) + '...'
+      }
+      item.pubtime = str
+      return item
+    }
+
     computed = {
-      userInfos () {
-        return this.userInfo
+      thingsNotEmpty () {
+        return this.thingslist.list.length != 0
+      },
+      rentNotEmpty () {
+        return this.rentlist.list.length != 0
+      },
+      getHotItems () {
+        return this.hotItems.join(' · ')
+      },
+      getThingsList () {
+        let self = this
+        let newList =  this.thingslist.list.map(self.listFilter)
+        return newList
+      },
+      getRentList () {
+        let self = this
+        let newList =  this.rentlist.list.map(self.listFilter)
+        return newList
       }
     }
 
     methods = {
-      openInfo (e) {
-        let type = e.target.dataset.type
-        let id = e.target.dataset.itemid
-        console.log(213)
+      searchHandler (event) {
+        let content = event.detail.value
+        let self = this
+        wx.showLoading({
+          title: '加载中',
+          mask: true
+        })
+        this.getSearch(content).then((res) => {
+          self.thingslist.list = res.data
+          self.$apply()
+          wx.hideLoading()
+        })
+      },
+      openSearch (event) {
+        this.inputState = true
+      },
+      closeSearch (event) {
+        this.inputState = false
+        this.$apply()
+      },
+      openInfo (event) {
+        let type = event.currentTarget.dataset.type
+        let id = event.currentTarget.dataset.itemid
         if (type === 'things') {
           wx.navigateTo({
             url: 'thingsinfo?id=' + id
           })
         } else {
           wx.navigateTo({
-            url: 'RentInfo?id=' + id
+            url: 'rentinfo?id=' + id
           })
         }
       }
     }
+    getHotSearch (label) {
+      let token = this.$parent.globalData.code
+      // console.log(token)
+      return this.$parent.Request({
+        url: 'search/hot',
+        label: label
+      }, token)
+    }
+    getThings (label) {
+      let token = this.$parent.globalData.code
+      // console.log(token)
+      return this.$parent.Request({
+        url: 'commodity/',
+        data: {
+          label: label,
+          type: 1,
+          pages: 1
+        }
+      }, token)
+    }
 
+    getSearch (content) {
+      let token = this.$parent.globalData.code
+      // console.log(token)
+      return this.$parent.Request({
+        url: 'search/',
+        data: {
+          content: content
+        },
+        method: 'POST'
+      }, token)
+    }
+    getRent (label) {
+      let token = this.$parent.globalData.code
+      return this.$parent.Request({
+        url: 'commodity/',
+        data: {
+          label: label,
+          type: 2,
+          pages: 1
+        }
+      }, token)
+    }
     events = {
       'tab-changeB': (...args) => {
         let index = args[0]
@@ -275,19 +423,68 @@
       },
       'tab-changeT': (...args) => {
         let index = args[0]
+        let self = this
         this.tabIndexT = index
+        let apromise = null
+        switch (this.tabIndexB) {
+          case 0:
+            apromise = self.getThings(index + 1)
+            apromise.then((res) => {
+              self.thingslist.list = res.data
+              this.$apply()
+            })
+            break
+          case 1:
+            let num = index === 2 ? 3 : index
+            apromise = self.getRent(num + 1)
+            apromise.then((res) => {
+              self.rentlist.list = res.data
+              this.$apply()
+            })
+            break
+          case 2:
+            break
+          default:
+        }
         this.$apply()
       },
     }
-
-    onLoad() {
+    onLoad () {
+      wx.showLoading({
+        title: '加载中',
+        mask: true
+      })
+    }
+    async init () {
       let self = this
-      this.$parent.getUserInfo(function (userInfo) {
+      const tdata = await self.getThings(1)
+      const rdata = await self.getRent(1)
+      self.thingslist.list = tdata.data
+      self.cacheThings = tdata.data
+      self.rentlist.list = rdata.data
+      self.$apply()
+      wx.hideLoading()
+    }
+    onReady() {
+      let self = this
+      this.$parent.getUserInfo((userInfo) => {
         if (userInfo) {
-          self.userInfo = userInfo
+          self.userInfo = userInfo.data
+          self.$apply()
+          self.init()
+          self.getHotSearch().then((res) => {
+             self.hotItems = res.data
+          })
+          // console.log(self.userInfo)
+          // self.$broadcast('userinfo-loaded', userInfo.nickName, userInfo.avatarUrl)
         }
-        console.log(userInfo)
-        self.$apply()
+      }, (res) => {
+        wx.hideLoading()
+        wx.showToast({
+          title: '服务器出错',
+          image: '../images/icons/yes_no.svg',
+          duration: 2000
+        })
       })
     }
   }

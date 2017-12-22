@@ -6,7 +6,6 @@
   box-sizing: border-box;
   &.title{
     padding: 35rpx 31rpx 33rpx 30rpx;
-    height: 550rpx;
   }
   &.type{
     margin: 29rpx 0 20rpx 0;
@@ -18,7 +17,7 @@
     height: 100rpx;
   }
   &.cansold{
-    margin: 20rpx 0 28rpx 0;
+    margin: 20rpx 0 0 0;
     padding: 35rpx 31rpx 33rpx 30rpx;
     height: 100rpx;
   }
@@ -35,10 +34,13 @@
   }
   &.title{
     margin-bottom: 24rpx;
+    display: flex;
+    align-items: center;
     input{
       width: 90%;
       height: 54rpx;
       float: right;
+      margin-left:10rpx;
     }
     label{
       line-height: 54rpx;
@@ -48,7 +50,10 @@
   }
   &.descript{
     margin-top: 21rpx;
-    height: 415rpx;
+    height: 200rpx;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
     textarea{
       padding-top: 1rpx;
       line-height: 40rpx;
@@ -57,6 +62,8 @@
       height: 182rpx;
     }
     .label{
+      line-height:30rpx;
+      margin-right: 10rpx;
       display: inline-block;
       color: #3e3835;
       transform: translateY(2rpx);
@@ -68,7 +75,7 @@
       display: inline-block;
     }
     picker{
-      width: 85rpx;
+      width: 120rpx;
       float: right;
       color:#3e3835;
       text-align: right;
@@ -125,6 +132,7 @@
 .post_btn{
   transition: all 0.5s;
   background:#9c9c9c;
+  margin-top: 28rpx;
   width:640rpx;
   height:75rpx;
   font-size:28rpx;
@@ -147,6 +155,46 @@
     height: 500rpx;
   }
 }
+.moreprice{
+  background-color: #ffffff;
+  transition: all .5s;
+  display: flex;
+  height: 0rpx;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0;
+  overflow: hidden;
+  &.open{
+    height: 99rpx;
+    padding: 30rpx;
+  }
+  .half{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 45%;
+    font-size:28rpx;
+    color:#3e3835;
+    input{
+      width: 80%;
+      font-size:28rpx;
+    }
+  }
+}
+.imagesinputbox{
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  image{
+    margin: 6rpx;
+    width: 180rpx;
+    height: 180rpx;
+  }
+}
 </style>
 <template>
   <view class="container postthings" bindinput="handleInput">
@@ -158,24 +206,31 @@
       <view class="line"></view>
       <view class="input_bar descript">
         <view class="label">描述</view>
-        <textarea bindinput="descriptInput" maxlength="{{100}}" value="{{postForm.descript}}" confirm-type="next" placeholder="描述一下你要借出的物品吧！100字以内哦。"></textarea>
+        <textarea bindinput="descriptInput" maxlength="{{100}}" value="{{postForm.description}}" confirm-type="next" placeholder="描述一下你要借出的物品吧！100字以内哦。"></textarea>
+      </view>
+
+      <view class="imagesinputbox">
+        <block wx:for="{{uploadImages}}">
+          <image mode="aspectFit" src="{{item}}"/>
+        </block>
+        <image @tap="uploadImages" mode="aspectFit" src="../images/icons/addpic.svg"/>
       </view>
     </view>
     <view class="input_list type">
       <view class="input_bar type">
         <view class="label">选择类别</view>
-        <picker bindchange="typeInput"  range="{{pickList}}"  value="{{postForm.type}}" >{{pickList[postForm.type]}}</picker>
+        <picker bindchange="typeInput"  range="{{pickList}}">{{getCategory}}</picker>
       </view>
       <view class="line"></view>
       <view class="input_bar price">
-        <view class="label">价格</view>
-        <input bindinput="priceInput" placeholder-style="text-align:right; float:right; vertical-align:middle;line-height:40rpx" type="number" placeholder="￥0.00" value="{{postForm.price}}" />
+        <view class="label">租金</view>
+        <input bindinput="priceInput" placeholder-style="text-align:right; float:right; vertical-align:middle;line-height:40rpx" type="digit" placeholder="￥0.00" value="{{postForm.price}}" />
       </view>
     </view>
     <view class="input_list contact">
       <view class="input_bar contact">
         <view class="label">联系方式</view>
-        <input bindinput="contactInput" cursor-spacing="{{10}}" type="text" placeholder="未填写" value="{{postForm.contact}}"/>
+        <input bindinput="contactInput" cursor-spacing="{{10}}" type="text" placeholder="未填写"/>
       </view>
     </view>
     <view class="input_list cansold">
@@ -186,7 +241,8 @@
         </checkbox-group>
       </view>
     </view>
-    <button class="post_btn {{formOk ? 'ok' : ''}}">确认发布</button>
+
+    <button @tap.stop="postThing" disabled="{{!formOk}}" class="post_btn {{formOk ? 'ok' : ''}}">确认发布</button>
     <view class="upborad {{upborad ? 'open' : ''}}"></view>
   </view>
 </template>
@@ -194,65 +250,192 @@
 <script>
   import wepy from 'wepy'
 
-  export default class Things extends wepy.page {
+  export default class PostThings extends wepy.page {
     config = {
-      navigationBarTitleText: '发布求租'
+      navigationBarTitleText: '发布租品'
     }
 
     components = {
     }
 
     data = {
+      cachepics: null,
       upborad: true,
       postForm: {
         title: '',
-        descript: '',
-        type: 0,
+        description: '',
+        type: 2,
         price: null,
-        contact: '',
-        canSold: false
+        contact_way: '',
+        category: 0,
+        upload_times: 1,
+        is_deal: 1,
+        origin_price: null,
+        sell_price: null,
+        picturesSrc: []
       },
       pickList: [
         '未选择',
-        '美妆',
-        '交通',
-        '学习'
+        '电子设备',
+        '书籍资料',
+        '宿舍百货',
+        '乐器',
+        '门票卡劵',
+        '美妆护肤',
+        '女装',
+        '男装',
+        '鞋帽配饰',
+        '代步工具',
+        '户外运动',
+        '其他'
       ]
     }
 
     computed = {
+      uploadImages  () {
+        return this.postForm.picturesSrc
+      },
+      getCategory () {
+        return this.pickList[this.postForm.category]
+      },
+      ifOpenMore () {
+        return this.postForm.is_deal == '2'
+      },
       formOk () {
         for (let item in this.postForm) {
           let value = this.postForm[item]
-          if (value == undefined || value == null || value.length == 0) {
+          if (item == 'category' && value == '0') {
+            return 0
+          }
+          // console.log(this.postForm['is_deal'], value)
+          if (this.postForm['is_deal'] == 2 && item != 'picturesSrc') {
+            if (value == undefined || value == null || value.length == 0) {
+              return 0
+            }
+          }
+
+          if (this.postForm['is_deal'] == 1 && item != 'picturesSrc'  && (item != 'sell_price' && item != 'origin_price') && (value == undefined || value == null || value.length == 0) ) {
+            // console.log(item, value)
             return 0
           }
         }
         return 1
       }
     }
+    clone (obj) {
+      let newObj = new Object()
+      for (let item in obj) {
+        newObj[item] = obj[item]
+      }
+      return newObj
+    }
+    async postFormToNet (obj) {
+      let self = this
+      let token = this.$parent.globalData.code
+      // return self.$parent.Request({
+      //   url: 'commodity/pub',
+      //   method: 'POST',
+      //   data: obj
+      // }, token)
+      let pictures = self.cachepics
+      let form = self.clone(self.postForm)
+      let item = pictures.slice(0, 1)[0]
+      form._id = null
+      form.upload_times = 1
+      console.log('first', form)
+      let firstPromise = self.$parent.Upload({
+          name: 'pictures',
+          formData: form,
+          filePath: item,
+          url: 'commodity/pub'
+        }, token)
+      let resData = await firstPromise
+      console.log(resData)
+      let objData = JSON.parse(resData)
+      let [_id, post_time] = [objData.data._id, objData.data.upload_times]
+      let form2 = self.clone(form)
+      form2._id = _id
+      form2.upload_times = post_time
+      console.log('second', form2)
+      let promises = pictures.slice(1).map((item) => {
+        return self.$parent.Upload({
+          name: 'pictures',
+          formData: form2,
+          filePath: item,
+          url: 'commodity/pub'
+        }, token)
+      })
+      return Promise.all(promises)
+    }
 
     methods = {
+      uploadImages (e) {
+        let self = this
+        wepy.chooseImage({
+          count: 6,
+          success: (res) => {
+            self.postForm.picturesSrc = res.tempFilePaths
+            self.cachepics = res.tempFilePaths
+            self.$apply()
+          }
+        })
+      },
       titleInput (e) {
         this.postForm.title = e.detail.value
       },
       descriptInput (e) {
-        this.postForm.descript = e.detail.value
+        this.postForm.description = e.detail.value
       },
       priceInput (e) {
         this.postForm.price = e.detail.value
       },
       contactInput (e) {
-        this.postForm.contact = e.detail.value
+        this.postForm.contact_way = e.detail.value
       },
       typeInput (e) {
-        this.postForm.type = e.detail.value
+        this.postForm.category = e.detail.value
       },
       cansoldInput (e) {
-        this.postForm.canSold = (e.detail.value[0] == 'true')
+        this.postForm.is_deal = (e.detail.value[0] == 'true') + 1
+        // console.log(this.postForm.is_deal)
+      },
+      sellPriceInput (e) {
+        this.postForm.sell_price = e.detail.value
+      },
+      originPriceInput (e) {
+        this.postForm.origin_price = e.detail.value
+      },
+      postThing (e) {
+        let obj = this.postForm
+        // let fileReader = new FileReader()
+        // obj.pictures = this.cachepics.map((item) => {
+        //   console.log(typeof item)
+        //   return fileReader.readAsArrayBuffer(item)
+        // })
+        //
+        wx.showLoading({
+          title: '上传中',
+          mask: true
+        })
+        this.postFormToNet(obj).then((res) => {
+          console.log('succee', res)
+          wx.hideLoading()
+          wx.showToast({
+            title: '上传成功',
+            icon: 'success',
+            duration: 1000
+          })
+        }, (rej) => {
+          wx.hideLoading()
+          wx.showToast({
+            title: '上传失败，请重试',
+            icon: 'fail',
+            duration: 1000
+          })
+          console.log('fail', rej)
+        })
       }
     }
-
     events = {
 
     }

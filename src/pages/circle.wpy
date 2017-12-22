@@ -20,7 +20,7 @@
   import ListItem from '../components/listitem'
   import Group from '../components/group'
 
-  export default class Things extends wepy.page {
+  export default class Circle extends wepy.page {
     config = {
       navigationBarTitleText: '求租'
     }

@@ -13,6 +13,20 @@ page{
     padding: 55rpx 31rpx 14rpx 30rpx;
     height: 400rpx;
   }
+  &.second{
+    flex-direction: column;
+    align-items: center;
+    margin: 14rpx 0 7rpx 0;
+    padding: 0 29rpx 0 29rpx;
+    height: 476rpx;
+  }
+  &.third{
+    flex-direction: column;
+    align-items: center;
+    padding: 0 29rpx 0 29rpx;
+    margin-bottom: 29rpx;
+    height: 356rpx;
+  }
 }
 .list_item{
   display: flex;
@@ -36,6 +50,27 @@ page{
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+  }
+  &.four{
+    display: flex;
+    height: 119rpx;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    font-size:28rpx;
+    color:#3e3835;
+    letter-spacing:1rpx;
+    text-align:left;
+    .icon{
+      width: 33rpx;
+      height: 33rpx;
+      transform: scale(2);
+      margin-right: 16rpx;
+    }
+    .itemname{
+      display: flex;
+      align-items: center;
+    }
   }
 }
 .title{
@@ -66,14 +101,29 @@ page{
   text-align: right;
   width: 50%;
   height: 114rpx;
+  .iconbox{
+    display: flex;
+    align-items: center;
+  }
   .avatar{
     width: 80rpx;
     height: 80rpx;
     border-radius: 100%;
   }
   .identify{
+    display: flex;
+    align-items: center;
+    height: 30rpx;
+    image{
+      width: 19rpx;
+      height: 19rpx;
+      transform: scale(2.3);
+    }
+    &.fail{
+      color:#aba4a1;
+    }
     margin-top: 6rpx;
-    margin-right: -5rpx;
+    margin-right: 15rpx;
     font-size:20rpx;
     color:#64d544;
     letter-spacing:0.71px;
@@ -107,37 +157,49 @@ page{
   letter-spacing:0.86rpx;
   text-align:left;
 }
+.enter{
+  width: 14rpx;
+  height: 25rpx;
+  transform: scale(2.3);
+  margin-left:10rpx;
+}
 </style>
 <template>
   <view class="list_box first">
     <view class="list_item first">
       <view class="title">
-        <text class="name">陪月书</text>
+        <text class="name">{{myInfo.nick_name}}</text>
         <text class="money">已赚200元</text>
       </view>
-      <view class="userInfo">
-        <image class="avatar" mode="aspectFill" src="{{userinfo.avatarUrl}}"></image>
-        <text class="identify">{{userinfo.identify}}已通过认证</text>
-      </view>
+      <navigator url="myinfo" class="userInfo">
+        <view class="iconbox">
+          <image class="avatar" mode="aspectFill" src="{{myInfo.avatar_url}}"></image>
+          <image class="enter" mode="aspectFill" src="../images/icons/enter.svg">
+        </view>
+        <view class="identify {{ifIdentify ? '' : 'fail'}}" >
+          <image mode="aspectFill" src="../images/icons/{{ifIdentify ? 'yes.svg' : 'yes_no.svg'}}"/>
+          {{ifIdentify ? '已通过认证' : '未通过认证'}}
+        </view>
+      </navigator>
     </view>
 
     <view class="line"></view>
 
     <view class="list_item second">
       <view class="myinfos">
-        <text class="number">10</text>
+        <text class="number">{{myInfo.num_of_pub}}</text>
         <text class="type">我的租品</text>
       </view>
       <view class="myinfos">
-        <text class="number">2300</text>
+        <text class="number">{{myInfo.num_of_view}}</text>
         <text class="type">被浏览</text>
       </view>
       <view class="myinfos">
-        <text class="number">80</text>
+        <text class="number">{{myInfo.num_of_collect}}</text>
         <text class="type">被收藏</text>
       </view>
       <view class="myinfos">
-        <text class="number">30</text>
+        <text class="number">{{myInfo.num_of_rent}}</text>
         <text class="type">被想租</text>
       </view>
     </view>
@@ -145,9 +207,35 @@ page{
     <view class="line"></view>
 
     <view class="list_item third">
-      <text class="circle">我的圈子:韵苑16栋</text>
+      <text class="circle">我的圈子:{{myInfo.address}}</text>
+      <image class="enter" mode="aspectFill" src="../images/icons/enter.svg">
     </view>
+  </view>
 
+  <view class="list_box second">
+    <block wx:for="{{functionTable1}}" wx:for-item="item" wx:key="index">
+      <navigator url="{{item.page}}" class="list_item four">
+        <view class="itemname">
+          <image class="icon"  mode="aspectFit" src="{{item.icon}}"/>
+          {{item.name}}
+        </view>
+        <image class="enter" mode="aspectFill" src="../images/icons/enter.svg">
+      </navigator>
+      <view class="line" hidden="{{index == (functionTable1.length - 1)}}"></view>
+    </block>
+  </view>
+
+  <view class="list_box third">
+    <block wx:for="{{functionTable2}}" wx:for-item="item" wx:key="index">
+      <navigator url="{{item.page}}" class="list_item four">
+        <view class="itemname">
+          <image class="icon"  mode="aspectFit" src="{{item.icon}}"/>
+          {{item.name}}
+        </view>
+        <image class="enter" mode="aspectFill" src="../images/icons/enter.svg">
+      </navigator>
+      <view class="line" hidden="{{index == (functionTable2.length - 1)}}"></view>
+    </block>
   </view>
 </template>
 <script>
@@ -155,18 +243,60 @@ page{
 
   export default class My extends wepy.component {
     props = {
-      userinfo: {}
+      myInfo: {
+      }
+    }
+    watch = {
     }
     data = {
+      functionTable1: [
+        {
+          name: '我发布的',
+          page: 'mypost',
+          icon: '../images/icons/release.svg'
+        },
+        {
+          name: '我收藏的',
+          page: 'myfavor',
+          icon: '../images/icons/favor.svg'
+        },
+        {
+          name: '我租出的',
+          page: 'myborrow',
+          icon: '../images/icons/out.svg'
+        },
+        {
+          name: '我想租的',
+          page: 'mywant',
+          icon: '../images/icons/in.svg'
+        }
+      ],
+      functionTable2: [
+        {
+          name: '租凭须知',
+          page: 'firstknow',
+          icon: '../images/icons/notice.svg'
+        },
+        {
+          name: '关于我们',
+          page: 'aboutus',
+          icon: '../images/icons/us.svg'
+        },
+        {
+          name: '反馈建议',
+          page: 'feedback',
+          icon: '../images/icons/feedback.svg'
+        }
+      ]
+    }
+    events = {
     }
     computed = {
-
+      ifIdentify () {
+        return this.myInfo.status == 2
+      }
     }
     methods = {
-      tap () {
-        this.gitem.childname = `Child Random(${Math.random()})`
-        console.log(`Clicked Group ${this.$parent.$index}. Item ${this.$index}, ID is ${this.gitem.childid}`)
-      }
     }
   }
 </script>

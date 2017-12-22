@@ -1,0 +1,228 @@
+<style scoped="true" lang="less">
+.post{
+  margin-top: 80rpx;
+}
+.share{
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 30rpx;
+  height: 100rpx;
+  width: 100%;
+  justify-content: space-between;
+  font-size:24rpx;
+  color:#3e3835;
+  letter-spacing:1.5rpx;
+  background-color: #ffffff;
+  margin-top: 20rpx;
+  .btn{
+    font-size:24rpx;
+    color:#3e3835;
+    letter-spacing:1.5rpx;
+    text-align: center;
+    border-radius:8rpx;
+    width:118rpx;
+    height:48rpx;
+    line-height: 48rpx;
+    vertical-align: middle;
+    border:1rpx solid #3e3835;
+  }
+}
+</style>
+<template>
+  <view class="container">
+    <repeat wx:for="{{thingslist.list}}" wx:index="index" wx:for-item="item" wx:key="index">
+      <listitem  :thingsitem.sync="item" :indexa.sync="index"></listitem>
+    </repeat>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import FilterListItem from '../components/filterlistitem'
+
+  export default class MyFavor extends wepy.page {
+    config = {
+      navigationBarTitleText: '筛选租品'
+    }
+
+    components = {
+      listitem: FilterListItem
+    }
+    data = {
+      thingslist: {
+        list: [
+          {
+            category: 1,
+            title: '电子设备',
+            images: [
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png'
+            ],
+            descript: '电子设备'
+          },
+          {
+            category: 2,
+            title: '书籍百货',
+            images: [
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png'
+            ],
+            descript: '书籍百货'
+          },
+          {
+            category: 3,
+            title: '宿舍百货',
+            images: [
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png'
+            ],
+            descript: '宿舍百货'
+          },
+          {
+            category: 4,
+            title: '乐器',
+            images: [
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png'
+            ],
+            descript: '乐器'
+          },
+          {
+            category: 5,
+            title: '门票卡卷',
+            images: [
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png'
+            ],
+            descript: '门票卡卷'
+          },
+          {
+            category: 6,
+            title: '美妆护肤',
+            images: [
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png'
+            ],
+            descript: '铁打的小姐姐，流水的化妆品'
+          },
+          {
+            category: 7,
+            title: '女装',
+            images: [
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png'
+            ],
+            descript: '女装'
+          },
+          {
+            category: 8,
+            title: '男装',
+            images: [
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png'
+            ],
+            descript: '男装'
+          },
+          {
+            category: 9,
+            title: '鞋帽配饰',
+            images: [
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png'
+            ],
+            descript: '鞋帽配饰'
+          },
+          {
+            category: 10,
+            title: '代步工具',
+            images: [
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png'
+            ],
+            descript: '绿色出行，文明你我'
+          },
+          {
+            category: 11,
+            title: '户外运动',
+            images: [
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png'
+            ],
+            descript: '户外运动'
+          },
+          {
+            category: 12,
+            title: '其他',
+            images: [
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png',
+              '../images/icons/empty_pic.png'
+            ],
+            descript: '其他闲置'
+          }
+        ],
+        type: 'things'
+      }
+    }
+
+    computed = {
+
+    }
+
+    methods = {
+
+    }
+
+    events = {
+
+    }
+
+
+    onLoad () {
+      let self = this
+      this.$parent.getCategorys((res) => {
+        self.thingslist.list = res
+        self.$apply()
+      }, (rej) => {
+
+      })
+
+    }
+  }
+</script>

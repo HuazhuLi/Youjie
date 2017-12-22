@@ -2,6 +2,7 @@
 .thingsinfo{
   background-color: #faf9f8;
   width: 100%;
+  margin-bottom: 97rpx;
 }
 .slider{
   width: 100%;
@@ -30,6 +31,7 @@
     padding: 30rpx 30rpx 30rpx 30rpx;
   }
   &.third{
+    margin-top: 30rpx;
     height: 110rpx;
     padding: 30rpx 30rpx 30rpx 30rpx;
   }
@@ -96,6 +98,8 @@
   letter-spacing:0.86rpx;
 }
 .canSold{
+  display: flex;
+  align-items: center;
   checkbox{
     transform: scale(.6);
   }
@@ -141,6 +145,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 0;
+    border: none;
     image{
       width: 50rpx;
       height: 50rpx;
@@ -159,11 +165,17 @@
     text-align: center;
   }
 }
+.enter{
+  width: 29rpx;
+  height: 29rpx;
+  transform: scale(2.3);
+  margin-right: 18rpx;
+}
 </style>
 <template>
   <view class="thingsinfo">
     <swiper indicator-dots="true" circular="true" class="slider">
-      <block wx:for="{{thingsinfo.images}}">
+      <block wx:for="{{iteminfo.pictures}}">
         <swiper-item>
           <image mode="aspectFit" src="{{item}}" class="slide-image" />
         </swiper-item>
@@ -172,58 +184,38 @@
     <view class="list_box first">
 
       <view class="list_item first">
-        <view class="title">{{thingsinfo.title}}</view>
-        <view class="price">￥{{thingsinfo.price}}</view>
+        <view class="title">{{iteminfo.title}}</view>
+        <view class="price">￥{{iteminfo.price}}</view>
       </view>
 
       <view class="list_item second">
-        <view class="descript">{{thingsinfo.descript}}</view>
+        <view class="descript">{{iteminfo.description}}</view>
       </view>
 
       <view class="line"></view>
 
       <view class="list_item third">
-        <view class="position">{{thingsinfo.position}}</view>
-        <view class="time">{{thingsinfo.time}}</view>
-      </view>
-    </view>
-
-    <view class="list_box second">
-      <view class="list_item four">
-        被浏览{{iteminfo.liulan}}次 收藏{{iteminfo.shoucang}}次 喜欢{{iteminfo.like}}次 租用{{iteminfo.borrow}}次
+        <view class="position">{{iteminfo.address}}</view>
+        <view class="time">{{iteminfo.pub_time}}发布</view>
       </view>
     </view>
 
     <view class="list_box third">
       <view class="list_item five">
         <view class="canSold">
-          <checkbox disabled="false" checked="{{thingsinfo.canSold}}"/>
-          <text>{{thingsinfo.canSold ? '此产品可卖' : '此产品不可卖'}}</text>
-        </view>
-        <view class="prices">
-          <view class="now">{{thingsinfo.price}}元</view>
-          <view class="old">原价{{thingsinfo.oldVal}}元</view>
+          <image class="enter" src="../images/icons/{{iteminfo.is_deal == 2 ? 'yes.svg' : 'yes_no.svg'}}"/>
+          <text>{{thingsinfo.is_deal == 2 ? '此产品可买' : '此产品不买'}}</text>
         </view>
       </view>
     </view>
   </view>
   <view class="bottomtabs">
-    <view class="item">
-      <image mode="aspectFit" src="../images/icons/favor.svg"></image>
-      <text>收藏</text>
-    </view>
-    <view class="line"></view>
-    <view class="item">
-      <image mode="aspectFit" src="../images/icons/heart.svg"></image>
-      <text>喜欢</text>
-    </view>
-    <view class="line"></view>
-    <view class="item">
+    <button open-type="share" size="mini" class="item">
       <image mode="aspectFit" src="../images/icons/share.svg"></image>
       <text>分享</text>
-    </view>
-    <view class="want">
-      我想租
+    </button>
+    <view @tap="contactHandler" class="want">
+      去帮助
     </view>
   </view>
 </template>
@@ -241,42 +233,79 @@
 
     data = {
       thingsinfo: {
-        title: '山地车出售',
-        images: [
-          '../images/icons/empty_pic.png',
-          '../images/icons/empty_pic.png',
-          '../images/icons/empty_pic.png',
-          '../images/icons/empty_pic.png'
-        ],
-        price: '152',
-        oldVal: '300',
-        descript: '求来人一套带走求来人一套带走求来人一套带走求来人一套带走求来人一套带走求来人一套带走求来人一套带走求来人一套带走求来人一套带走求来人一套带走求来人一套带走',
-        position: '韵苑23栋',
-        time: '3小时前',
-        canSold: true
-      },
-      iteminfo: {
-        liulan: 109,
-        shoucang: 13,
-        like: 21,
-        borrow: 5
+      }
+    }
+    onShareAppMessage({
+    })
+    computed = {
+      iteminfo () {
+        let date = new Date()
+        let item = this.thingsinfo
+        let begintime = item.pub_time
+        let title = item.title
+        let descript = item.description
+        let endtime = date.getTime()
+        let nTime = endtime - begintime
+        let day = nTime/86400000
+        let str = ''
+        if (day < 1) {
+          let hours = day * 24
+          if (hours < 1) {
+            str = Math.floor(hours * 60).toString() + '分钟前'
+          } else {
+            str = Math.floor(hours).toString() + '小时前'
+          }
+        } else {
+          str = Math.floor(day).toString() + '天前'
+        }
+        item.pub_time = str
+        return item
       }
     }
 
-    computed = {
-
-    }
-
     methods = {
+      contactHandler () {
+        let data = this.thingsinfo.contact_way
+        wepy.setClipboardData({
+          data: data,
+          success: (res) => {
+            wx.showToast({
+              title: '已复制到剪切版',
+              icon: 'success',
+              duration: 2000
+            })
+          },
+          fail: (res) => {
 
+          }
+        })
+      }
     }
 
     events = {
 
     }
-
-    onLoad() {
-
+    getInfo (id) {
+      let token = this.$parent.globalData.code
+      return this.$parent.Request({
+        url: 'commodity/detail',
+        data: {
+          _id: id
+        }
+      }, token)
+    }
+    onLoad (options) {
+      wx.showLoading({
+        title: '加载中',
+        mask: true
+      })
+      let id = options.id
+      let self = this
+      this.getInfo(id).then((res) => {
+        self.thingsinfo = res.data
+        self.$apply()
+        wx.hideLoading()
+      })
     }
   }
 </script>
