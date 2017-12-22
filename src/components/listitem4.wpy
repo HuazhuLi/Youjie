@@ -85,9 +85,9 @@
 
 </style>
 <template>
-  <view data-itemid="{{thingsitem.id}}" data-type="{{thingsitem.type}}" class="listitem">
+  <view   class="listitem">
     <view class="infobox">
-      <image mode="aspectFill" src="{{thingsitem.images[0]}}"/>
+      <image mode="aspectFill" src="{{thingsitem.pictures[0]}}"/>
       <view class="info">
         <view class="title">{{thingsitem.title}}</view>
         <view class="price">￥{{thingsitem.price}}</view>
@@ -98,8 +98,8 @@
     <view class="functionbox">
       <view class="label">被浏览109次 收藏13次 喜欢21次 租用5次</view>
       <view class="btnbox">
-        <view class="functionbtn">删除</view>
-        <view class="functionbtn">编辑</view>
+        <view @tap="deleteHandler" data-itemid="{{thingsitem._id}}" class="functionbtn">删除</view>
+        <view @tap="reviseHandler" data-itemid="{{thingsitem._id}}" data-type="{{thingsitem.type}}" class="functionbtn">编辑</view>
       </view>
     </view>
   </view>
@@ -116,6 +116,19 @@
     computed = {
     }
     methods = {
+      deleteHandler (e) {
+        let id = e.currentTarget.dataset.itemid
+        this.$emit('delete', id)
+      },
+      reviseHandler (e) {
+        let id = e.currentTarget.dataset.itemid
+        let type = e.currentTarget.dataset.type
+        let str = type == 1 ? 'postthings?id=' : 'postrent?id='
+        let newstr = str + id
+        wx.navigateTo({
+          url: newstr
+        })
+      }
     }
   }
 </script>

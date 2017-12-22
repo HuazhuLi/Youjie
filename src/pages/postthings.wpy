@@ -231,14 +231,14 @@
     <view class="input_list contact">
       <view class="input_bar contact">
         <view class="label">联系方式</view>
-        <input bindinput="contactInput" cursor-spacing="{{10}}" type="text" placeholder="未填写"/>
+        <input value="{{postForm.contact_way}}" bindinput="contactInput" cursor-spacing="{{10}}" type="text" placeholder="未填写"/>
       </view>
     </view>
     <view class="input_list cansold">
       <view class="input_bar cansold">
         <view class="label">可卖</view>
         <checkbox-group bindchange="cansoldInput">
-          <checkbox  checked="{{false}}" value="{{true}}"/>
+          <checkbox  checked="{{postForm.is_deal == 2}}" value="{{true}}"/>
         </checkbox-group>
       </view>
     </view>
@@ -247,11 +247,11 @@
     <view class="moreprice {{ifOpenMore ? 'open' : ''}}">
       <view class="half">
         <view class="title">价格</view>
-        <input @input="sellPriceInput" type="digit" placeholder="￥0.00"/>
+        <input value="{{postForm.sell_price}}" @input="sellPriceInput" type="digit" placeholder="￥0.00"/>
       </view>
       <view class="half">
         <view class="title">原价</view>
-        <input @input="originPriceInput" type="digit" placeholder="￥0.00"/>
+        <input value="{{postForm.origin_price}}" @input="originPriceInput" type="digit" placeholder="￥0.00"/>
       </view>
     </view>
     <button @tap.stop="postThing" disabled="{{!formOk}}" class="post_btn {{formOk ? 'ok' : ''}}">确认发布</button>
@@ -282,8 +282,8 @@
         category: 0,
         upload_times: 1,
         is_deal: 1,
-        origin_price: null,
-        sell_price: null,
+        origin_price: undefined,
+        sell_price: undefined,
         picturesSrc: []
       },
       pickList: [
@@ -317,17 +317,19 @@
         for (let item in this.postForm) {
           let value = this.postForm[item]
           if (item == 'category' && value == '0') {
+            console.log(item, value)
             return 0
           }
           // console.log(this.postForm['is_deal'], value)
           if (this.postForm['is_deal'] == 2 && item != 'picturesSrc') {
             if (value == undefined || value == null || value.length == 0) {
+              console.log(item, value)
               return 0
             }
           }
 
           if (this.postForm['is_deal'] == 1 && item != 'picturesSrc'  && (item != 'sell_price' && item != 'origin_price') && (value == undefined || value == null || value.length == 0) ) {
-            // console.log(item, value)
+            console.log(item, value)
             return 0
           }
         }
@@ -343,12 +345,22 @@
     }
     async postFormToNet (obj) {
       let self = this
+      let itemId = this.itemId
       let token = this.$parent.globalData.code
       let pictures = self.cachepics
-      let form = self.clone(self.postForm)
+      let form = self.clone(obj)
+      if (!itemId) {
+        form._id = 1
+        form.upload_times = 1
+      }
+      if (!pictures || pictures.length === 0) {
+        return self.$parent.Request({
+          url: 'commodity/pub',
+          method: 'POST',
+          data: form
+        })
+      }
       let item = pictures.slice(0, 1)[0]
-      form._id = null
-      form.upload_times = 1
       console.log('first', form)
       let firstPromise = self.$parent.Upload({
           name: 'pictures',
@@ -414,10 +426,14 @@
       },
       postThing (e) {
         let obj = this.postForm
+        let itemId = this.itemId
         wx.showLoading({
           title: '上传中',
           mask: true
         })
+        if (itemId) {
+          obj._id = itemId
+        }
         this.postFormToNet(obj).then((res) => {
           console.log('succee', res)
           wx.hideLoading()
@@ -426,6 +442,10 @@
             icon: 'success',
             duration: 1000
           })
+          setTimeout(() => {
+
+            wx.navigateBack()
+          }, 1000)
         }, (rej) => {
           wx.hideLoading()
           wx.showToast({
@@ -442,8 +462,27 @@
 
     }
 
-    onLoad() {
-
+    getInfo (itemId) {
+      let token = this.$parent.globalData.code
+      let self = this
+      this.$parent.Request({
+        url: 'commodity/detail',
+        data: {
+          _id: itemId
+        }
+      }, token).then((res) => {
+        self.postForm = res.data
+        self.postForm.picturesSrc = res.data.pictures
+        self.$apply()
+      })
+    }
+    onLoad (options) {
+      let itemId = options.id
+      let self = this
+      if (itemId) {
+        self.itemId = itemId
+        self.getInfo(itemId)
+      }
     }
   }
 </script>

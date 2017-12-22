@@ -60,9 +60,9 @@
 
 </style>
 <template>
-  <view data-itemid="{{thingsitem.id}}" data-type="{{thingsitem.type}}" class="listitem">
+  <view data-itemid="{{thingsitem._id}}" data-type="{{thingsitem.type}}" class="listitem">
     <view class="infobox">
-      <image mode="aspectFill" src="{{thingsitem.images[0]}}"/>
+      <image mode="aspectFill" src="{{thingsitem.pictures[0]}}"/>
       <view class="info">
         <view class="title">{{thingsitem.title}}</view>
         <view class="price">￥{{thingsitem.price}}</view>
@@ -83,9 +83,7 @@
     data = {
     }
     computed = {
-      images () {
-        return this.thingsitem.images
-      }
+
     }
     methods = {
     }

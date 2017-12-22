@@ -77,17 +77,12 @@
     }
     methods = {
       openInfo (e) {
-        let type = e.currentTarget.dataset.type
-        let id = e.currentTarget.dataset.itemid
-        if (type === 'things') {
-          wx.navigateTo({
-            url: 'thingsinfo?id=' + id
-          })
-        } else {
-          wx.navigateTo({
-            url: 'rentinfo?id=' + id
-          })
-        }
+        let category = e.currentTarget.dataset.category
+        this.$emit('selectCategory', category)
+        // this.$parent.globalData.category = category
+        // wx.navigateBack({
+        //   delta: 1
+        // })
       }
     }
   }

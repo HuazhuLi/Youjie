@@ -144,7 +144,15 @@
     }
 
     onLoad () {
-
+      let self = this
+      let token = this.$parent.globalData.code
+      this.$parent.Request({
+        url: 'user/sell'
+      }, token).then((res) => {
+        let data = res.data
+        self.thingslist.list = data
+        self.$apply()
+      })
     }
   }
 </script>

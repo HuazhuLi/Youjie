@@ -376,13 +376,14 @@
         label: label
       }, token)
     }
-    getThings (label) {
+    getThings (label, category = 1) {
       let token = this.$parent.globalData.code
       // console.log(token)
       return this.$parent.Request({
         url: 'commodity/',
         data: {
           label: label,
+          category: category,
           type: 1,
           pages: 1
         }
@@ -400,12 +401,31 @@
         method: 'POST'
       }, token)
     }
-    getRent (label) {
+    getRank (cb) {
+      let token = this.$parent.globalData.code
+      let self = this
+      let data = {}
+      return this.$parent.Request({
+        url: 'rank/wechat'
+      }, token).then((res) => {
+        data.wechat = res.data
+        self.$parent.Request({
+          url: 'rank/address'
+        }).then((res) => {
+          data.address = res.data
+          // cb(data)
+          return data
+          console.log(data)
+        })
+      })
+    }
+    getRent (label, category = 1) {
       let token = this.$parent.globalData.code
       return this.$parent.Request({
         url: 'commodity/',
         data: {
           label: label,
+          category: category,
           type: 2,
           pages: 1
         }
@@ -425,31 +445,58 @@
         let index = args[0]
         let self = this
         this.tabIndexT = index
-        let apromise = null
-        switch (this.tabIndexB) {
-          case 0:
-            apromise = self.getThings(index + 1)
-            apromise.then((res) => {
-              self.thingslist.list = res.data
-              this.$apply()
-            })
-            break
+        this.$apply()
+        let type = self.tabIndexB + 1
+        let label = index + 1
+        this.reRenderList(type, label, null)
+      },
+    }
+    reRenderList (type, label, category, page = 1) {
+      let self = this
+      let token = this.$parent.globalData.code
+      let obj = {
+        type: type,
+        label: label,
+        page: page
+      }
+      if (category) {
+        obj.category = category
+      }
+      this.$parent.Request({
+        url: 'commodity/',
+        data: obj
+      }, token).then((res) => {
+        let data = res.data
+        if (type == 1) {
+          self.thingslist.list = data
+        } else {
+          self.rentlist.list = data
+        }
+        self.$apply()
+      })
+    }
+    onShow () {
+      let self = this
+      let category = this.$parent.globalData.category
+      if (category) {
+        let type = self.tabIndexB + 1
+        let label = self.tabIndexT + 1
+        switch (type) {
           case 1:
-            let num = index === 2 ? 3 : index
-            apromise = self.getRent(num + 1)
-            apromise.then((res) => {
-              self.rentlist.list = res.data
-              this.$apply()
-            })
+            self.reRenderList(type, label, category)
             break
           case 2:
+            let newlabel = label === 3 ? 4 : index
+            self.reRenderList(type, newlabel, category)
+            break
+          case 3:
             break
           default:
         }
-        this.$apply()
-      },
+      }
+      console.log(this.$parent.globalData)
     }
-    onLoad () {
+    onLoad (options) {
       wx.showLoading({
         title: '加载中',
         mask: true
@@ -459,10 +506,15 @@
       let self = this
       const tdata = await self.getThings(1)
       const rdata = await self.getRent(1)
+      const hdata = await self.getHotSearch()
+      // const rankdata = await self.getRank()
+      // self.rankData = rankdata.data
       self.thingslist.list = tdata.data
       self.cacheThings = tdata.data
       self.rentlist.list = rdata.data
+      self.hotItems = hdata.data
       self.$apply()
+      // console.log(rankdata)
       wx.hideLoading()
     }
     onReady() {
@@ -472,9 +524,6 @@
           self.userInfo = userInfo.data
           self.$apply()
           self.init()
-          self.getHotSearch().then((res) => {
-             self.hotItems = res.data
-          })
           // console.log(self.userInfo)
           // self.$broadcast('userinfo-loaded', userInfo.nickName, userInfo.avatarUrl)
         }

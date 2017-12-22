@@ -118,8 +118,8 @@ export default class extends wepy.app {
       }
       if (token) {
         object.header['token'] = token
-      } else if (that.code) {
-        object.header['token'] = that.code
+      } else {
+        object.header['token'] = that.globalData.code
       }
       // console.log(object, that.globalData.code)
       wepy.request(object)

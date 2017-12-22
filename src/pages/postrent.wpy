@@ -230,14 +230,14 @@
     <view class="input_list contact">
       <view class="input_bar contact">
         <view class="label">联系方式</view>
-        <input bindinput="contactInput" cursor-spacing="{{10}}" type="text" placeholder="未填写"/>
+        <input value="{{postForm.contact_way}}" bindinput="contactInput" cursor-spacing="{{10}}" type="text" placeholder="未填写"/>
       </view>
     </view>
     <view class="input_list cansold">
       <view class="input_bar cansold">
         <view class="label">可买</view>
         <checkbox-group bindchange="cansoldInput">
-          <checkbox  checked="{{false}}" value="{{true}}"/>
+          <checkbox  checked="{{postForm.is_deal == 2}}" value="{{true}}"/>
         </checkbox-group>
       </view>
     </view>
@@ -259,6 +259,7 @@
     }
 
     data = {
+      itemId: null,
       cachepics: null,
       upborad: true,
       postForm: {
@@ -332,6 +333,7 @@
     async postFormToNet (obj) {
       let self = this
       let token = this.$parent.globalData.code
+      let itemId = this.itemId
       // return self.$parent.Request({
       //   url: 'commodity/pub',
       //   method: 'POST',
@@ -339,9 +341,18 @@
       // }, token)
       let pictures = self.cachepics
       let form = self.clone(self.postForm)
+      if (!itemId) {
+        form._id = 1
+        form.upload_times = 1
+      }
+      if (!pictures || pictures.length === 0) {
+        return self.$parent.Request({
+          url: 'commodity/pub',
+          method: 'POST',
+          data: form
+        })
+      }
       let item = pictures.slice(0, 1)[0]
-      form._id = null
-      form.upload_times = 1
       console.log('first', form)
       let firstPromise = self.$parent.Upload({
           name: 'pictures',
@@ -407,16 +418,14 @@
       },
       postThing (e) {
         let obj = this.postForm
-        // let fileReader = new FileReader()
-        // obj.pictures = this.cachepics.map((item) => {
-        //   console.log(typeof item)
-        //   return fileReader.readAsArrayBuffer(item)
-        // })
-        //
+        let itemId = this.itemId
         wx.showLoading({
           title: '上传中',
           mask: true
         })
+        if (itemId) {
+          obj._id = itemId
+        }
         this.postFormToNet(obj).then((res) => {
           console.log('succee', res)
           wx.hideLoading()
@@ -425,6 +434,7 @@
             icon: 'success',
             duration: 1000
           })
+          wx.navigateBack()
         }, (rej) => {
           wx.hideLoading()
           wx.showToast({
@@ -440,8 +450,27 @@
 
     }
 
-    onLoad() {
-
+    getInfo (itemId) {
+      let token = this.$parent.globalData.code
+      let self = this
+      this.$parent.Request({
+        url: 'commodity/detail',
+        data: {
+          _id: itemId
+        }
+      }, token).then((res) => {
+        self.postForm = res.data
+        self.picturesSrc = res.pictures
+        self.apply()
+      })
+    }
+    onLoad (options) {
+      let itemId = options.id
+      let self = this
+      if (itemId) {
+        self.itemId = itemId
+        self.getInfo(itemId)
+      }
     }
   }
 </script>

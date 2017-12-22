@@ -220,12 +220,12 @@
     </view>
   </view>
   <view class="bottomtabs">
-    <view class="item">
+    <view @tap="favorHandler" class="item">
       <image mode="aspectFit" src="../images/icons/favor.svg"></image>
       <text>收藏</text>
     </view>
     <view class="line"></view>
-    <view class="item">
+    <view @tap="likeHandler" class="item">
       <image mode="aspectFit" src="../images/icons/heart.svg"></image>
       <text>喜欢</text>
     </view>
@@ -254,12 +254,21 @@
     data = {
       thingsinfo: {
       },
-      date: null
+      date: null,
+      itemId: null
     }
-    onShareAppMessage({
-      title: this.thingsinfo.title,
-
-    })
+    onShareAppMessage (res) {
+      let title = '[华科有借] ' + this.thingsinfo.title
+      return {
+        title: title,
+        success: function(res) {
+          // 转发成功
+        },
+        fail: function(res) {
+          // 转发失败
+        }
+      }
+    }
     computed = {
       iteminfo () {
         let item = this.thingsinfo
@@ -286,20 +295,77 @@
     }
 
     methods = {
+      favorHandler () {
+        let token = this.$parent.globalData.code
+        let id = this.itemId
+        this.$parent.Request({
+          url: 'commodity/collect',
+          method: 'POST',
+          data: {
+            _id: id
+          }
+        }, token).then((res) => {
+          wx.showToast({
+            title: '收藏成功',
+            icon: 'success',
+            duration: 1000
+          })
+        }, (rej) => {
+          wx.showToast({
+            title: '请稍后再试',
+            icon: 'success',
+            duration: 1000
+          })
+        })
+      },
+      likeHandler () {
+        let token = this.$parent.globalData.code
+        let id = this.itemId
+        this.$parent.Request({
+          url: 'commodity/like',
+          method: 'POST',
+          data: {
+            _id: id
+          }
+        }, token).then((res) => {
+          wx.showToast({
+            title: '喜欢成功',
+            icon: 'success',
+            duration: 1000
+          })
+        }, (rej) => {
+          wx.showToast({
+            title: '请稍后再试',
+            icon: 'success',
+            duration: 1000
+          })
+        })
+      },
       contactHandler () {
         let data = this.thingsinfo.contact_way
-        wepy.setClipboardData({
-          data: data,
-          success: (res) => {
-            wx.showToast({
-              title: '已复制到剪切版',
-              icon: 'success',
-              duration: 2000
-            })
-          },
-          fail: (res) => {
-
+        let self = this
+        this.$parent.Request({
+          url: 'commodity/buy',
+          method: 'POST',
+          data: {
+            type: 1,
+            _id: self.itemId
           }
+        }).then((res) => {
+
+          wepy.setClipboardData({
+            data: data,
+            success: (res) => {
+              wx.showToast({
+                title: '已复制到剪切版',
+                icon: 'success',
+                duration: 2000
+              })
+            },
+            fail: (res) => {
+
+            }
+          })
         })
       }
     }
@@ -323,6 +389,7 @@
       })
       let id = options.id
       let self = this
+      self.itemId = id
       let nowTime = new Date()
       this.date = nowTime.getTime()
       this.getInfo(id).then((res) => {

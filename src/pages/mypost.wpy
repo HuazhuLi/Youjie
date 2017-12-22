@@ -55,6 +55,8 @@
 
     data = {
       topTabC:{
+        cacheThings: [],
+        cacheRent: [],
         color: '#a9a29f',
         selectedColor: '#3e3835',
         backgroundColor: '#ffffff',
@@ -70,6 +72,9 @@
         }
         ],
         position: 'top'
+      },
+      rentlist:{
+        list: []
       },
       thingslist: {
         list: [
@@ -157,11 +162,63 @@
     }
 
     events = {
-
+      'tab-changeT': (...args) => {
+        let index = args[0]
+        let self = this
+        if (index === 0) {
+          self.thingslist.list = self.cacheThings
+        } else {
+          self.thingslist.list = self.cacheRent
+        }
+        this.$apply()
+      },
+      'delete': (id) => {
+        let self = this
+        console.log(id)
+        self.$parent.Request({
+          url: 'user/delete',
+          method: 'POST',
+          data: {
+            _id: id
+          }
+        }).then((res) => {
+            wx.showToast({
+              title: '删除成功',
+              icon: 'success',
+              duration: 1000
+            })
+        }, (rej) => {
+          wx.showToast({
+            title: '删除失败',
+            icon: 'success',
+            duration: 1000
+          })
+        })
+      }
     }
 
-    onLoad () {
+    thingsFilter (item) {
+      return item.type == 1
+    }
 
+    rentFilter (item) {
+      return item.type == 2
+    }
+    onLoad () {
+      let self = this
+      let token = this.$parent.globalData.code
+      this.$parent.Request({
+        url: 'user/pub'
+      }, token).then((res) => {
+        let data = res.data
+        let thingslist = data.filter(self.thingsFilter)
+        self.cacheThings = thingslist
+        self.cacheRent = data.filter(self.rentFilter)
+        self.thingslist.list = thingslist
+        self.$apply()
+      }, (rej) => {
+
+      })
     }
   }
 </script>
