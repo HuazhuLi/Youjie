@@ -33,17 +33,23 @@
     <view wx:if="{{item.type != 'id'}}" class="line"></view>
     <view class="listitem">
       <text class="title">证件类型</text>
-      <input value="{{name}}" placeholder="请输入证件" type="text"/>
+      <input disabled="true" value="校园卡" placeholder="请输入证件" type="text"/>
     </view>
     <view wx:if="{{item.type != 'id'}}" class="line"></view>
     <view class="listitem">
       <text class="title">学号</text>
-      <input value="{{name}}" placeholder="请输入学号" type="text"/>
+      <input value="{{card_number}}" placeholder="请输入学号" type="text"/>
     </view>
     <view class="listitem two">
       <text class="title">联系方式</text>
-      <input value="{{name}}" placeholder="请输入微信号" type="text"/>
+      <input value="{{contact_way}}" placeholder="请输入微信号" type="text"/>
     </view>
+    <view class="uploadbox">
+      <image src="{{imageSrc}}"></image>
+      <view class="descript title">请拍照上传学生证正面</view>
+      <view class="descript sub">别怕！保密！</view>
+    </view>
+    <view @tap="uploadVertify" class="btn {{formOk ? 'pass' : ''}}">确认</view>
   </view>
 </template>
 
@@ -59,19 +65,73 @@
     }
 
     data = {
-      name: '小萌',
-      identifyType: '校园卡',
-      code: '',
-      image: '',
-      contact: 'weixin123'
+      name: undefined,
+      card_type: 1,
+      card_number: undefined,
+      cachepics: undefined,
+      contact_way: undefined
     }
 
     computed = {
-
+      imageSrc () {
+        if (cachepics) {
+          return cachepics[0]
+        }
+        return '../images/icons/addpic.svg'
+      },
+      formOk () {
+        let obj = this.data
+        for (let item in obj) {
+          let val = obj[item]
+          if (val == undefined) {
+            return 0
+          }
+        }
+        return 1
+      }
     }
 
     methods = {
-
+      uploadImages (e) {
+        let self = this
+        wepy.chooseImage({
+          count: 6,
+          success: (res) => {
+            self.cachepics = res.tempFilePaths
+            self.$apply()
+          }
+        })
+      },
+      uploadVertify () {
+        let self = this
+        let data = this.data
+        if (this.formOk) {
+          wx.showLoading({
+            title: '上传中'
+          })
+          self.$parent.Request({
+            url: 'user/personal_verify',
+            method: 'POST',
+            data: data
+          }).then((res) => {
+            wx.hideLoading()
+            wx.showToast({
+              title: '上传成功',
+              duration: 1000,
+              complete: () => {
+                wx.navigateBack()
+              }
+            })
+          }, (rej) => {
+            wx.showToast({
+              title: '上传失败',
+              duration: 1000,
+              success: () => {
+              }
+            })
+          })
+        }
+      }
     }
 
     events = {

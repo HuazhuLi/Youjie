@@ -230,10 +230,10 @@
       <text>喜欢</text>
     </view>
     <view class="line"></view>
-    <button open-type="share" size="mini" class="item">
+    <view @tap="shareHandler" size="mini" class="item">
       <image mode="aspectFit" src="../images/icons/share.svg"></image>
       <text>分享</text>
-    </button>
+    </view>
     <view  @tap="contactHandler" class="want">
       我想租
     </view>
@@ -258,7 +258,7 @@
       itemId: null
     }
     onShareAppMessage (res) {
-      let title = '[华科有借] ' + this.thingsinfo.title
+      let title = '[租品] ' + this.thingsinfo.title
       return {
         title: title,
         success: function(res) {
@@ -295,6 +295,20 @@
     }
 
     methods = {
+      shareHandler () {
+        let id = this.itemId
+        this.$parent.Request({
+          url: 'commodity/share',
+          method: 'POST',
+          data: {
+            _id: id
+          }
+        }).then((res) => {
+          wx.showShareMenu({
+            withShareTicket: true
+          })
+        })
+      },
       favorHandler () {
         let token = this.$parent.globalData.code
         let id = this.itemId

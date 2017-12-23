@@ -440,12 +440,11 @@
           wx.showToast({
             title: '上传成功',
             icon: 'success',
-            duration: 1000
+            duration: 1000,
+            complete: () => {
+              wx.navigateBack()
+            }
           })
-          setTimeout(() => {
-
-            wx.navigateBack()
-          }, 1000)
         }, (rej) => {
           wx.hideLoading()
           wx.showToast({

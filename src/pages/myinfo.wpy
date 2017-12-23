@@ -36,17 +36,46 @@
 </style>
 <template>
   <view class="container">
-    <block wx:for="{{groupList}}" index="index" item="item" wx:key="key">
       <view class="listitem">
-        <text class="title">{{item.title}}</text>
-        <view class="descript {{item.type == 'id' ? 'identify' : ''}}">
-          <image wx:if="{{item.type == 'id' && item.state == 'pass'}}" class="enter" mode="aspectFill" src="../images/icons/yes.svg"/>
-          {{item.descript}}
+        <text class="title">学院设置</text>
+        <view class="descript ">
+          {{userInfo.college}}
           <image class="enter" mode="aspectFill" src="../images/icons/enter.svg"/>
         </view>
       </view>
       <view wx:if="{{item.type != 'id'}}" class="line"></view>
-    </block>
+      <view class="listitem">
+        <text class="title">年级设置</text>
+        <view class="descript ">
+          {{userInfo.class}}
+          <image class="enter" mode="aspectFill" src="../images/icons/enter.svg"/>
+        </view>
+      </view>
+      <view wx:if="{{item.type != 'id'}}" class="line"></view>
+      <view class="listitem">
+        <text class="title">楼栋设置</text>
+        <view class="descript ">
+          {{userInfo.address}}
+          <image class="enter" mode="aspectFill" src="../images/icons/enter.svg"/>
+        </view>
+      </view>
+      <view wx:if="{{item.type != 'id'}}" class="line"></view>
+      <view class="listitem">
+        <text class="title">联系方式</text>
+        <view class="descript ">
+          {{userInfo.contact_way}}
+          <image class="enter" mode="aspectFill" src="../images/icons/enter.svg"/>
+        </view>
+      </view>
+      <view wx:if="{{item.type != 'id'}}" class="line"></view>
+      <view @tap="openVertify" class="listitem">
+        <text class="title">校园身份验证</text>
+        <view class="descript  identify">
+          <image wx:if="{{ifIdentify}}" class="enter" mode="aspectFill" src="../images/icons/yes.svg"/>
+          {{ifIdentify ? '已通过认证' : '未通过认证'}}
+          <image class="enter" mode="aspectFill" src="../images/icons/enter.svg"/>
+        </view>
+      </view>
   </view>
 </template>
 
@@ -59,51 +88,43 @@
     }
 
     components = {
+
     }
 
     data = {
-      groupList: [
-        {
-          title: '学院设置',
-          descript: '软件学院',
-          type: ''
-        },
-        {
-          title: '年级设置',
-          descript: '15级',
-          type: ''
-        },
-        {
-          title: '楼栋设置',
-          descript: '韵苑23栋',
-          type: ''
-        },
-        {
-          title: '联系方式',
-          descript: 'weixin199607',
-          type: ''
-        },
-        {
-          title: '校园身份认证',
-          descript: '已通过',
-          state: 'pass',
-          type: 'id'
-        }
-      ]
+      userInfo: {
+
+      }
     }
 
     computed = {
-
+      ifIdentify () {
+        return this.userInfo.status == 2
+      }
     }
 
     methods = {
-
+      openVertify (e) {
+        let status = (this.userInfo.status == 2)
+        if (!status) {
+          wx.navigateTo({
+            url: 'vertificateid'
+          })
+        }
+      }
     }
 
     events = {
 
     }
-
+    getUserInfo () {
+      let self = this
+      this.$parent.Request({
+        url: 'user/get_personal_information'
+      }).then((res) => {
+        self.userInfo = res.data
+      })
+    }
     onLoad() {
 
     }

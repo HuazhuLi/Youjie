@@ -432,9 +432,11 @@
           wx.showToast({
             title: '上传成功',
             icon: 'success',
-            duration: 1000
+            duration: 1000,
+            complete: () => {
+              wx.navigateBack()
+            }
           })
-          wx.navigateBack()
         }, (rej) => {
           wx.hideLoading()
           wx.showToast({

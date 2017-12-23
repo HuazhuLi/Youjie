@@ -210,10 +210,10 @@
     </view>
   </view>
   <view class="bottomtabs">
-    <button open-type="share" size="mini" class="item">
+    <view @tap="shareHandler" open-type="share" size="mini" class="item">
       <image mode="aspectFit" src="../images/icons/share.svg"></image>
       <text>分享</text>
-    </button>
+    </view>
     <view @tap="contactHandler" class="want">
       去帮助
     </view>
@@ -235,8 +235,18 @@
       thingsinfo: {
       }
     }
-    onShareAppMessage({
-    })
+    onShareAppMessage (res) {
+      let title = '[求助] ' + this.thingsinfo.title
+      return {
+        title: title,
+        success: function(res) {
+          // 转发成功
+        },
+        fail: function(res) {
+          // 转发失败
+        }
+      }
+    }
     computed = {
       iteminfo () {
         let date = new Date()
@@ -264,6 +274,20 @@
     }
 
     methods = {
+      shareHandler () {
+        let id = this.itemId
+        this.$parent.Request({
+          url: 'commodity/share',
+          method: 'POST',
+          data: {
+            _id: id
+          }
+        }).then((res) => {
+          wx.showShareMenu({
+            withShareTicket: true
+          })
+        })
+      },
       contactHandler () {
         let data = this.thingsinfo.contact_way
         wepy.setClipboardData({
@@ -279,9 +303,6 @@
 
           }
         })
-      },
-      shareHandler () {
-        
       }
     }
 
