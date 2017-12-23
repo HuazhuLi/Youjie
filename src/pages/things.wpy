@@ -76,7 +76,7 @@
     justify-content: space-between;
     background:#ffffff;
     border-radius:15rpx;
-    width:688rpx;
+    width:85%;
     height:50rpx;
     margin: 0;
     &.open{
@@ -98,25 +98,27 @@
   .searchlabel{
     transition: all .5s;
     position: absolute;
-    transform: translateX(0rpx);
     right: 12rpx;
-    width: 54rpx;
-    opacity: 0;
+    width: 15%;
     height: 31rpx;
     font-size:24rpx;
     margin-left: 12rpx;
     color:#3e3835;
     letter-spacing:1.33rpx;
-    &.open{
-      transform: translateX(0rpx);
-      opacity: 1;
+    display: flex;
+    margin-left: 33rpx;
+    image{
+      width:25rpx;
+      height:33rpx;
+      margin-left: 10rpx;
+      transform: scale(2);
     }
   }
 }
 .searchPanel{
   transition: all .5s;
   height: 0rpx;
-  width: 100%;
+  width: 80%;
   overflow: hidden;
   box-sizing: border-box;
   background-color: #ffffff;
@@ -138,22 +140,42 @@
 .listcontainer{
   width: 750rpx;
 }
+.filterbox{
+  transition: all .5s;
+  position: fixed;
+  height: 100%;
+  z-index: 1200;
+  right: 0;
+  top: 0;
+  width:663rpx;
+  &.close{
+    right: -100%;
+  }
+}
 </style>
 <template>
-  <view class="container list {{tabIndexB == 4 ? 'my' : ''}}">
+  <view class="container list {{ifNoMargin ? 'my' : ''}}">
     <view class="listcontainer" hidden="{{tabIndexB != 0}}">
-      <toptabsA :tabbar="topTabA"></toptabsA>
+      <view class="mask"></view>
+      <view class="filterbox {{showFilter ? 'open' : 'close'}}">
+        <filter  :ifShow.sync="showFilter"></filter>
+      </view>
       <view class="searchbox {{inputState ? 'open' : ''}}">
         <view class="container {{inputState ? 'open' : ''}}">
           <image mode="aspectFit" src="../images/icons/search.svg" />
           <input bindfocus="openSearch" bindblur="closeSearch" @confirm="searchHandler" placeholder="搜索闲置物品"></input>
         </view>
-        <label class="searchlabel {{inputState ? 'open' : ''}}" catchtap="closeSearch">取消</label>
+        <view @tap="openFilter" class="searchlabel">
+          <view>筛选</view>
+          <image src="../images/icons/fliter.svg" mode="aspectFit"/>
+        </view>
       </view>
+      <!--
       <view class="searchPanel {{inputState ? 'open' : ''}}">
         <p>热门搜索</p>
         <p>{{getHotItems}}</p>
       </view>
+    -->
       <view hidden="{{thingsNotEmpty}}" class="empty">
         <image src="../images/icons/empty_pic.png" mode="aspectFit"></image>
         <text>还没有相关租品!</text>
@@ -162,9 +184,6 @@
       <repeat wx:for="{{getThingsList}}" wx:index="index" wx:item="item" wx:key="index">
         <listitem  :thingsitem.sync="item" :indexa.sync="index"></listitem>
       </repeat>
-      <navigator url="filter" class="floatbtn">
-        <image src="../images/icons/fliter.svg" mode="aspectFit" />
-      </navigator>
     </view>
     <view class="listcontainer" hidden="{{tabIndexB != 1}}">
       <toptabsA :tabbar="topTabA"></toptabsA>
@@ -194,6 +213,7 @@
   import ListItem from '../components/listitem'
   import Group from '../components/group'
   import My from '../components/my'
+  import Filter from '../components/filter'
   import Circle from '../components/circle'
 
   const TITLEALLOWLENGTH = 15
@@ -217,6 +237,7 @@
       bottomtabs: BottomTabs,
       toptabsA: TopTabs,
       toptabsB: TopTabs,
+      filter: Filter,
       listitem: ListItem,
       group: Group,
       myinfo: My,
@@ -224,7 +245,10 @@
     }
 
     data = {
+      showFilter: false,
       cacheThings: null,
+      thingsPage: 1,
+      rentPage: 1,
       hotItems: ['自行车', '电脑', '数位板', 'YSL', '熨斗', '吹风机', '电动车'],
       inputState: false,
       titles: ['租品', '求租', '发布',  '圈子', '我的'],
@@ -312,6 +336,9 @@
     }
 
     computed = {
+      ifNoMargin () {
+        return (this.tabIndexB == 0 || this.tabIndexB == 4)
+      },
       thingsNotEmpty () {
         return this.thingslist.list.length != 0
       },
@@ -334,17 +361,15 @@
     }
 
     methods = {
+      openFilter (e) {
+        console.log(e)
+        this.showFilter = true
+        this.$apply()
+      },
       searchHandler (event) {
         let content = event.detail.value
-        let self = this
-        wx.showLoading({
-          title: '加载中',
-          mask: true
-        })
-        this.getSearch(content).then((res) => {
-          self.thingslist.list = res.data
-          self.$apply()
-          wx.hideLoading()
+        wx.navigateTo({
+          url: 'search?content=' + content
         })
       },
       openSearch (event) {
@@ -390,17 +415,6 @@
       }, token)
     }
 
-    getSearch (content) {
-      let token = this.$parent.globalData.code
-      // console.log(token)
-      return this.$parent.Request({
-        url: 'search/',
-        data: {
-          content: content
-        },
-        method: 'POST'
-      }, token)
-    }
     getRank (cb) {
       let token = this.$parent.globalData.code
       let self = this
@@ -450,6 +464,27 @@
         let label = index + 1
         this.reRenderList(type, label, null)
       },
+      'filter-complete': (data) => {
+        console.log(data)
+        this.showFilter = false
+        this.renderHomeList(data)
+        this.$apply()
+      }
+    }
+    renderHomeList (data) {
+      let self = this
+      this.$parent.Request({
+        url: 'commodity/home',
+        data: {
+          type: data.type,
+          category: JSON.stringify(data.category),
+          address: JSON.stringify(data.address),
+          pages: self.thingsPage
+        }
+      }).then((res) => {
+        self.thingslist.list = res.data
+        self.$apply()
+      })
     }
     reRenderList (type, label, category, page = 1) {
       let self = this

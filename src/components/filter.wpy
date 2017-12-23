@@ -1,0 +1,338 @@
+<style scoped="true" lang="less">
+.container {
+  width: 100%;
+  height: 100%;
+  box-shadow:-3rpx 0 10rpx 0 rgba(171,167,167,0.50);
+  box-sizing: border-box;
+  padding-bottom: 110rpx;
+  width:663rpx;
+  background: #ffffff;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  position: absolute;
+  overflow: scroll;
+}
+.label {
+  background:#ececec;
+  transition: all .5s;
+  border-radius:8rpx;
+  width:136rpx;
+  height:53rpx;
+  text-align: center;
+  line-height: 53rpx;
+  vertical-align: middle;
+  font-size:24rpx;
+  margin: 15rpx;
+  color:#5c5b5b;
+  &.selected {
+    background-image:linear-gradient(-90deg, #ffae57 0%, #ff48a6 100%);
+    color: white;
+  }
+}
+.listbox{
+  background:#ffffff;
+  width:663rpx;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 20rpx 33rpx 22rpx 18rpx;
+  box-shadow:-3rpx 0 10rpx 0 rgba(171,167,167,0.50);
+  &.one{
+    min-height: 150rpx;
+  }
+  &.two{
+    min-height: 400rpx;
+
+  }
+  &.three{
+    min-height: 230rpx;
+  }
+  &.four{
+  }
+  .labelbox{
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .title{
+    font-size:24rpx;
+    color:#a9a29f;
+    letter-spacing:0.86rpx;
+    margin-bottom: 5rpx;
+    margin-left: 15rpx;
+  }
+}
+.line{
+  height: 1rpx;
+  width:663rpx;
+  background:#dcd9d8;
+}
+.btnbox{
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 1222;
+  background:#ffffff;
+  width:663rpx;
+  height:100rpx;
+  display: flex;
+  text-align: center;
+  line-height: 100rpx;
+  vertical-align: middle;
+  transition: all .5s;
+  &.close{
+    right: -100%;
+  }
+  .reset{
+    width: 331rpx;
+    display: inline-block;
+    font-size:32rpx;
+    color: #FF4AA6;
+    height: 100%;
+    letter-spacing:0.79rpx;
+  }
+  .complete{
+    background: #ff7883;
+    height: 100%;
+    width: 331rpx;
+    color: #ffffff;
+    display: inline-block;
+  }
+}
+</style>
+<template>
+  <view class="container">
+    <view class="listbox one">
+      <view class="title">排序方式</view>
+      <view  class="labelbox">
+        <block wx:for="{{typedata}}">
+          <view @tap="typeHandler" data-itemindex="{{index}}" class="label {{item.selected ? 'selected' : ''}}">{{item.name}}</view>
+        </block>
+      </view>
+    </view>
+    <view class="listbox two">
+      <view class="title">类别</view>
+      <view  class="labelbox">
+        <block wx:for="{{categorydata}}">
+          <view @tap="categoryHandler" data-itemindex="{{index}}" class="label {{item.selected ? 'selected' : ''}}">{{item.name}}</view>
+        </block>
+      </view>
+    </view>
+    <view class="listbox three">
+      <view class="title">生活区</view>
+      <view  class="labelbox">
+        <block wx:for="{{addressdata}}">
+          <view @tap="ad1Handler" data-itemindex="{{index}}" class="label {{item.selected ? 'selected' : ''}}">{{item.name}}</view>
+        </block>
+      </view>
+    </view>
+    <view class="listbox four">
+      <view class="title">楼栋 |
+        <text @tap="flatenHandler" style="color: #FF4AA6; font-size:24rpx">全反选</text>
+      </view>
+      <view  class="labelbox">
+        <block wx:for="{{addressdata6}}">
+          <view @tap="ad2Handler" data-father="{{item.father}}" data-itemindex="{{index}}" class="label {{item.selected ? 'selected' : ''}}">{{item.name}}</view>
+        </block>
+      </view>
+    </view>
+    <view style="height:120rpx"></view>
+    <view class="btnbox {{getBtnClass}}">
+      <view @tap="resetHandler" class="reset">重置</view>
+      <view @tap.stop="completeHandler" class="complete">完成</view>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  // import abc from 'abc'
+
+  export default class Filter extends wepy.component {
+    props = {
+      ifShow: false
+    }
+
+    data = {
+      typedata: [{name:'最新', type: 1, selected: true, mutiply: false}, {name: '最热', type: 2, selected: false, mutiply: false}],
+      categorydata: [
+        {name:'电子设备', selected: false, type:1},
+        {name:'书籍资料', selected: false, type:2},
+        {name:'宿舍百货', selected: false, type:3},
+        {name:'乐器', selected: false, type:4},
+        {name:'门票卡劵', selected: false, type:5},
+        {name:'美妆护肤', selected: false, type:6},
+        {name:'女装', selected: false, type:7},
+        {name:'男装', selected: false, type:8},
+        {name:'鞋帽配饰', selected: false, type:9},
+        {name:'代步工具', selected: false, type:10},
+        {name:'户外运动', selected: false, type:11},
+        {name:'其他', selected: false, type:12}
+      ],
+      addressdata: [{name: '韵苑', type: 'ad1', selected: false},{name: '沁苑', type: 'ad1', selected: false},{name: '紫菘', type: 'ad1', selected: false},{name: '研究生公寓', type: 'ad1', selected: false},{name: '博士生公寓', type: 'ad1', selected: false},{name: '其他', type: 'ad1', selected: false}],
+      addressdata0: [],
+      addressdata1: [],
+      addressdata2: [],
+      addressdata3: [{name: '研究生公寓',father:4,  selected: false}],
+      addressdata4: [{name: '博士生公寓',father:5, selected: false}],
+      addressdata5: [{name:'其他', father: 6,selected:false}],
+      addressdata6: [],
+      filterData: {
+        type: 1,
+        category: [],
+        address: []
+      }
+    }
+    onLoad () {
+      this.addressdata0 = this.generateArray(28, 1)
+      this.addressdata1 = this.generateArray(8, 2)
+      this.addressdata2 = this.generateArray(13, 3)
+    }
+    generateArray (range, father) {
+      let arr = new Array(range)
+      for (let i = 1; i <= range; i++) {
+        let obj = {}
+        obj.name = i + '栋'
+        obj.type = 'ad2'
+        obj.selected = false
+        obj.father = father
+        arr[i - 1] = obj
+      }
+      return arr
+    }
+    events = {
+    }
+
+    watch = {
+    }
+    computed = {
+      getBtnClass () {
+        let str = this.ifShow ? 'open' : 'close'
+        return str
+      },
+      getType () {
+        return this.typedata.filter((item) => {
+          if (item.selected) {
+            return true
+          }
+        }).map((item) => {
+          return item.type
+        })
+      },
+      getCategory () {
+        return this.categorydata.filter((item) => {
+          if (item.selected) {
+            return true
+          }
+        }).map((item) => {
+          return item.type
+        })
+      },
+      getAddress () {
+        let self = this
+        let address = []
+        let arr = [0, 1, 2, 3, 4, 5].map((item) => {
+          return self['addressdata' + item]
+        }).map((item) => {
+          item.map((item) => {
+            if (item.selected) {
+              let fathername = ''
+              if (item.father < 4) {
+                fathername = self.addressdata[parseInt(item.father - 1)].name
+              }
+              address.push(fathername + item.name)
+            }
+          })
+        })
+        // console.log(address)
+        return address
+      }
+    }
+    methods = {
+      flatenHandler (e) {
+        for(let i in this.addressdata6) {
+          let item = this.addressdata6[i]
+          item.selected = !item.selected
+        }
+        this.$apply()
+      },
+      resetHandler (e) {
+        for(let i in this.typedata) {
+          let item = this.typedata[i]
+          item.selected = false
+        }
+        this.typedata[0].selected = true
+        for(let i in this.categorydata) {
+          let item = this.categorydata[i]
+          item.selected = false
+        }
+        for(let i in this.addressdata) {
+          let item = this.addressdata[i]
+          item.selected = false
+        }
+        for(let i in this.addressdata0) {
+          let item = this.addressdata0[i]
+          item.selected = false
+        }
+        for(let i in this.addressdata1) {
+          let item = this.addressdata1[i]
+          item.selected = false
+        }
+        for(let i in this.addressdata2) {
+          let item = this.addressdata2[i]
+          item.selected = false
+        }
+        for(let i in this.addressdata3) {
+          let item = this.addressdata3[i]
+          item.selected = false
+        }
+        this.$apply()
+      },
+      completeHandler (e) {
+        let data = {}
+        data.type = this.getType[0]
+        data.category = this.getCategory
+        data.address = this.getAddress
+        console.log(data)
+        this.$emit('filter-complete', data)
+      },
+      typeHandler (e) {
+        let index = e.currentTarget.dataset.itemindex
+        for (let i in this.typedata) {
+          if (i == index) {
+            this.typedata[i].selected = true
+          } else {
+            this.typedata[i].selected = false
+          }
+        }
+        this.filterData.type = index + 1
+        this.$apply()
+      },
+      categoryHandler (e) {
+        let index = parseInt(e.currentTarget.dataset.itemindex)
+        this.categorydata[index].selected = !this.categorydata[index].selected
+        this.$apply()
+      },
+      ad1Handler (e) {
+        let index = parseInt(e.currentTarget.dataset.itemindex)
+        for (let i in this.addressdata) {
+          if (i == index) {
+            this.addressdata[i].selected = !this.addressdata[i].selected
+          } else {
+            this.addressdata[i].selected = false
+          }
+        }
+        this.addressdata6 = this['addressdata' + index]
+        if (index > 2) {
+          this.addressdata6[0].selected = true
+        }
+        this.$apply()
+      },
+      ad2Handler (e) {
+        let index = parseInt(e.currentTarget.dataset.itemindex)
+        let father = parseInt(e.currentTarget.dataset.father)
+        console.log(father)
+        this.addressdata6[index].selected = !this.addressdata6[index].selected
+        this.$apply()
+      }
+    }
+  }
+</script>

@@ -5,6 +5,7 @@
   height:120rpx;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   box-sizing: border-box;
   padding: 38rpx 30rpx 42rpx 30rpx;
   &.two{
@@ -16,11 +17,56 @@
     letter-spacing:1rpx;
   }
   input{
-    width: 50%;
     font-size:28rpx;
     color:#aba4a1;
     letter-spacing:1rpx;
     text-align:right;
+
+  }
+}
+.uploadbox{
+  width: 100%;
+  background:#ffffff;
+  margin-top: 28rpx;
+  display: flex;
+  box-sizing: border-box;
+  padding: 22rpx;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  image{
+    width:281rpx;
+    height:173rpx;
+  }
+  .descript{
+    &.title{
+      margin-top: 15rpx;
+      font-size:28rpx;
+      color:#aba4a1;
+      letter-spacing:1rpx;
+    }
+    &.sub{
+      margin-top: 7rpx;
+      font-size:20rpx;
+      color:#cdc2bd;
+      letter-spacing:0.71rpx;
+    }
+  }
+}
+.btn{
+  transition: all .5s;
+  margin-top: 149rpx;
+  background:#9c9c9c;
+  width:640rpx;
+  height:75rpx;
+  line-height: 75rpx;
+  vertical-align: middle;
+  text-align: center;
+  font-size:32rpx;
+  color:#ffffff;
+  letter-spacing:2rpx;
+  &.pass{
+    background:#ff4949;
   }
 }
 </style>
@@ -28,7 +74,7 @@
   <view class="container">
     <view class="listitem">
       <text class="title">姓名</text>
-      <input value="{{name}}" placeholder="请输入姓名" type="text"/>
+      <input @input="nameHandler" value="{{name}}" placeholder="请输入姓名" type="text"/>
     </view>
     <view wx:if="{{item.type != 'id'}}" class="line"></view>
     <view class="listitem">
@@ -38,14 +84,14 @@
     <view wx:if="{{item.type != 'id'}}" class="line"></view>
     <view class="listitem">
       <text class="title">学号</text>
-      <input value="{{card_number}}" placeholder="请输入学号" type="text"/>
+      <input @input="cardHandler" value="{{card_number}}" placeholder="请输入学号" type="text"/>
     </view>
     <view class="listitem two">
       <text class="title">联系方式</text>
-      <input value="{{contact_way}}" placeholder="请输入微信号" type="text"/>
+      <input  @input="contactHandler" value="{{contact_way}}" placeholder="请输入微信号" type="text"/>
     </view>
     <view class="uploadbox">
-      <image src="{{imageSrc}}"></image>
+      <image @tap="imageHandler" src="{{imageSrc}}"></image>
       <view class="descript title">请拍照上传学生证正面</view>
       <view class="descript sub">别怕！保密！</view>
     </view>
@@ -68,13 +114,14 @@
       name: undefined,
       card_type: 1,
       card_number: undefined,
-      cachepics: undefined,
+      cachepics: [],
       contact_way: undefined
     }
 
     computed = {
       imageSrc () {
-        if (cachepics) {
+        let cachepics = this.cachepics
+        if (cachepics[0] && cachepics[0].length != 0) {
           return cachepics[0]
         }
         return '../images/icons/addpic.svg'
@@ -83,7 +130,7 @@
         let obj = this.data
         for (let item in obj) {
           let val = obj[item]
-          if (val == undefined) {
+          if (val == undefined || (item == 'cachepics' && val.length == 0)) {
             return 0
           }
         }
@@ -92,10 +139,22 @@
     }
 
     methods = {
-      uploadImages (e) {
+      nameHandler (e) {
+        this.name = e.detail.value
+        this.$apply()
+      },
+      cardHandler (e) {
+        this.card_number = e.detail.value
+        this.$apply()
+      },
+      contactHandler (e) {
+        this.contact_way = e.detail.value
+        this.$apply()
+      },
+      imageHandler (e) {
         let self = this
         wepy.chooseImage({
-          count: 6,
+          count: 1,
           success: (res) => {
             self.cachepics = res.tempFilePaths
             self.$apply()
@@ -106,13 +165,15 @@
         let self = this
         let data = this.data
         if (this.formOk) {
+          let image = data.cachepics[0]
           wx.showLoading({
             title: '上传中'
           })
-          self.$parent.Request({
+          self.$parent.Upload({
             url: 'user/personal_verify',
-            method: 'POST',
-            data: data
+            name: 'picture',
+            filePath: image,
+            formData: data
           }).then((res) => {
             wx.hideLoading()
             wx.showToast({

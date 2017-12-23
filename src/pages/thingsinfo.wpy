@@ -230,10 +230,10 @@
       <text>喜欢</text>
     </view>
     <view class="line"></view>
-    <view @tap="shareHandler" size="mini" class="item">
+    <button open-type="share" @tap="shareHandler" size="mini" class="item">
       <image mode="aspectFit" src="../images/icons/share.svg"></image>
       <text>分享</text>
-    </view>
+    </button>
     <view  @tap="contactHandler" class="want">
       我想租
     </view>

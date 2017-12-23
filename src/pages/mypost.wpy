@@ -172,7 +172,7 @@
         }
         this.$apply()
       },
-      'delete': (id) => {
+      'delete': (id, index) => {
         let self = this
         console.log(id)
         self.$parent.Request({
@@ -187,6 +187,9 @@
               icon: 'success',
               duration: 1000
             })
+            console.log(index)
+            self.thingslist.list.splice(index, 1)
+            self.$apply()
         }, (rej) => {
           wx.showToast({
             title: '删除失败',

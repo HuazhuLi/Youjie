@@ -189,8 +189,36 @@
   justify-content: flex-start;
   align-items: center;
   flex-wrap: wrap;
-  image{
-    margin: 6rpx;
+  .imagebox{
+      margin: 6rpx;
+      width: 180rpx;
+      height: 180rpx;
+      position: relative;
+      .boximage{
+          margin: 6rpx;
+          width: 180rpx;
+          height: 180rpx;
+      }
+      .deletebtn{
+        opacity: .8;
+        text-align:center;
+        line-height:40rpx;
+        vertical-align:middle;
+
+        position: absolute;
+        width: 40rpx;
+        height: 40rpx;
+        right: -20rpx;
+        top: -10rpx;
+        background: #ffffff;
+        border-radius: 100%;
+        image{
+          width: 30rpx;
+          height: 30rpx;
+        }
+      }
+  }
+  .uploadImage{
     width: 180rpx;
     height: 180rpx;
   }
@@ -211,9 +239,14 @@
 
       <view class="imagesinputbox">
         <block wx:for="{{uploadImages}}">
-          <image mode="aspectFit" src="{{item}}"/>
+          <view class="imagebox">
+            <view data-itemindex = "{{index}}" @tap="deletetHandler" class="deletebtn">
+              <image src="../images/icons/delete.svg" mode="aspectFit"/>
+            </view>
+            <image class="boximage" mode="aspectFit" src="{{item}}"/>
+          </view>
         </block>
-        <image @tap="uploadImages" mode="aspectFit" src="../images/icons/addpic.svg"/>
+        <image class="uploadImage" @tap="uploadImages" mode="aspectFit" src="../images/icons/addpic.svg"/>
       </view>
 
     </view>
@@ -271,7 +304,8 @@
     }
 
     data = {
-      cachepics: null,
+      cachepics: [],
+      oldpics: [],
       upborad: true,
       postForm: {
         title: '',
@@ -321,14 +355,14 @@
             return 0
           }
           // console.log(this.postForm['is_deal'], value)
-          if (this.postForm['is_deal'] == 2 && item != 'picturesSrc') {
+          if (this.postForm['is_deal'] == 2 && item != 'picturesSrc'  && item != 'pictures') {
             if (value == undefined || value == null || value.length == 0) {
               console.log(item, value)
               return 0
             }
           }
 
-          if (this.postForm['is_deal'] == 1 && item != 'picturesSrc'  && (item != 'sell_price' && item != 'origin_price') && (value == undefined || value == null || value.length == 0) ) {
+          if (this.postForm['is_deal'] == 1 && item != 'picturesSrc'  && item != 'pictures'  && (item != 'sell_price' && item != 'origin_price') && (value == undefined || value == null || value.length == 0) ) {
             console.log(item, value)
             return 0
           }
@@ -346,55 +380,88 @@
     async postFormToNet (obj) {
       let self = this
       let itemId = this.itemId
-      let token = this.$parent.globalData.code
-      let pictures = self.cachepics
+      let pictures = self.postForm.picturesSrc //
+      let cachePics = self.cachepics
       let form = self.clone(obj)
+      let codePics = []
       if (!itemId) {
         form._id = 1
         form.upload_times = 1
+      } else {
+        codePics = self.oldpics
       }
-      if (!pictures || pictures.length === 0) {
-        return self.$parent.Request({
+      let firstPromise =  self.$parent.Request({
           url: 'commodity/pub',
           method: 'POST',
           data: form
-        })
+      })
+      console.log(pictures)
+      if ((!cachePics || cachePics.length == 0) && !itemId) {
+        return firstPromise
       }
-      let item = pictures.slice(0, 1)[0]
-      console.log('first', form)
-      let firstPromise = self.$parent.Upload({
-          name: 'pictures',
-          formData: form,
-          filePath: item,
-          url: 'commodity/pub'
-        }, token)
       let resData = await firstPromise
       console.log(resData)
-      let objData = JSON.parse(resData)
-      let [_id, post_time] = [objData.data._id, objData.data.upload_times]
-      let form2 = self.clone(form)
-      form2._id = _id
-      form2.upload_times = post_time
-      console.log('second', form2)
-      let promises = pictures.slice(1).map((item) => {
-        return self.$parent.Upload({
-          name: 'pictures',
-          formData: form2,
-          filePath: item,
-          url: 'commodity/pub'
-        }, token)
-      })
-      return Promise.all(promises)
-    }
+      console.log(codePics)
+      let _id = resData.data._id
 
+      // 上传图像
+      if (cachePics.length > 0) {
+        resData = await self.$parent.Upload({
+          name: 'picture_file',
+          formData: {
+            _id: _id,
+            pictures: JSON.stringify(codePics)
+          },
+          filePath: cachePics[0],
+          url: 'commodity/photo'
+        })
+        for (let item in cachePics) {
+          let val = cachePics[item]
+          console.log(item == 0)
+          if (item > 0) {
+            let obj = JSON.parse(resData)
+            let newpics = obj.data.pictures
+            resData = await self.$parent.Upload({
+              name: 'picture_file',
+              formData: {
+                _id: _id,
+                pictures: JSON.stringify(newpics)
+              },
+              filePath: val,
+              url: 'commodity/photo'
+            })
+          }
+          console.log(resData)
+        }
+      } else if (itemId) {
+        resData = await self.$parent.Request({
+          data: {
+            _id: _id,
+            pictures: JSON.stringify(codePics)
+          },
+          method: 'POST',
+          url: 'commodity/photo'
+        })
+      }
+
+      return Promise.resolve(resData)
+    }
     methods = {
+      deletetHandler (e) {
+        let index = e.currentTarget.dataset.itemindex
+        this.postForm.picturesSrc.splice(index, 1)
+        console.log(index)
+      },
       uploadImages (e) {
         let self = this
         wepy.chooseImage({
           count: 6,
           success: (res) => {
-            self.postForm.picturesSrc = res.tempFilePaths
-            self.cachepics = res.tempFilePaths
+            console.log(self.postForm.picturesSrc)
+            let data1 = self.postForm.picturesSrc
+            let data2 = self.cachepics
+            self.postForm.picturesSrc = data1.concat(res.tempFilePaths)
+            self.cachepics = data2.concat(res.tempFilePaths)
             self.$apply()
           }
         })
@@ -472,6 +539,7 @@
       }, token).then((res) => {
         self.postForm = res.data
         self.postForm.picturesSrc = res.data.pictures
+        self.oldpics = res.data.pictures
         self.$apply()
       })
     }

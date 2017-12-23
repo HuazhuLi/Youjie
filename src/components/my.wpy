@@ -178,7 +178,7 @@ page{
         </view>
         <view class="identify {{ifIdentify ? '' : 'fail'}}" >
           <image mode="aspectFill" src="../images/icons/{{ifIdentify ? 'yes.svg' : 'yes_no.svg'}}"/>
-          {{ifIdentify ? '已通过认证' : '未通过认证'}}
+          {{identifyWord}}
         </view>
       </navigator>
     </view>
@@ -293,8 +293,18 @@ page{
     }
     computed = {
       ifIdentify () {
-        return this.myInfo.status == 2
-      }
+        return this.myInfo.status == 3
+      },
+      identifyWord () {
+        let status = this.myInfo.status
+        if (status == 1) {
+          return '未认证'
+        } else if (status == 2) {
+          return '审核中'
+        } else {
+          return '通过认证'
+        }
+      },
     }
     methods = {
     }

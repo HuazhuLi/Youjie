@@ -19,7 +19,9 @@ page {
   min-height: 100%;
   background-color: #faf9f8;
 }
-
+input{
+  overflow: visible;
+}
 
 </style>
 
@@ -48,6 +50,7 @@ export default class extends wepy.app {
       'pages/rentinfo',
       'pages/rentcategory',
       'pages/thingsinfo',
+      'pages/search',
       'pages/aboutus',
       'pages/feedback',
       'pages/myfavor',
@@ -90,8 +93,8 @@ export default class extends wepy.app {
       }
       if (token) {
         object.header['token'] = token
-      } else if (that.code) {
-        object.header['token'] = that.code
+      } else {
+        object.header['token'] = that.globalData.code
       }
       // console.log(object, that.globalData.code)
       wx.uploadFile(object)

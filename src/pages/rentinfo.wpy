@@ -210,10 +210,10 @@
     </view>
   </view>
   <view class="bottomtabs">
-    <view @tap="shareHandler" open-type="share" size="mini" class="item">
+    <button @tap="shareHandler" open-type="share" size="mini" class="item">
       <image mode="aspectFit" src="../images/icons/share.svg"></image>
       <text>分享</text>
-    </view>
+    </button>
     <view @tap="contactHandler" class="want">
       去帮助
     </view>

@@ -1,0 +1,100 @@
+<style lang="less">
+
+</style>
+<template>
+  <view class="container">
+    <repeat wx:for="{{getThingsList}}" wx:index="index" wx:for-item="item" wx:key="index">
+      <listitem3  :thingsitem.sync="item" :indexa.sync="index"></listitem3>
+    </repeat>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import ListItem from '../components/listitem'
+
+  const TITLEALLOWLENGTH = 15
+  const DESALLOWLENGTH = 22
+  export default class MyWant extends wepy.page {
+    config = {
+      navigationBarTitleText: '搜索结果'
+    }
+
+    components = {
+      listitem3: ListItem
+    }
+
+    data = {
+      thingslist: {
+        list: [
+        ],
+        type: 'things'
+      }
+    }
+
+    computed = {
+      getThingsList () {
+        let self = this
+        let newList =  this.thingslist.list.map(self.listFilter)
+        return newList
+      }
+    }
+    listFilter (item) {
+      let date = new Date()
+      let begintime = item.pub_time
+      let title = item.title
+      let descript = item.description
+      let endtime = date.getTime()
+      let nTime = endtime - begintime
+      let day = nTime/86400000
+      let str = ''
+      if (day < 1) {
+        let hours = day * 24
+        if (hours < 1) {
+          str = Math.floor(hours * 60).toString() + '分钟前'
+        } else {
+          str = Math.floor(hours).toString() + '小时前'
+        }
+      } else {
+        str = Math.floor(day).toString() + '天前'
+      }
+      if (descript.length > DESALLOWLENGTH + 3) {
+        item.description = descript.slice(0, DESALLOWLENGTH) + '...'
+      }
+      if (title.length > TITLEALLOWLENGTH + 3) {
+        item.title = title.slice(0, TITLEALLOWLENGTH) + '...'
+      }
+      item.pubtime = str
+      return item
+    }
+    methods = {
+
+    }
+
+    events = {
+
+    }
+    getSearch (content) {
+      return this.$parent.Request({
+        url: 'search/',
+        data: {
+          content: content
+        },
+        method: 'POST'
+      })
+    }
+    onLoad (options) {
+      let self = this
+      let content = options.content
+      wx.showLoading({
+        title: '加载中',
+        mask: true
+      })
+      this.getSearch(content).then((res) => {
+        self.thingslist.list = res.data
+        self.$apply()
+        wx.hideLoading()
+      })
+    }
+  }
+</script>

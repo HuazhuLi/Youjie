@@ -96,9 +96,9 @@
     </view>
     <view class="line"></view>
     <view class="functionbox">
-      <view class="label">被浏览109次 收藏13次 喜欢21次 租用5次</view>
+      <view class="label">被浏览{{thingsitem.num_of_view}}次 收藏{{thingsitem.num_of_collect}}次 喜欢{{thingsitem.num_of_like}}次 租用{{thingsitem.num_of_rent}}次</view>
       <view class="btnbox">
-        <view @tap="deleteHandler" data-itemid="{{thingsitem._id}}" class="functionbtn">删除</view>
+        <view @tap="deleteHandler" data-itemid="{{thingsitem._id}}" data-itemindex="{{indexa}}" class="functionbtn">删除</view>
         <view @tap="reviseHandler" data-itemid="{{thingsitem._id}}" data-type="{{thingsitem.type}}" class="functionbtn">编辑</view>
       </view>
     </view>
@@ -109,7 +109,8 @@
 
   export default class ListItemPanel extends wepy.component {
     props = {
-      thingsitem: {}
+      thingsitem: {},
+      indexa: 0
     }
     data = {
     }
@@ -118,7 +119,8 @@
     methods = {
       deleteHandler (e) {
         let id = e.currentTarget.dataset.itemid
-        this.$emit('delete', id)
+        let index = e.currentTarget.dataset.itemindex
+        this.$emit('delete', id, index)
       },
       reviseHandler (e) {
         let id = e.currentTarget.dataset.itemid

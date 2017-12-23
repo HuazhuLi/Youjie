@@ -332,51 +332,72 @@
     }
     async postFormToNet (obj) {
       let self = this
-      let token = this.$parent.globalData.code
       let itemId = this.itemId
-      // return self.$parent.Request({
-      //   url: 'commodity/pub',
-      //   method: 'POST',
-      //   data: obj
-      // }, token)
-      let pictures = self.cachepics
-      let form = self.clone(self.postForm)
+      let pictures = self.postForm.picturesSrc //
+      let cachePics = self.cachepics
+      let form = self.clone(obj)
+      let codePics = []
       if (!itemId) {
         form._id = 1
         form.upload_times = 1
+      } else {
+        codePics = self.oldpics
       }
-      if (!pictures || pictures.length === 0) {
-        return self.$parent.Request({
+      let firstPromise =  self.$parent.Request({
           url: 'commodity/pub',
           method: 'POST',
           data: form
-        })
+      })
+      console.log(pictures)
+      if ((!cachePics || cachePics.length == 0) && !itemId) {
+        return firstPromise
       }
-      let item = pictures.slice(0, 1)[0]
-      console.log('first', form)
-      let firstPromise = self.$parent.Upload({
-          name: 'pictures',
-          formData: form,
-          filePath: item,
-          url: 'commodity/pub'
-        }, token)
       let resData = await firstPromise
       console.log(resData)
-      let objData = JSON.parse(resData)
-      let [_id, post_time] = [objData.data._id, objData.data.upload_times]
-      let form2 = self.clone(form)
-      form2._id = _id
-      form2.upload_times = post_time
-      console.log('second', form2)
-      let promises = pictures.slice(1).map((item) => {
-        return self.$parent.Upload({
-          name: 'pictures',
-          formData: form2,
-          filePath: item,
-          url: 'commodity/pub'
-        }, token)
-      })
-      return Promise.all(promises)
+      console.log(codePics)
+      let _id = resData.data._id
+
+      // 上传图像
+      if (cachePics.length > 0) {
+        resData = await self.$parent.Upload({
+          name: 'picture_file',
+          formData: {
+            _id: _id,
+            pictures: JSON.stringify(codePics)
+          },
+          filePath: cachePics[0],
+          url: 'commodity/photo'
+        })
+        for (let item in cachePics) {
+          let val = cachePics[item]
+          console.log(item == 0)
+          if (item > 0) {
+            let obj = JSON.parse(resData)
+            let newpics = obj.data.pictures
+            resData = await self.$parent.Upload({
+              name: 'picture_file',
+              formData: {
+                _id: _id,
+                pictures: JSON.stringify(newpics)
+              },
+              filePath: val,
+              url: 'commodity/photo'
+            })
+          }
+          console.log(resData)
+        }
+      } else if (itemId) {
+        resData = await self.$parent.Request({
+          data: {
+            _id: _id,
+            pictures: JSON.stringify(codePics)
+          },
+          method: 'POST',
+          url: 'commodity/photo'
+        })
+      }
+
+      return Promise.resolve(resData)
     }
 
     methods = {
