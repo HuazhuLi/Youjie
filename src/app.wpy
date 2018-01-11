@@ -130,6 +130,9 @@ export default class extends wepy.app {
   }
 
   onLaunch() {
+    this.getAuorize(() => {})
+  }
+  getAuorize (cb) {
     let self = this
     wx.getSetting({
         success (res) {
@@ -148,6 +151,7 @@ export default class extends wepy.app {
                     }
                 })
             }
+            cb(res)
         }
     })
   }

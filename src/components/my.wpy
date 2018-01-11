@@ -168,12 +168,12 @@ page{
   <view class="list_box first">
     <view class="list_item first">
       <view class="title">
-        <text class="name">{{myInfo.nick_name}}</text>
+        <text class="name">{{getMyInfo.nick_name}}</text>
         <text class="money">已赚200元</text>
       </view>
       <navigator url="myinfo" class="userInfo">
         <view class="iconbox">
-          <image class="avatar" mode="aspectFill" src="{{myInfo.avatar_url}}"></image>
+          <image class="avatar" mode="aspectFill" src="{{getMyInfo.avatar_url}}"></image>
           <image class="enter" mode="aspectFill" src="../images/icons/enter.svg">
         </view>
         <view class="identify {{ifIdentify ? '' : 'fail'}}" >
@@ -187,19 +187,19 @@ page{
 
     <view class="list_item second">
       <view class="myinfos">
-        <text class="number">{{myInfo.num_of_pub}}</text>
+        <text class="number">{{getMyInfo.num_of_pub}}</text>
         <text class="type">我的租品</text>
       </view>
       <view class="myinfos">
-        <text class="number">{{myInfo.num_of_view}}</text>
+        <text class="number">{{getMyInfo.num_of_view}}</text>
         <text class="type">被浏览</text>
       </view>
       <view class="myinfos">
-        <text class="number">{{myInfo.num_of_collect}}</text>
+        <text class="number">{{getMyInfo.num_of_collect}}</text>
         <text class="type">被收藏</text>
       </view>
       <view class="myinfos">
-        <text class="number">{{myInfo.num_of_rent}}</text>
+        <text class="number">{{getMyInfo.num_of_rent}}</text>
         <text class="type">被想租</text>
       </view>
     </view>
@@ -207,7 +207,7 @@ page{
     <view class="line"></view>
 
     <view class="list_item third">
-      <text class="circle">我的圈子:{{myInfo.address}}</text>
+      <text class="circle">我的圈子:{{getMyInfo.address}}</text>
       <image class="enter" mode="aspectFill" src="../images/icons/enter.svg">
     </view>
   </view>
@@ -292,6 +292,9 @@ page{
     events = {
     }
     computed = {
+      getMyInfo () {
+        return this.myInfo
+      },
       ifIdentify () {
         return this.myInfo.status == 3
       },

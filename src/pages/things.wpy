@@ -331,6 +331,9 @@
       if (title.length > TITLEALLOWLENGTH + 3) {
         item.title = title.slice(0, TITLEALLOWLENGTH) + '...'
       }
+      if (item.pictures.length > 3) {
+        item.pictures = item.pictures.slice(0, 3)
+      }
       item.pubtime = str
       return item
     }

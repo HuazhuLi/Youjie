@@ -69,7 +69,7 @@
         <text class="title">学院设置</text>
         <view class="descript ">
 
-          <picker @change="collegeHandler" type="text" range="{{collegedata}}" value="" placeholder="输入学院">
+          <picker @change="collegeHandler" type="text" range="{{collegedata}}" placeholder="输入学院">
           {{getCollege}}
           </picker>
           <image class="enter" mode="aspectFill" src="../images/icons/enter.svg"/>
@@ -79,7 +79,7 @@
       <view class="listitem">
         <text class="title">年级设置</text>
         <view class="descript ">
-          <picker  @change="classHandler" value="" range = "{{classdata}}" >{{getClass}}</picker>
+          <picker  @change="classHandler"  range = "{{classdata}}" >{{getClass}}</picker>
 
           <image class="enter" mode="aspectFill" src="../images/icons/enter.svg"/>
         </view>
@@ -88,9 +88,9 @@
       <view class="listitem">
         <text class="title">楼栋设置</text>
         <view class="descript ">
-          <picker @change="ad1Handler" value="" range = "{{addressdata1}}" >{{getAd1}}</picker>
+          <picker @change="ad1Handler" range = "{{addressdata1}}" >{{getAd1}}</picker>
           <image class="enter" mode="aspectFill" src="../images/icons/enter.svg"/>
-          <picker @change="ad2Handler" value="" range = "{{addressdata2}}" >{{getAd2}}</picker>
+          <picker @change="ad2Handler" range = "{{addressdata2}}" >{{getAd2}}</picker>
           <image class="enter" mode="aspectFill" src="../images/icons/enter.svg"/>
         </view>
       </view>
@@ -160,6 +160,7 @@
       },
       identifyWord () {
         let status = this.userInfo.status
+        console.log(status)
         if (status == 1) {
           return '未认证'
         } else if (status == 2) {
@@ -286,7 +287,8 @@
         // self.userInfo.class =  self.findIndex(res.data.class, self.classdata)
         // self.userInfo.address1 =  self.findIndex(res.data.address.slice(0, 2))
         // self.userInfo.address2 =  self.findIndex(res.data.address.slice(-3))
-        self.userInfo = res.data
+        self.userInfo.contact_way = res.data.contact_way
+        self.userInfo.status = res.data.status
         self.$apply()
       })
     }

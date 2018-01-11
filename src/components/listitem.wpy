@@ -100,7 +100,7 @@
     </view>
     <view class="line"></view>
     <view class="info">
-      <text class="font position">{{thingsitem.position}}</text>
+      <text class="font position">{{thingsitem.address}}</text>
       <text class="font time">{{thingsitem.pubtime}}发布</text>
     </view>
   </view>
@@ -110,7 +110,9 @@
 
   export default class ListItem extends wepy.component {
     props = {
-      thingsitem: {}
+      thingsitem: {
+        pictures: []
+      }
     }
     data = {
     }

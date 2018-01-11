@@ -318,6 +318,16 @@
         }
       }, token)
     }
+    userInit (cb, fcb) {
+      let self = this
+      this.$parent.getAuorize((res) => {
+        self.$parent.getUserInfo((res) => {
+          cb(res)
+        }, (rej) => {
+          fcb(res)
+        })
+      })
+    }
     onLoad (options) {
       wx.showLoading({
         title: '加载中',
@@ -325,10 +335,18 @@
       })
       let id = options.id
       let self = this
-      this.getInfo(id).then((res) => {
-        self.thingsinfo = res.data
-        self.$apply()
-        wx.hideLoading()
+      this.userInit((res) => {
+        this.getInfo(id).then((res) => {
+          self.thingsinfo = res.data
+          self.itemId = id
+          self.$apply()
+          wx.hideLoading()
+        }, (rej) => {
+          wx.showToast({
+            title: '服务出错'
+          })
+          wx.hideLoading()
+        })
       })
     }
   }
