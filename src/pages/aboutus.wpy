@@ -1,6 +1,7 @@
 <style lang="less">
 
 </style>
+
 <template>
   <view class="container">
     <text>第一条 概述</text>
@@ -15,28 +16,18 @@
 
 <script>
   import wepy from 'wepy'
-
   export default class AboutUs extends wepy.page {
     config = {
       navigationBarTitleText: '租凭须知'
     }
-    data = {
-    }
-
+    data = {}
     computed = {
-
     }
-
     methods = {
-
     }
-
     events = {
-
     }
-
     onLoad() {
-
     }
   }
 </script>

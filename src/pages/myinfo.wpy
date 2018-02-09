@@ -1,137 +1,132 @@
 <style scoped="true" lang="less">
-.enter{
-  width: 14rpx;
-  height: 25rpx;
-  transform: scale(2.3);
-  margin-left:10rpx;
-}
-.listitem{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 120rpx;
-  width: 100%;
-  box-sizing: border-box;
-  padding: 38rpx 30rpx 42rpx 30rpx;
-  background: #ffffff;
-  .title{
-    font-size:28rpx;
-    color:#3e3835;
-    letter-spacing:1rpx;
+  .enter {
+    width: 14rpx;
+    height: 25rpx;
+    transform: scale(2.3);
+    margin-left: 10rpx;
   }
-  .descript{
+  .pass{
+    margin-right: 10rpx;
+  }
+  .listitem {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    font-size:28rpx;
-    color:#aba4a1;
-    letter-spacing:1rpx;
-
-    &.identify{
-      color:#64d544;
+    height: 120rpx;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 38rpx 30rpx 42rpx 30rpx;
+    background: #ffffff;
+    .title {
+      font-size: 28rpx;
+      color: #3e3835;
+      letter-spacing: 1rpx;
     }
-    input {
-      display: inline-block;
-      text-align: right;
-    }
-    picker{
-      min-width: 50rpx;
-      float: right;
-      color:#3e3835;
-      text-align: right;
+    .descript {
+      display: flex;
+      align-items: center;
+      font-size: 28rpx;
+      color: #aba4a1;
+      letter-spacing: 1rpx;
+      &.identify {
+        color: #64d544;
+      }
+      input {
+        display: inline-block;
+        text-align: right;
+      }
+      picker {
+        min-width: 50rpx;
+        float: right;
+        color: #3e3835;
+        text-align: right;
+      }
     }
   }
-}
-.line{
-  background: #eeeeee;
-  width:725rpx;
-  height:2rpx;
-}
-.btn{
-  transition: all .5s;
-  margin-top: 100rpx;
-  background:#9c9c9c;
-  width:640rpx;
-  height:75rpx;
-  line-height: 75rpx;
-  vertical-align: middle;
-  text-align: center;
-  font-size:32rpx;
-  color:#ffffff;
-  letter-spacing:2rpx;
-  &.pass{
-    background:#ff4949;
+  .line {
+    background: #eeeeee;
+    width: 725rpx;
+    height: 2rpx;
   }
-}
+  .btn {
+    transition: all .5s;
+    margin-top: 100rpx;
+    background: #9c9c9c;
+    width: 640rpx;
+    height: 75rpx;
+    line-height: 75rpx;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 32rpx;
+    color: #ffffff;
+    letter-spacing: 2rpx;
+    &.pass {
+      background: #ff4949;
+    }
+  }
 </style>
+
 <template>
   <view class="container">
-      <view class="listitem">
-        <text class="title">学院设置</text>
-        <view class="descript ">
-
-          <picker @change="collegeHandler" type="text" range="{{collegedata}}" placeholder="输入学院">
+    <view class="listitem">
+      <text class="title">学院设置</text>
+      <view class="descript ">
+        <picker @change="collegeHandler" type="text" range="{{collegedata}}" placeholder="输入学院">
           {{getCollege}}
-          </picker>
-          <image class="enter" mode="aspectFill" src="../images/icons/enter.svg"/>
-        </view>
+        </picker>
+        <image class="enter" mode="aspectFill" src="../images/icons/enter.svg" />
       </view>
-      <view wx:if="{{item.type != 'id'}}" class="line"></view>
-      <view class="listitem">
-        <text class="title">年级设置</text>
-        <view class="descript ">
-          <picker  @change="classHandler"  range = "{{classdata}}" >{{getClass}}</picker>
-
-          <image class="enter" mode="aspectFill" src="../images/icons/enter.svg"/>
-        </view>
+    </view>
+    <view wx:if="{{item.type != 'id'}}" class="line"></view>
+    <view class="listitem">
+      <text class="title">年级设置</text>
+      <view class="descript ">
+        <picker @change="classHandler" range="{{classdata}}">{{getClass}}</picker>
+        <image class="enter" mode="aspectFill" src="../images/icons/enter.svg" />
       </view>
-      <view wx:if="{{item.type != 'id'}}" class="line"></view>
-      <view class="listitem">
-        <text class="title">楼栋设置</text>
-        <view class="descript ">
-          <picker @change="ad1Handler" range = "{{addressdata1}}" >{{getAd1}}</picker>
-          <image class="enter" mode="aspectFill" src="../images/icons/enter.svg"/>
-          <picker @change="ad2Handler" range = "{{addressdata2}}" >{{getAd2}}</picker>
-          <image class="enter" mode="aspectFill" src="../images/icons/enter.svg"/>
-        </view>
+    </view>
+    <view wx:if="{{item.type != 'id'}}" class="line"></view>
+    <view class="listitem">
+      <text class="title">楼栋设置</text>
+      <view class="descript ">
+        <picker @change="ad1Handler" range="{{addressdata1}}">{{getAd1}}</picker>
+        <image class="enter" mode="aspectFill" src="../images/icons/enter.svg" />
+        <picker @change="ad2Handler" range="{{addressdata2}}">{{getAd2}}</picker>
+        <image class="enter" mode="aspectFill" src="../images/icons/enter.svg" />
       </view>
-      <view wx:if="{{item.type != 'id'}}" class="line"></view>
-      <view class="listitem">
-        <text class="title">联系方式</text>
-        <view class="descript ">
-          <input type="text" value="{{userInfo.contact_way}}" @input="contactHandler"/>
-
-          <image class="enter" mode="aspectFill" src="../images/icons/enter.svg"/>
-        </view>
+    </view>
+    <view wx:if="{{item.type != 'id'}}" class="line"></view>
+    <view class="listitem">
+      <text class="title">联系方式</text>
+      <view class="descript ">
+        <input type="text" value="{{userInfo.contact_way}}" @input="contactHandler" />
+        <image class="enter" mode="aspectFill" src="../images/icons/enter.svg" />
       </view>
-      <view wx:if="{{item.type != 'id'}}" class="line"></view>
-      <view @tap="openVertify" class="listitem">
-        <text class="title">校园身份验证</text>
-        <view class="descript  {{ifIdentify ? 'identify' : ''}}">
-          <image wx:if="{{ifIdentify}}" class="enter" mode="aspectFill" src="../images/icons/yes.svg"/>
-          {{identifyWord}}
-          <image class="enter" mode="aspectFill" src="../images/icons/enter.svg"/>
-        </view>
+    </view>
+    <view wx:if="{{item.type != 'id'}}" class="line"></view>
+    <view @tap="openVertify" class="listitem">
+      <text class="title">校园身份验证</text>
+      <view class="descript  {{ifIdentify ? 'identify' : ''}}">
+        <image wx:if="{{ifIdentify}}" class="enter pass" mode="aspectFill" src="../images/icons/yes.svg" /> {{identifyWord}}
+        <image class="enter" mode="aspectFill" src="../images/icons/enter.svg" />
       </view>
-      <view @tap="upload" class="btn {{formOk ? 'pass' : ''}}">确定</view>
+    </view>
+    <view @tap="upload" class="btn {{formOk ? 'pass' : ''}}">确定</view>
   </view>
 </template>
 
 <script>
   import wepy from 'wepy'
-
   export default class MyInfo extends wepy.page {
     config = {
       navigationBarTitleText: '编辑个人信息'
     }
-
     components = {
-
     }
-
     data = {
-      collegedata: ['未选择','机械科学与工程学院','计算机科学与技术学院','生命科学与技术学院','电气与电子工程学院','材料科学与工程学院','船舶与海洋工程学院','能源与动力工程学院','自动化学院','光学与电子信息学院','水电与数字化工程学院','软件学院','环境科学与工程学院','电子信息与通信学院','建筑与城市规划学院','土木工程与力学学院','化学与化工学院','数学与统计学院','物理学院','公共管理学院','经济学院','管理学院','人文学院','新闻与信息传播学院','马克思主义学院','社会学院','法学院','外国语学院','基础医学院','药学院','医药卫生管理学院','公共卫生学院','法医学系','护理学院','计划生育研究所','第一临床学院','第二临床学院','第三临床学院','远程与继续教育学院','教育科学研究院','中欧清洁与可再生能源学院','体育部','武汉光电国家实验室（筹）','工程科学学院（国际化示范学院）','武汉国际微电子学院','航空航天学院'],
-      classdata: ['未选择','本科14级','本科15级','本科16级','本科17级','研究生','博士'],
-      addressdata1: ['未选择','韵苑', '沁苑', '紫菘', '研究生公寓','博士生公寓','其他'],
+      collegedata: ['未选择', '机械科学与工程学院', '计算机科学与技术学院', '生命科学与技术学院', '电气与电子工程学院', '材料科学与工程学院', '船舶与海洋工程学院', '能源与动力工程学院', '自动化学院', '光学与电子信息学院', '水电与数字化工程学院', '软件学院', '环境科学与工程学院', '电子信息与通信学院', '建筑与城市规划学院', '土木工程与力学学院', '化学与化工学院', '数学与统计学院', '物理学院', '公共管理学院', '经济学院', '管理学院', '人文学院', '新闻与信息传播学院', '马克思主义学院', '社会学院', '法学院', '外国语学院', '基础医学院', '药学院', '医药卫生管理学院', '公共卫生学院', '法医学系', '护理学院', '计划生育研究所', '第一临床学院', '第二临床学院', '第三临床学院', '远程与继续教育学院', '教育科学研究院', '中欧清洁与可再生能源学院', '体育部', '武汉光电国家实验室（筹）', '工程科学学院（国际化示范学院）', '武汉国际微电子学院', '航空航天学院'],
+      classdata: ['未选择', '本科14级', '本科15级', '本科16级', '本科17级', '研究生', '博士'],
+      addressdata1: ['未选择', '韵苑', '沁苑', '紫菘', '研究生公寓', '博士生公寓', '其他'],
       addressdata2: ['未选择'],
       userInfo: {
         college: 0,
@@ -141,26 +136,24 @@
         contact_way: undefined
       }
     }
-
     computed = {
-      getCollege () {
+      getCollege() {
         return this.collegedata[this.userInfo.college]
       },
-      getClass () {
+      getClass() {
         return this.classdata[this.userInfo.class]
       },
-      getAd1 () {
+      getAd1() {
         return this.addressdata1[this.userInfo.address1]
       },
-      getAd2 () {
+      getAd2() {
         return this.addressdata2[this.userInfo.address2]
       },
-      ifIdentify () {
+      ifIdentify() {
         return this.userInfo.status == 3
       },
-      identifyWord () {
+      identifyWord() {
         let status = this.userInfo.status
-        console.log(status)
         if (status == 1) {
           return '未认证'
         } else if (status == 2) {
@@ -169,26 +162,24 @@
           return '通过认证'
         }
       },
-      formOk () {
+      formOk() {
         let obj = this.data.userInfo
         for (let item in obj) {
           let val = obj[item]
           if (val == undefined || (item == 'address1' && val == 0) || (item == 'college' && val == 0) || (item == 'class' && val == 0) || val.length == 0) {
-            console.log(item, val)
             return 0
           }
         }
         return 1
       }
     }
-
     methods = {
-      upload (e) {
+      upload(e) {
         if (this.formOk) {
           this.uploadUserInfo()
         }
       },
-      openVertify (e) {
+      openVertify(e) {
         let status = this.ifIdentify
         if (!status) {
           wx.navigateTo({
@@ -196,27 +187,26 @@
           })
         }
       },
-      contactHandler (e) {
+      contactHandler(e) {
         this.userInfo.contact_way = e.detail.value
       },
-      collegeHandler (e) {
+      collegeHandler(e) {
         this.userInfo.college = e.detail.value
       },
-      classHandler (e) {
+      classHandler(e) {
         this.userInfo.class = e.detail.value
       },
-      ad1Handler (e) {
+      ad1Handler(e) {
         let self = this
         this.userInfo.address1 = e.detail.value
-        console.log(e.detail.value === '1')
         switch (e.detail.value) {
-          case '1':
+          case 1:
             self.addressdata2 = self.generateArray(28)
             break
-          case '2':
+          case 2:
             self.addressdata2 = self.generateArray(8)
             break
-          case '3':
+          case 3:
             self.addressdata2 = self.generateArray(13)
             break
           default:
@@ -225,37 +215,40 @@
         self.userInfo.address2 = 0
         self.$apply()
       },
-      ad2Handler (e) {
+      ad2Handler(e) {
         this.userInfo.address2 = e.detail.value
       }
     }
-    generateArray (range) {
+    generateArray(range) {
       let arr = new Array(range)
       for (let i = 1; i <= range; i++) {
         arr[i - 1] = i + '栋'
       }
       return arr
     }
-    findIndex (font, arr) {
+    findIndex(font, arr) {
       for (let i = 0; i < arr.length; i++) {
         let val = arr[i]
+        let ok = 1
         for (let j = 0; j < val.length; j++) {
-          if (val[j] == font) {
-            return i
+          if (val[j] !== font[j]) {
+            ok = 0
           }
         }
+        if (ok) {
+          return i
+        }
       }
-      return undefined
+      return 0
     }
     events = {
-
     }
-    uploadUserInfo () {
+    uploadUserInfo() {
       let self = this
       let data = {}
       data.college = self.getCollege
       data.class = self.getClass
-      data.address = self.getAd1 + '|' + self.getAd2
+      data.address = self.getAd1 + ' ' + self.getAd2
       data.contact_way = self.userInfo.contact_way
       wx.showLoading({
         title: '上传中'
@@ -275,18 +268,36 @@
           }
         })
       }, (rej) => {
-
       })
     }
-    getUserInfo () {
+    getUserInfo() {
       let self = this
       this.$parent.Request({
         url: 'user/get_personal_information'
       }).then((res) => {
-        // self.userInfo.college =  self.findIndex(res.data.college, self.collegedata)
-        // self.userInfo.class =  self.findIndex(res.data.class, self.classdata)
-        // self.userInfo.address1 =  self.findIndex(res.data.address.slice(0, 2))
-        // self.userInfo.address2 =  self.findIndex(res.data.address.slice(-3))
+        let address = res.data.address.split(' ')
+        let address2 = []
+        self.userInfo.college = self.findIndex(res.data.college, self.collegedata)
+        self.userInfo.class = self.findIndex(res.data.class, self.classdata)
+        self.userInfo.address1 = self.findIndex(address[0], self.addressdata1)
+
+        switch (self.findIndex(address[0], self.addressdata1)) {
+          case 1:
+            address2 = self.generateArray(28)
+            self.addressdata2 = address2
+            break
+          case 2:
+            address2 = self.generateArray(8)
+            self.addressdata2 = address2
+            break
+          case 3:
+            address2 = self.generateArray(13)
+            self.addressdata2 = address2
+            break
+          default:
+            self.addressdata2 = ['全区']
+        }
+        self.userInfo.address2 = self.findIndex(address[1], address2)
         self.userInfo.contact_way = res.data.contact_way
         self.userInfo.status = res.data.status
         self.$apply()

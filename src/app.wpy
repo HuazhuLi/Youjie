@@ -1,222 +1,215 @@
 <style lang='less'>
-.container {
-  height: 100%;
-  width: 100%;
-  margin-bottom: 50rpx;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-}
-.line{
-  background: #eeeeee;
-  width:725rpx;
-  height:2rpx;
-}
-page {
-  display: block;
-  min-height: 100%;
-  background-color: #faf9f8;
-}
-input{
-  overflow: visible;
-}
-
+  .container {
+    height: 100%;
+    width: 100%;
+    margin-bottom: 50rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+  }
+  .line {
+    background: #eeeeee;
+    width: 725rpx;
+    height: 2rpx;
+  }
+  page {
+    display: block;
+    min-height: 100%;
+    background-color: #faf9f8;
+  }
+  input {
+    overflow: visible;
+  }
 </style>
 
 <script>
-import wepy from 'wepy'
-import 'wepy-async-function'
-
-const BASE_URL = 'https://youjie.hustonline.net/api/v1/'
-
-export default class extends wepy.app {
-  config = {
-    pages: [
-      'pages/things',
-      'pages/circle',
-      'pages/filter',
-      'pages/firstknow',
-      'pages/my',
-      'pages/myinfo',
-      'pages/myfab',
-      'pages/mypost',
-      'pages/myborrow',
-      'pages/mywant',
-      'pages/postrent',
-      'pages/postthings',
-      'pages/rent',
-      'pages/rentinfo',
-      'pages/rentcategory',
-      'pages/thingsinfo',
-      'pages/search',
-      'pages/aboutus',
-      'pages/feedback',
-      'pages/myfavor',
-      'pages/vertificateid'
-    ],
-    networkTimeout: {
-      request: 10000
-    },
-    window: {
-      backgroundTextStyle: 'light',
-      navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: '求租',
-      navigationBarTextStyle: 'black'
+  import wepy from 'wepy'
+  import 'wepy-async-function'
+  const BASE_URL = 'https://youjie.hustonline.net/api/v1/'
+  export default class extends wepy.app {
+    config = {
+      pages: [
+        'pages/things',
+        'pages/circle',
+        'pages/filter',
+        'pages/firstknow',
+        'pages/myinfo',
+        'pages/myfab',
+        'pages/mypost',
+        'pages/myborrow',
+        'pages/mywant',
+        'pages/postrent',
+        'pages/postthings',
+        'pages/rent',
+        'pages/rentinfo',
+        'pages/rentcategory',
+        'pages/thingsinfo',
+        'pages/search',
+        'pages/aboutus',
+        'pages/feedback',
+        'pages/myfavor',
+        'pages/vertificateid'
+      ],
+      networkTimeout: {
+        request: 10000
+      },
+      window: {
+        backgroundTextStyle: 'light',
+        navigationBarBackgroundColor: '#fff',
+        navigationBarTitleText: '求租',
+        navigationBarTextStyle: 'black'
+      }
     }
-  }
-
-  globalData = {
-    userInfo: null,
-    categorys: null,
-    code: null
-  }
-
-  constructor () {
-    super()
-    this.use('requestfix')
-  }
-
-  Upload (object, token) {
-    let that = this
-    return new Promise((res, rej) => {
-      object.url = BASE_URL + object.url
-      object.success = (data) => {
-        res(data.data)
-      }
-      object.fail = (err) => {
-        rej(err.data)
-      }
-      object.header = {
-        token: null
-      }
-      if (token) {
-        object.header['token'] = token
-      } else {
-        object.header['token'] = that.globalData.code
-      }
-      // console.log(object, that.globalData.code)
-      wx.uploadFile(object)
-    })
-  }
-
-  Request (object, token) {
-    let that = this
-    return new Promise((res, rej) => {
-      object.url = BASE_URL + object.url
-      object.success = (data) => {
-        if (data.data.status == '2200') {
+    globalData = {
+      userInfo: null,
+      categorys: null,
+      code: null
+    }
+    constructor() {
+      super()
+      this.use('requestfix')
+    }
+    Upload(object, token) {
+      let that = this
+      return new Promise((res, rej) => {
+        object.url = BASE_URL + object.url
+        object.success = (data) => {
           res(data.data)
+        }
+        object.fail = (err) => {
+          rej(err.data)
+        }
+        object.header = {
+          token: null
+        }
+        if (token) {
+          object.header['token'] = token
         } else {
-          rej(data)
+          object.header['token'] = that.globalData.code
         }
-      }
-      object.fail = (err) => {
-        rej(err.data)
-      }
-      object.header = {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        token: null
-      }
-      if (token) {
-        object.header['token'] = token
-      } else {
-        object.header['token'] = that.globalData.code
-      }
-      // console.log(object, that.globalData.code)
-      wepy.request(object)
-    })
-  }
-
-  onLaunch() {
-    this.getAuorize(() => {})
-  }
-  getAuorize (cb) {
-    let self = this
-    wx.getSetting({
-        success (res) {
-            if (!res.authSetting['scope.userInfo']) {
-                wx.authorize({
-                    scope: 'scope.userInfo',
-                    success () {
-                        self.getUserInfo()
-                    }
-                })
-            }
-            if (!res.authSetting['scope.userLocation']) {
-                wx.authorize({
-                    scope: 'scope.userLocation',
-                    success() {
-                    }
-                })
-            }
-            cb(res)
-        }
-    })
-  }
-  getCategorys (cb, fcb) {
-    if (this.globalData.categorys) {
-      cb(this.globalData.categorys)
+        // console.log(object, that.globalData.code)
+        wx.uploadFile(object)
+      })
     }
-    let self = this
-    let token = self.globalData.code
-
-    self.Request({
-      url: 'commodity/filter'
-    }, token).then((res) => {
-      console.log(res)
-      self.globalData.categorys = res.data
-      cb(res.data)
-    }, (rej) => {
-      fcb(rej)
-    })
-  }
-  getUserInfo(cb, fcb) {
-    const that = this
-    wx.login({
-      success: function (data) {
-        if (data.code) {
-          that.Request({
-           url: 'login',
-           method: 'POST',
-           data: {
-             code: data.code
-           }}).then((res) => {
-
-             that.globalData.code = res.data.token
-
-             wepy.getUserInfo({
-                fail (res) {fcb(res)},
-                success (res) {
+    Request(object, token) {
+      let that = this
+      return new Promise((res, rej) => {
+        object.url = BASE_URL + object.url
+        object.success = (data) => {
+          if (data.data.status == '2200') {
+            res(data.data)
+          } else {
+            rej(data)
+          }
+        }
+        object.fail = (err) => {
+          rej(err.data)
+        }
+        object.header = {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          token: null
+        }
+        if (token) {
+          object.header['token'] = token
+        } else {
+          object.header['token'] = that.globalData.code
+        }
+        // console.log(object, that.globalData.code)
+        wepy.request(object)
+      })
+    }
+    onLaunch() {
+      this.getAuorize(() => {})
+    }
+    getAuorize(cb) {
+      let self = this
+      wx.getSetting({
+        success(res) {
+          if (!res.authSetting['scope.userInfo']) {
+            wx.authorize({
+              scope: 'scope.userInfo',
+              success() {
+                self.getUserInfo()
+              }
+            })
+          }
+          if (!res.authSetting['scope.userLocation']) {
+            wx.authorize({
+              scope: 'scope.userLocation',
+              success() {}
+            })
+          }
+          cb(res)
+        }
+      })
+    }
+    getCategorys(cb, fcb) {
+      if (this.globalData.categorys) {
+        cb(this.globalData.categorys)
+      }
+      let self = this
+      let token = self.globalData.code
+      self.Request({
+        url: 'commodity/filter'
+      }, token).then((res) => {
+        console.log(res)
+        self.globalData.categorys = res.data
+        cb(res.data)
+      }, (rej) => {
+        fcb(rej)
+      })
+    }
+    getUserInfo(cb, fcb) {
+      const that = this
+      wx.login({
+        success: function(data) {
+          if (data.code) {
+            that.Request({
+              url: 'login',
+              method: 'POST',
+              data: {
+                code: data.code
+              }
+            }).then((res) => {
+              that.globalData.code = res.data.token
+              wepy.getUserInfo({
+                fail(res) {
+                  fcb(res)
+                },
+                success(res) {
                   that.globalData.userInfo = res.userInfo
                   let userinfo = res.userInfo
                   that.Request({
-                   url: 'upload',
-                   method: 'POST',
-                   data: {
-                     nick_name: userinfo.nickName,
-                     avatar_url: userinfo.avatarUrl
-                   }}, that.globalData.code).then((res) => {
-
-
-                     that.Request({
-                       url: 'user'
-                     }, that.globalData.code).then((res) => {
-
-                       // console.log(res)
-                       cb(res)
-
-                     }, (rej) => {fcb(rej)})
-                   }, (rej) => {fcb(rej)})
-
+                    url: 'upload',
+                    method: 'POST',
+                    data: {
+                      nick_name: userinfo.nickName,
+                      avatar_url: userinfo.avatarUrl
+                    }
+                  }, that.globalData.code).then((res) => {
+                    that.Request({
+                      url: 'user'
+                    }, that.globalData.code).then((res) => {
+                      // console.log(res)
+                      cb(res)
+                    }, (rej) => {
+                      fcb(rej)
+                    })
+                  }, (rej) => {
+                    fcb(rej)
+                  })
                 }
               })
-
-           }, (rej) => {fcb(rej)}).then((res) => {}, (rej) => {fcb(rej)})
-         }
-      }
-    })
+            }, (rej) => {
+              fcb(rej)
+            }).then((res) => {}, (rej) => {
+              fcb(rej)
+            })
+          }
+        }
+      })
+    }
   }
-}
 </script>

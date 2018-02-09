@@ -1,164 +1,164 @@
 <style scoped="true" lang="less">
-.list{
-  position: relative;
-  box-sizing: border-box;
-  top: 80rpx;
-  padding-bottom: 95rpx;
-  &.my{
-    top: 0;
+  .list {
+    position: relative;
+    box-sizing: border-box;
+    top: 80rpx;
+    padding-bottom: 95rpx;
+    &.my {
+      top: 0;
+    }
   }
-}
-.hidden{
-  padding-bottom: 0rpx;
-}
-.empty{
-  text-align: center;
-  box-sizing: border-box;
-  padding: 111rpx 0 0 0;
-  image{
-    display: block;
-    margin: auto;
+  .hidden {
+    padding-bottom: 0rpx;
   }
-  text{
-    font-size:24rpx;
-    margin-top: 17rpx;
-    color:#a59894;
-    letter-spacing:0.86px;
+  .empty {
+    text-align: center;
+    box-sizing: border-box;
+    padding: 111rpx 0 0 0;
+    image {
+      display: block;
+      margin: auto;
+    }
+    text {
+      font-size: 24rpx;
+      margin-top: 17rpx;
+      color: #a59894;
+      letter-spacing: 0.86px;
+    }
+    .gotorent {
+      background: #ff7777;
+      border-radius: 15rpx;
+      width: 180rpx;
+      height: 60rpx;
+      font-size: 32rpx;
+      line-height: 60rpx;
+      vertical-align: middle;
+      color: #ffffff;
+      letter-spacing: 1.14rpx;
+      text-align: center;
+      margin: auto;
+      margin-top: 18rpx;
+    }
   }
-
-  .gotorent{
-    background:#ff7777;
-    border-radius:15rpx;
-    width:180rpx;
-    height:60rpx;
-    font-size:32rpx;
-    line-height: 60rpx;
-    vertical-align: middle;
-    color:#ffffff;
-    letter-spacing:1.14rpx;
-    text-align:center;
-    margin:auto;
-    margin-top: 18rpx;
+  .floatbtn {
+    background: #ffffff;
+    box-shadow: 2rpx 4rpx 7rpx 0 rgba(0, 0, 0, 0.23);
+    width: 90rpx;
+    height: 90rpx;
+    border-radius: 100%;
+    position: fixed;
+    z-index: 999;
+    bottom: 128rpx;
+    right: 68rpx;
+    image {
+      width: 90rpx;
+      height: 90rpx;
+    }
   }
-}
-.floatbtn{
-  background:#ffffff;
-  box-shadow:2rpx 4rpx 7rpx 0 rgba(0,0,0,0.23);
-  width:90rpx;
-  height:90rpx;
-  border-radius:100%;
-  position: fixed;
-  z-index: 999;
-  bottom: 128rpx;
-  right: 68rpx;
-  image{
-    width:90rpx;
-    height:90rpx;
-  }
-}
-.searchbox{
-  display: flex;
-  width: 100%;
-  height: 100rpx;
-  box-sizing: border-box;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 24rpx 32rpx 25rpx 30rpx;
-  .container{
-    transition: all 0.5s;
-    transform-origin: left;
+  .searchbox {
     display: flex;
-    padding: 11rpx 0 12rpx 16rpx;
+    width: 100%;
+    height: 100rpx;
     box-sizing: border-box;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    background:#ffffff;
-    border-radius:15rpx;
-    width:85%;
-    height:50rpx;
-    margin: 0;
-    &.open{
-      width: 640rpx;
+    padding: 24rpx 32rpx 25rpx 30rpx;
+    .container {
+      transition: all 0.5s;
+      transform-origin: left;
+      display: flex;
+      padding: 11rpx 0 12rpx 16rpx;
+      box-sizing: border-box;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      background: #ffffff;
+      border-radius: 15rpx;
+      width: 85%;
+      height: 50rpx;
+      margin: 0;
+      &.open {
+        width: 640rpx;
+      }
+      image {
+        height: 28rpx;
+        width: 28rpx;
+        transform: scale(2);
+      }
+      input {
+        width: 93%;
+        height: 30rpx;
+        font-size: 22rpx;
+        color: #a9a29f;
+        letter-spacing: 0.79rpx;
+      }
     }
-    image{
-      height: 28rpx;
-      width: 28rpx;
-      transform: scale(2);
-    }
-    input{
-      width: 93%;
-      height: 30rpx;
-      font-size:22rpx;
-      color:#a9a29f;
-      letter-spacing:0.79rpx;
+    .searchlabel {
+      transition: all .5s;
+      position: absolute;
+      right: 12rpx;
+      width: 15%;
+      height: 31rpx;
+      font-size: 24rpx;
+      margin-left: 12rpx;
+      color: #3e3835;
+      letter-spacing: 1.33rpx;
+      display: flex;
+      margin-left: 33rpx;
+      image {
+        width: 25rpx;
+        height: 33rpx;
+        margin-left: 10rpx;
+        transform: scale(2);
+      }
     }
   }
-  .searchlabel{
+  .searchPanel {
     transition: all .5s;
-    position: absolute;
-    right: 12rpx;
-    width: 15%;
-    height: 31rpx;
-    font-size:24rpx;
-    margin-left: 12rpx;
-    color:#3e3835;
-    letter-spacing:1.33rpx;
-    display: flex;
-    margin-left: 33rpx;
-    image{
-      width:25rpx;
-      height:33rpx;
-      margin-left: 10rpx;
-      transform: scale(2);
+    height: 0rpx;
+    width: 80%;
+    overflow: hidden;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    padding-top: 0rpx;
+    &.open {
+      height: 750rpx;
+      padding-top: 16rpx;
+    }
+    p {
+      margin-left: 32rpx;
+      margin-top: 16rpx;
+      line-height: 30rpx;
+      display: block;
+      font-size: 24rpx;
+      color: #a9a29f;
+      letter-spacing: 0.86rpx;
     }
   }
-}
-.searchPanel{
-  transition: all .5s;
-  height: 0rpx;
-  width: 80%;
-  overflow: hidden;
-  box-sizing: border-box;
-  background-color: #ffffff;
-  padding-top: 0rpx;
-  &.open{
-    height: 750rpx;
-    padding-top: 16rpx;
+  .listcontainer {
+    width: 750rpx;
   }
-  p{
-    margin-left: 32rpx;
-    margin-top: 16rpx;
-    line-height: 30rpx;
-    display: block;
-    font-size:24rpx;
-    color:#a9a29f;
-    letter-spacing:0.86rpx;
+  .filterbox {
+    transition: all .5s;
+    position: fixed;
+    height: 100%;
+    z-index: 1200;
+    right: 0;
+    top: 0;
+    width: 663rpx;
+    &.close {
+      right: -100%;
+    }
   }
-}
-.listcontainer{
-  width: 750rpx;
-}
-.filterbox{
-  transition: all .5s;
-  position: fixed;
-  height: 100%;
-  z-index: 1200;
-  right: 0;
-  top: 0;
-  width:663rpx;
-  &.close{
-    right: -100%;
-  }
-}
 </style>
+
 <template>
   <view class="container list {{ifNoMargin ? 'my' : ''}}">
     <view class="listcontainer" hidden="{{tabIndexB != 0}}">
       <view class="mask"></view>
       <view class="filterbox {{showFilter ? 'open' : 'close'}}">
-        <filter  :ifShow.sync="showFilter"></filter>
+        <filter :ifShow.sync="showFilter"></filter>
       </view>
       <view class="searchbox {{inputState ? 'open' : ''}}">
         <view class="container {{inputState ? 'open' : ''}}">
@@ -167,32 +167,32 @@
         </view>
         <view @tap="openFilter" class="searchlabel">
           <view>筛选</view>
-          <image src="../images/icons/fliter.svg" mode="aspectFit"/>
+          <image src="../images/icons/fliter.svg" mode="aspectFit" />
         </view>
       </view>
       <!--
-      <view class="searchPanel {{inputState ? 'open' : ''}}">
-        <p>热门搜索</p>
-        <p>{{getHotItems}}</p>
-      </view>
-    -->
+        <view class="searchPanel {{inputState ? 'open' : ''}}">
+          <p>热门搜索</p>
+          <p>{{getHotItems}}</p>
+        </view>
+      -->
       <view hidden="{{thingsNotEmpty}}" class="empty">
         <image src="../images/icons/empty_pic.png" mode="aspectFit"></image>
         <text>还没有相关租品!</text>
         <navigator url="postrent" class="gotorent">去求租</navigator>
       </view>
       <repeat wx:for="{{getThingsList}}" wx:index="index" wx:item="item" wx:key="index">
-        <listitem  :thingsitem.sync="item" :indexa.sync="index"></listitem>
+        <listitem :thingsitem.sync="item" :indexa.sync="index"></listitem>
       </repeat>
     </view>
     <view class="listcontainer" hidden="{{tabIndexB != 1}}">
       <toptabsA :tabbar="topTabA"></toptabsA>
-      <view  hidden="{{rentNotEmpty}}" class="empty">
+      <view hidden="{{rentNotEmpty}}" class="empty">
         <image src="../images/icons/empty_pic.png" mode="aspectFit"></image>
         <text>暂时没有东西哦(⊙o⊙)</text>
       </view>
       <repeat wx:for="{{getRentList}}" wx:index="index" wx:item="item" wx:key="index">
-        <listitem  :thingsitem.sync="item" :indexa.sync="index"></listitem>
+        <listitem :thingsitem.sync="item" :indexa.sync="index"></listitem>
       </repeat>
     </view>
     <view class="listcontainer" hidden="{{tabIndexB != 3}}">
@@ -215,16 +215,14 @@
   import My from '../components/my'
   import Filter from '../components/filter'
   import Circle from '../components/circle'
-
   const TITLEALLOWLENGTH = 15
   const DESALLOWLENGTH = 22
-
   export default class Things extends wepy.page {
     config = {
       navigationBarTitleText: '租品',
       enablePullDownRefresh: true
     }
-    onPullDownRefresh () {
+    onPullDownRefresh() {
       wx.showLoading({
         title: '加载中',
       })
@@ -243,7 +241,6 @@
       myinfo: My,
       circle: Circle
     }
-
     data = {
       showFilter: false,
       cacheThings: null,
@@ -251,69 +248,63 @@
       rentPage: 1,
       hotItems: ['自行车', '电脑', '数位板', 'YSL', '熨斗', '吹风机', '电动车'],
       inputState: false,
-      titles: ['租品', '求租', '发布',  '圈子', '我的'],
+      titles: ['租品', '求租', '发布', '圈子', '我的'],
       tabIndexB: 0,
       tabIndexT: 0,
-      userInfo: {
-      },
-      topTabB:{
+      userInfo: {},
+      topTabB: {
         color: '#a9a29f',
         selectedColor: '#3e3835',
         backgroundColor: '#ffffff',
         borderStyle: 'black',
-        list: [
-        {
-          text: '楼栋排行',
-          selected: true
-        },
-        {
-          text: '微信群排行',
-          selected: false
-        }
+        list: [{
+            text: '楼栋排行',
+            selected: true
+          },
+          {
+            text: '微信群排行',
+            selected: false
+          }
         ],
         position: 'top'
       },
-      topTabA:{
+      topTabA: {
         color: '#a9a29f',
         selectedColor: '#3e3835',
         backgroundColor: '#ffffff',
         borderStyle: 'black',
-        list: [
-        {
-          text: '最新',
-          selected: true
-        },
-        {
-          text: '最近',
-          selected: false
-        },
-        {
-          text: '最贵',
-          selected: false
-        }
+        list: [{
+            text: '最新',
+            selected: true
+          },
+          {
+            text: '最近',
+            selected: false
+          },
+          {
+            text: '最贵',
+            selected: false
+          }
         ],
         position: 'top'
       },
       thingslist: {
-        list: [
-        ],
+        list: [],
         type: 'things'
       },
       rentlist: {
-        list: [
-        ],
+        list: [],
         type: 'rent'
       }
     }
-
-    listFilter (item) {
+    listFilter(item) {
       let date = new Date()
       let begintime = item.pub_time
       let title = item.title
       let descript = item.description
       let endtime = date.getTime()
       let nTime = endtime - begintime
-      let day = nTime/86400000
+      let day = nTime / 86400000
       let str = ''
       if (day < 1) {
         let hours = day * 24
@@ -325,64 +316,64 @@
       } else {
         str = Math.floor(day).toString() + '天前'
       }
-      if (descript.length > DESALLOWLENGTH + 3) {
+      if (descript && descript.length > DESALLOWLENGTH + 3) {
         item.description = descript.slice(0, DESALLOWLENGTH) + '...'
       }
-      if (title.length > TITLEALLOWLENGTH + 3) {
+      if (title && title.length > TITLEALLOWLENGTH + 3) {
         item.title = title.slice(0, TITLEALLOWLENGTH) + '...'
       }
-      if (item.pictures.length > 3) {
+      if (item.pictures && item.pictures.length > 3) {
         item.pictures = item.pictures.slice(0, 3)
       }
       item.pubtime = str
       return item
     }
-
     computed = {
-      ifNoMargin () {
+      ifNoMargin() {
         return (this.tabIndexB == 0 || this.tabIndexB == 4)
       },
-      thingsNotEmpty () {
+      thingsNotEmpty() {
         return this.thingslist.list.length != 0
       },
-      rentNotEmpty () {
+      rentNotEmpty() {
         return this.rentlist.list.length != 0
       },
-      getHotItems () {
+      getHotItems() {
         return this.hotItems.join(' · ')
       },
-      getThingsList () {
+      getThingsList() {
         let self = this
-        let newList =  this.thingslist.list.map(self.listFilter)
+        let newList = this.thingslist.list.map(self.listFilter)
+
+        console.log(newList)
         return newList
       },
-      getRentList () {
+      getRentList() {
         let self = this
-        let newList =  this.rentlist.list.map(self.listFilter)
+        let newList = this.rentlist.list.map(self.listFilter)
         return newList
       }
     }
-
     methods = {
-      openFilter (e) {
+      openFilter(e) {
         console.log(e)
         this.showFilter = true
         this.$apply()
       },
-      searchHandler (event) {
+      searchHandler(event) {
         let content = event.detail.value
         wx.navigateTo({
           url: 'search?content=' + content
         })
       },
-      openSearch (event) {
+      openSearch(event) {
         this.inputState = true
       },
-      closeSearch (event) {
+      closeSearch(event) {
         this.inputState = false
         this.$apply()
       },
-      openInfo (event) {
+      openInfo(event) {
         let type = event.currentTarget.dataset.type
         let id = event.currentTarget.dataset.itemid
         if (type === 'things') {
@@ -396,7 +387,7 @@
         }
       }
     }
-    getHotSearch (label) {
+    getHotSearch(label) {
       let token = this.$parent.globalData.code
       // console.log(token)
       return this.$parent.Request({
@@ -404,7 +395,7 @@
         label: label
       }, token)
     }
-    getThings (label, category = 1) {
+    getThings(label, category = 1) {
       let token = this.$parent.globalData.code
       // console.log(token)
       return this.$parent.Request({
@@ -417,8 +408,7 @@
         }
       }, token)
     }
-
-    getRank (cb) {
+    getRank(cb) {
       let token = this.$parent.globalData.code
       let self = this
       let data = {}
@@ -436,7 +426,7 @@
         })
       })
     }
-    getRent (label, category = 1) {
+    getRent(label, category = 1) {
       let token = this.$parent.globalData.code
       return this.$parent.Request({
         url: 'commodity/',
@@ -474,7 +464,7 @@
         this.$apply()
       }
     }
-    renderHomeList (data) {
+    renderHomeList(data) {
       let self = this
       this.$parent.Request({
         url: 'commodity/home',
@@ -489,7 +479,7 @@
         self.$apply()
       })
     }
-    reRenderList (type, label, category, page = 1) {
+    reRenderList(type, label, category, page = 1) {
       let self = this
       let token = this.$parent.globalData.code
       let obj = {
@@ -513,7 +503,7 @@
         self.$apply()
       })
     }
-    onShow () {
+    onShow() {
       let self = this
       let category = this.$parent.globalData.category
       if (category) {
@@ -534,13 +524,13 @@
       }
       console.log(this.$parent.globalData)
     }
-    onLoad (options) {
+    onLoad(options) {
       wx.showLoading({
         title: '加载中',
         mask: true
       })
     }
-    async init () {
+    async init() {
       let self = this
       const tdata = await self.getThings(1)
       const rdata = await self.getRent(1)

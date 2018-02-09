@@ -1,42 +1,25 @@
 <style lang="less">
-
+.title{
+  font-size: 32rpx;
+}
 </style>
+
 <template>
   <view class="container">
-    <text>第一条 概述</text>
-    <p>1、为保障JointForce平台用户合法权益，维护解放号平台正常经营秩序，根据国家相关法律法规制定《JointForce平台须知》（以下简称《平台须知》或本规则）。</p>
-    <p>2、《平台须知》是阐述JointForce平台用户基本行为规则的条款。用户使用解放号平台的服务、在解放号平台交易时，除了应该遵守我国相关法律法规和规章的规定，还应当遵循《平台须知》确定的规则。</p>
-    <p>3、违反《平台须知》行为的认定与处理，应基于解放号平台认定的事实，严格依法依规执行。解放号平台用户在适用本规则上一律平等。</p>
-    <p>4、用户在本平台的活动应当遵守国家法律、法规、规章等规范性文件及《平台须知》的规定。对任何涉嫌违反法律、法规、规章等规范性文件及《平台须知》的行为，本平台有权直接依法依规处理。用户在平台的行为没有相应规范对应的，解放号平台有权本着诚实信用、公平合理的原则酌情处理。但解放号平台对用户的处理不免除相关用户应当承担的法律责任。</p>
-    <p>5、用户在解放号平台上的全部行为仅代表其本人，不代表解放号平台，基于该行为的全部责任应当由用户自行承担。</p>
-    <p>6、在解放号平台上完成的交易，除按照法律规定不能转让或用户另有约定外，交易中涉及的相关的知识产权归属依法律、法规、规章等规范性文件确定或由双方约定。</p>
+    <text class="title">请邮件 张浩然</text>
   </view>
 </template>
 
 <script>
   import wepy from 'wepy'
-
   export default class FeedBack extends wepy.page {
     config = {
-      navigationBarTitleText: '租凭须知'
+      navigationBarTitleText: '用户反馈'
     }
-    data = {
-    }
-
-    computed = {
-
-    }
-
-    methods = {
-
-    }
-
-    events = {
-
-    }
-
-    onLoad() {
-
-    }
+    data = {}
+    computed = {}
+    methods = {}
+    events = {}
+    onLoad() {}
   }
 </script>
