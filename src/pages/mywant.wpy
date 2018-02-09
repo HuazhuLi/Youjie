@@ -114,6 +114,9 @@
 
     onLoad () {
       let self = this
+      wx.showLoading({
+        title: '加载中'
+      })
       let token = this.$parent.globalData.code
       this.$parent.Request({
         url: 'user/buy'
@@ -121,6 +124,7 @@
         let data = res.data
         self.thingslist.list = data
         self.$apply()
+        wx.hideLoading()
       })
     }
   }

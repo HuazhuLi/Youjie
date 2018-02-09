@@ -1,12 +1,30 @@
 <style lang="less">
-.title{
-  font-size: 32rpx;
-}
+  .title {
+    font-size: 32rpx;
+  }
+  p {
+    font-size: 28rpx;
+    line-height: 48rpx;
+    display: inline-block;
+  }
+  .paper {
+    box-sizing: border-box;
+    padding: 10rpx;
+    text-align: left;
+  }
+  .btn {
+    width: 80%;
+    margin-top: 30rpx;
+    background: green;
+    color: white;
+  }
 </style>
 
 <template>
-  <view class="container">
-    <text class="title">请邮件 张浩然</text>
+  <view class="paper">
+    <p class="title">有借的成长需要我们大家的参与。您可以把您的问题、建议、反馈都发送给我们。点击客服服务</p>
+    <p class="title">或者联系邮箱：zhr@bingyan.net</p>
+    <button class="btn" open-type="contact" >客服服务</button>
   </view>
 </template>
 

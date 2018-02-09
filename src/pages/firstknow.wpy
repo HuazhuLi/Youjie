@@ -1,19 +1,24 @@
 <style lang="less">
-.title{
-  font-size: 32rpx;
-}
-p{
-  font-size: 28rpx;
-  line-height: 48rpx;
-}
-.paper{
-  box-sizing: border-box;
-  padding: 10rpx;
-}
+  .title {
+    font-size: 32rpx;
+    text-align: center;
+    width: 100%;
+  }
+  p {
+    font-size: 28rpx;
+    display: inline-block;
+    line-height: 48rpx;
+  }
+  .paper {
+    box-sizing: border-box;
+    padding: 10rpx;
+    text-align: left;
+  }
 </style>
+
 <template>
-  <view class="container paper">
-    <text class="title">第一条 概述</text>
+  <view class="paper">
+    <p class="title">第一条 概述</p>
     <p>1、为保障JointForce平台用户合法权益，维护解放号平台正常经营秩序，根据国家相关法律法规制定《JointForce平台须知》（以下简称《平台须知》或本规则）。</p>
     <p>2、《平台须知》是阐述JointForce平台用户基本行为规则的条款。用户使用解放号平台的服务、在解放号平台交易时，除了应该遵守我国相关法律法规和规章的规定，还应当遵循《平台须知》确定的规则。</p>
     <p>3、违反《平台须知》行为的认定与处理，应基于解放号平台认定的事实，严格依法依规执行。解放号平台用户在适用本规则上一律平等。</p>
@@ -25,28 +30,18 @@ p{
 
 <script>
   import wepy from 'wepy'
-
   export default class FirstKnow extends wepy.page {
     config = {
       navigationBarTitleText: '租凭须知'
     }
-    data = {
-    }
-
+    data = {}
     computed = {
-
     }
-
     methods = {
-
     }
-
     events = {
-
     }
-
     onLoad() {
-
     }
   }
 </script>

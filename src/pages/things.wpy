@@ -97,6 +97,7 @@
     .searchlabel {
       transition: all .5s;
       position: absolute;
+      transform-origin: center;
       right: 12rpx;
       width: 15%;
       height: 31rpx;
@@ -106,6 +107,10 @@
       letter-spacing: 1.33rpx;
       display: flex;
       margin-left: 33rpx;
+      &.hide{
+        opacity: 0;
+        height: 0;
+      }
       image {
         width: 25rpx;
         height: 33rpx;
@@ -117,7 +122,7 @@
   .searchPanel {
     transition: all .5s;
     height: 0rpx;
-    width: 80%;
+    width: 100%;
     overflow: hidden;
     box-sizing: border-box;
     background-color: #ffffff;
@@ -165,17 +170,15 @@
           <image mode="aspectFit" src="../images/icons/search.svg" />
           <input bindfocus="openSearch" bindblur="closeSearch" @confirm="searchHandler" placeholder="搜索闲置物品"></input>
         </view>
-        <view @tap="openFilter" class="searchlabel">
+        <view @tap="openFilter"  class="searchlabel {{inputState ? 'hide' : ''}}">
           <view>筛选</view>
           <image src="../images/icons/fliter.svg" mode="aspectFit" />
         </view>
       </view>
-      <!--
-        <view class="searchPanel {{inputState ? 'open' : ''}}">
-          <p>热门搜索</p>
-          <p>{{getHotItems}}</p>
-        </view>
-      -->
+      <view class="searchPanel {{inputState ? 'open' : ''}}">
+        <p>热门搜索</p>
+        <p>{{getHotItems}}</p>
+      </view>
       <view hidden="{{thingsNotEmpty}}" class="empty">
         <image src="../images/icons/empty_pic.png" mode="aspectFit"></image>
         <text>还没有相关租品!</text>
@@ -344,7 +347,6 @@
       getThingsList() {
         let self = this
         let newList = this.thingslist.list.map(self.listFilter)
-
         console.log(newList)
         return newList
       },

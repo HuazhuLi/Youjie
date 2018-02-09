@@ -1,68 +1,68 @@
 <style scoped="true" type="less">
-.listitem {
-  padding: 25rpx 30rpx 25rpx 30rpx;
-  background:#ffffff;
-  box-sizing: border-box;
-  box-shadow:0 2px 4px 0 rgba(0,0,0,0.05);
-  width:100%;
-  height:300rpx;
-  position: relative;
-  margin-top: 20rpx;
-  margin-bottom: 19rpx;
-}
-.infobox{
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-  height: 150rpx;
-  image{
-    width: 150rpx;
-    height: 150rpx;
+  .listitem {
+    padding: 25rpx 30rpx 25rpx 30rpx;
+    background: #ffffff;
+    box-sizing: border-box;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+    width: 100%;
+    height: 300rpx;
+    position: relative;
+    margin-top: 20rpx;
+    margin-bottom: 19rpx;
   }
-  .info{
-    margin-left: 24rpx;
+  .infobox {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
     height: 150rpx;
-    width: 80%;
-    flex-shrink: .2;
-    .title{
-      font-size:28rpx;
-      color:#3e3835;
-      letter-spacing:1.75rpx;
+    image {
+      width: 150rpx;
+      height: 150rpx;
     }
-    .price{
-      margin-top: 20rpx;
-      font-size:24rpx;
-      color:#ff4b4b;
-    }
-    .label{
-      margin-top: 20rpx;
-      font-size:24rpx;
-      color:#a9a29f;
-      letter-spacing:1.5rpx;
+    .info {
+      margin-left: 24rpx;
+      height: 150rpx;
+      width: 80%;
+      flex-shrink: .2;
+      .title {
+        font-size: 28rpx;
+        color: #3e3835;
+        letter-spacing: 1.75rpx;
+      }
+      .price {
+        margin-top: 20rpx;
+        font-size: 24rpx;
+        color: #ff4b4b;
+      }
+      .label {
+        margin-top: 20rpx;
+        font-size: 24rpx;
+        color: #a9a29f;
+        letter-spacing: 1.5rpx;
+      }
     }
   }
-}
-.line{
-  background-color: #ededed;
-  width:684rpx;
-  height:1rpx;
-  margin-top: 18rpx;
-}
-.functionbtn{
-  font-size:24rpx;
-  color:#3e3835;
-  letter-spacing:1.5rpx;
-  margin-top: 29rpx;
-  display: flex;
-  align-items: center;
-}
-
+  .line {
+    background-color: #ededed;
+    width: 684rpx;
+    height: 1rpx;
+    margin-top: 18rpx;
+  }
+  .functionbtn {
+    font-size: 24rpx;
+    color: #3e3835;
+    letter-spacing: 1.5rpx;
+    margin-top: 29rpx;
+    display: flex;
+    align-items: center;
+  }
 </style>
+
 <template>
   <view data-itemid="{{thingsitem._id}}" data-type="{{thingsitem.type}}" class="listitem">
     <view class="infobox">
-      <image mode="aspectFill" src="{{thingsitem.pictures[0]}}"/>
+      <image mode="aspectFill" src="{{thingsitem.pictures[0]}}" />
       <view class="info">
         <view class="title">{{thingsitem.title}}</view>
         <view class="price">￥{{thingsitem.price}}</view>
@@ -70,22 +70,34 @@
       </view>
     </view>
     <view class="line"></view>
-    <view class="functionbtn">查看卖家联系方式</view>
+    <view @tap="contactHandler" class="functionbtn" data-contact="{{thingsitem.contact_way}}">查看卖家联系方式</view>
   </view>
 </template>
+
 <script>
   import wepy from 'wepy'
-
   export default class ListItemPanel extends wepy.component {
     props = {
       thingsitem: {}
     }
-    data = {
-    }
-    computed = {
-
-    }
+    data = {}
+    computed = {}
     methods = {
+      contactHandler(e) {
+        let data = e.currentTarget.dataset.contact
+        let self = this
+        wepy.setClipboardData({
+          data: data,
+          success: (res) => {
+            wx.showToast({
+              title: '已复制到剪切版',
+              icon: 'success',
+              duration: 2000
+            })
+          },
+          fail: (res) => {}
+        })
+      }
     }
   }
 </script>
