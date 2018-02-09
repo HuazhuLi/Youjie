@@ -449,7 +449,7 @@
         wepy.chooseImage({
           count: len,
           success: (res) => {
-            self.uploadPics = res.tempFilePaths
+            self.uploadPics = self.uploadPics.concat(res.tempFilePaths)
             self.$apply()
           }
         })
@@ -528,6 +528,7 @@
     onLoad(options) {
       let itemId = options.id
       let self = this
+      self.uploadPics = []
       if (itemId) {
         self.itemId = itemId
         self.getInfo(itemId)
@@ -536,6 +537,7 @@
       if (userInfo) {
         self.contact_way = userInfo.contact_way
       }
+      self.$apply()
     }
   }
 </script>
