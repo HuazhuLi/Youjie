@@ -228,9 +228,9 @@
     </view>
     <view class="line"></view>
     <button open-type="share" @tap="shareHandler" size="mini" class="item">
-        <image mode="aspectFit" src="../images/icons/share.svg"></image>
-        <text>分享</text>
-      </button>
+          <image mode="aspectFit" src="../images/icons/share.svg"></image>
+          <text>分享</text>
+        </button>
     <view @tap="contactHandler" class="want">
       我想租
     </view>
@@ -402,14 +402,12 @@
                 duration: 2000
               })
             },
-            fail: (res) => {
-            }
+            fail: (res) => {}
           })
         })
       }
     }
-    events = {
-    }
+    events = {}
     getInfo(id) {
       let token = this.$parent.globalData.code
       return this.$parent.Request({
@@ -430,6 +428,9 @@
       })
     }
     onLoad(options) {
+      wx.showShareMenu({
+        withShareTicket: true
+      })
       wx.showLoading({
         title: '加载中',
         mask: true

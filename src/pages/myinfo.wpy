@@ -200,13 +200,13 @@
         let self = this
         this.userInfo.address1 = e.detail.value
         switch (e.detail.value) {
-          case 1:
+          case '1':
             self.addressdata2 = self.generateArray(28)
             break
-          case 2:
+          case '2':
             self.addressdata2 = self.generateArray(8)
             break
-          case 3:
+          case '3':
             self.addressdata2 = self.generateArray(13)
             break
           default:
@@ -226,7 +226,7 @@
       }
       return arr
     }
-    findIndex(font, arr) {
+    findIndex(font = ' ', arr) {
       for (let i = 0; i < arr.length; i++) {
         let val = arr[i]
         let ok = 1

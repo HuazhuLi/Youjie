@@ -1,63 +1,57 @@
 <style scoped="true" lang='less'>
-.post_box{
-  transition: all 0.3s;
-  bottom: 47rpx;
-  width:94rpx;
-  height:94rpx;
-  position: fixed;
-  box-sizing: content-box;
-  border:5rpx solid #ffffff;
-  background-color: #ffffff;
-  box-shadow:0 -1px 2px 0px rgba(0,0,0,0.31);
-  z-index: 1010;
-  border-radius:100%;
-  transform: rotate(0deg);
-}
-
-.post_box_content{
-  transition: all 0.3s;
-  position: fixed;
-  z-index: 1012;
-  pointer-events: none;
-  width:94rpx;
-  height:94rpx;
-  background:linear-gradient(-180deg, #ffab5a 0%, #ff49a6 100%);
-  box-sizing: content-box;
-  border-radius:100%;
-  transform-origin: center;
-  transform: rotate(0deg);
-  &.rotate{
+  .post_box {
+    transition: all 0.3s;
+    bottom: 47rpx;
+    width: 94rpx;
+    height: 94rpx;
+    position: fixed;
+    box-sizing: content-box;
+    border: 5rpx solid #ffffff;
+    background-color: #ffffff;
+    box-shadow: 0 -1px 2px 0px rgba(0, 0, 0, 0.31);
+    z-index: 1010;
+    border-radius: 100%;
+    transform: rotate(0deg);
+  }
+  .post_box_content {
+    transition: all 0.3s;
+    position: fixed;
+    z-index: 1012;
+    pointer-events: none;
+    width: 94rpx;
+    height: 94rpx;
+    background: linear-gradient(-180deg, #ffab5a 0%, #ff49a6 100%);
+    box-sizing: content-box;
+    border-radius: 100%;
+    transform-origin: center;
+    transform: rotate(0deg);
+    &.rotate {
+      background: #ffffff;
+      transform: rotate(135deg);
+      pointer-events: all;
+      box-shadow: 0 -1px 2px 0px rgba(0, 0, 0, 0.31);
+    }
+  }
+  .bar {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-top: -1.5rpx;
+    margin-left: -22rpx;
     background: #ffffff;
-    transform: rotate(135deg);
-    pointer-events: all;
-    box-shadow:0 -1px 2px 0px rgba(0,0,0,0.31);
+    width: 44rpx;
+    height: 3rpx;
+    pointer-events: none;
+    transition: all 0.5s;
+    &.column {
+      transform: rotate(90deg);
+    }
+    &.row {}
+    &.rotate {
+      background-color: #3e3835;
+    }
   }
-}
-
-
-.bar{
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  margin-top: -1.5rpx;
-  margin-left: -22rpx;
-  background:#ffffff;
-  width:44rpx;
-  height:3rpx;
-  pointer-events: none;
-  transition: all 0.5s;
-  &.column{
-    transform: rotate(90deg);
-  }
-  &.row{
-
-  }
-  &.rotate{
-    background-color: #3e3835;
-  }
-}
-
-.tabbar_box{
+  .tabbar_box {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -68,11 +62,10 @@
     z-index: 999;
     width: 100%;
     height: 95rpx;
-    box-shadow:0 2px 4px 0 rgba(0,0,0,0.31);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
     background-color: #ffffff;
-}
-
-.tabbar_nav{
+  }
+  .tabbar_nav {
     transition: all 0.3s;
     display: flex;
     text-align: center;
@@ -83,110 +76,107 @@
     font-size: 22rpx;
     letter-spacing: 0.79rpx;
     width: 170rpx;
-    &.center{
+    &.center {
       width: 180rpx;
-      image{
+      image {
         opacity: 0;
       }
     }
-    image{
+    image {
       pointer-events: none;
     }
-    text{
+    text {
       pointer-events: none;
     }
-}
-
-.tabbar_icon{
+  }
+  .tabbar_icon {
     width: 61rpx;
     height: 61rpx;
-}
-
-.mask{
-  transition: all .5s;
-  position: fixed;
-  width:94rpx;
-  height:94rpx;
-  background-color: #ffffff;
-  opacity: 0;
-  z-index: 1011;
-  border-radius: 100%;
-  pointer-events: none;
-  &.open{
-    pointer-events: auto;
-    opacity: 0.9;
-    transform: scale(40);
   }
-}
-
-.post_rent{
-  position: fixed;
-  left: 138rpx;
-  bottom: 272rpx;
-  z-index: 1012;
-  background:#3caeff;
-  width:150rpx;
-  height:150rpx;
-  border-radius:100%;
-  transition: all 0.3s;
-  pointer-events: none;
-  opacity: 0;
-  transform: translate(120rpx, 240rpx) scale(0.1);
-  text-align: center;
-  image{
-    width:150rpx;
-    height:150rpx;
+  .mask {
+    transition: all .5s;
+    position: fixed;
+    width: 94rpx;
+    height: 94rpx;
+    background-color: #ffffff;
+    opacity: 0;
+    z-index: 1011;
+    border-radius: 100%;
+    pointer-events: none;
+    &.open {
+      pointer-events: auto;
+      opacity: 0.9;
+      transform: scale(40);
+    }
   }
-  text{
-    font-size:32rpx;
-    color:#3caeff;
-    letter-spacing:1.14px;
-    text-align:left;
+  .post_rent {
+    position: fixed;
+    left: 138rpx;
+    bottom: 272rpx;
+    z-index: 1012;
+    background: #3caeff;
+    width: 150rpx;
+    height: 150rpx;
+    border-radius: 100%;
+    transition: all 0.3s;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(120rpx, 240rpx) scale(0.1);
+    text-align: center;
+    image {
+      width: 150rpx;
+      height: 150rpx;
+    }
+    text {
+      font-size: 32rpx;
+      color: #3caeff;
+      letter-spacing: 1.14px;
+      text-align: left;
+    }
+    &.open {
+      pointer-events: all;
+      opacity: 1;
+      transform: translate(0rpx, 0rpx) scale(1);
+    }
   }
-  &.open{
-    pointer-events: all;
-    opacity: 1;
-    transform: translate(0rpx, 0rpx) scale(1);
+  .post_rent:hover {
+    transform: scale(1.1);
   }
-}
-.post_rent:hover{
-  transform: scale(1.1);
-}
-.post_borrow{
-  position: fixed;
-  right: 137rpx;
-  bottom: 272rpx;
-  z-index: 1012;
-  background:#ffd13c;
-  width:150rpx;
-  height:150rpx;
-  border-radius:100%;
-  transition: all 0.3s;
-  pointer-events: none;
-  opacity: 0;
-  transform: translate(-120rpx, 240rpx) scale(.1);
-  text-align: center;
-  image{
-    width:150rpx;
-    height:150rpx;
+  .post_borrow {
+    position: fixed;
+    right: 137rpx;
+    bottom: 272rpx;
+    z-index: 1012;
+    background: #ffd13c;
+    width: 150rpx;
+    height: 150rpx;
+    border-radius: 100%;
+    transition: all 0.3s;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(-120rpx, 240rpx) scale(.1);
+    text-align: center;
+    image {
+      width: 150rpx;
+      height: 150rpx;
+    }
+    text {
+      font-size: 32rpx;
+      color: #ffd13c;
+      letter-spacing: 1.14px;
+      text-align: left;
+    }
+    &.open {
+      pointer-events: all;
+      opacity: 1;
+      transform: translate(0rpx, 0rpx) scale(1);
+    }
   }
-  text{
-    font-size:32rpx;
-    color:#ffd13c;
-    letter-spacing:1.14px;
-    text-align:left;
+  .post_borrow:hover {
+    transform: scale(1.1);
   }
-  &.open{
-    pointer-events: all;
-    opacity: 1;
-    transform: translate(0rpx, 0rpx) scale(1);
-  }
-}
-.post_borrow:hover{
-  transform: scale(1.1);
-}
-
 </style>
+
 <template>
   <view class="tabbar_box" style="background-color:{{tabbar.backgroundColor}}; border-top-color:{{tabbar.borderStyle}}; {{tabbar.position == 'top' ? 'top:0' : 'bottom:0'}}">
     <navigator url="postthings" hover-class="post_rent_hover" class="post_rent {{tablist[2].selected ? 'open' : ''}}">
@@ -205,91 +195,79 @@
       </view>
     </view>
     <block wx:for="{{tablist}}" wx:for-item="item" wx:key="index">
-            <view data-tab-id="{{index}}" @tap="handleViewTap" class="tabbar_nav {{index == 2 ? 'center' : ''}}" style=" color:{{item.selected ? tabbar.selectedColor : tabbar.color}}" >
-                <image class="tabbar_icon" src="{{item.selected ? item.selectedIconPath : item.iconPath}}"></image>
-                <text>{{item.text}}</text>
-            </view>
+      <view data-tab-id="{{index}}" @tap="handleViewTap" class="tabbar_nav {{index == 2 ? 'center' : ''}}" style=" color:{{item.selected ? tabbar.selectedColor : tabbar.color}}">
+        <image class="tabbar_icon" src="{{item.selected ? item.selectedIconPath : item.iconPath}}"></image>
+        <text>{{item.text}}</text>
+      </view>
     </block>
   </view>
 </template>
+
 <script>
   import wepy from 'wepy'
   // import abc from 'abc'
-
   export default class BottomTabs extends wepy.component {
     props = {
-      num: {
-        type: [Number, String],
-        coerce: function (v) {
-          return +v
-        },
-        default: 50
-      }
     }
-
     computed = {
-      tablist () {
+      tablist() {
         return this.tabbar.list
       }
     }
     data = {
-      userInfo:null,
-      tabbar:{
+      userInfo: null,
+      tabbar: {
         color: '#a9a29f',
         selectedColor: '#FF4AA6',
         backgroundColor: '#ffffff',
         borderStyle: 'black',
-        list: [
-        {
-          pagePath: '/pages/things',
-          text: '租品',
-          iconPath: '../images/icons/things_untouched.svg',
-          selectedIconPath: '../images/icons/things.svg',
-          selected: true
-        },
-        {
-          pagePath: '/pages/rent',
-          text: '求租',
-          iconPath: '../images/icons/rent_untouched.svg',
-          selectedIconPath: '../images/icons/rent.svg',
-          selected: false
-        },
-        {
-          pagePath: '/pages/circle',
-          text: '发布',
-          iconPath: '../images/icons/circle_untouched.svg',
-          selectedIconPath: '../images/icons/circle_untouched.svg',
-          selected: false
-        },
-        {
-          pagePath: '/pages/circle',
-          text: '圈子',
-          iconPath: '../images/icons/circle_untouched.svg',
-          selectedIconPath: '../images/icons/circle.svg',
-          selected: false
-        },
-        {
-          pagePath: '/pages/my',
-          text: '我的',
-          iconPath: '../images/icons/me_untouched.svg',
-          selectedIconPath: '../images/icons/me.svg',
-          selected: false
-        }
+        list: [{
+            pagePath: '/pages/things',
+            text: '租品',
+            iconPath: '../images/icons/things_untouched.svg',
+            selectedIconPath: '../images/icons/things.svg',
+            selected: true
+          },
+          {
+            pagePath: '/pages/rent',
+            text: '求租',
+            iconPath: '../images/icons/rent_untouched.svg',
+            selectedIconPath: '../images/icons/rent.svg',
+            selected: false
+          },
+          {
+            pagePath: '/pages/circle',
+            text: '发布',
+            iconPath: '../images/icons/circle_untouched.svg',
+            selectedIconPath: '../images/icons/circle_untouched.svg',
+            selected: false
+          },
+          {
+            pagePath: '/pages/circle',
+            text: '圈子',
+            iconPath: '../images/icons/circle_untouched.svg',
+            selectedIconPath: '../images/icons/circle.svg',
+            selected: false
+          },
+          {
+            pagePath: '/pages/my',
+            text: '我的',
+            iconPath: '../images/icons/me_untouched.svg',
+            selectedIconPath: '../images/icons/me.svg',
+            selected: false
+          }
         ],
         position: 'bottom'
       }
     }
-    events = {
-    }
-
+    events = {}
     watch = {
-      num (curVal, oldVal) {
+      num(curVal, oldVal) {
         console.log(`旧值：${oldVal}，新值：${curVal}`)
       }
     }
-
     methods = {
-      handleViewTap (event) {
+      handleViewTap(event) {
         let tabid = event.target.dataset.tabId
         // console.log(event.target)
         if (tabid == undefined) return
@@ -305,7 +283,7 @@
           this.tabbar.list[index].selected = true
           this.$emit('tab-changeB', index)
         }
-        this.tabbar = this.tabbar
+        this.$apply()
       }
     }
   }

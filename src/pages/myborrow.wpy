@@ -56,76 +56,6 @@
     data = {
       thingslist: {
         list: [
-          {
-            id: 10,
-            type: 'things',
-            title: '山地车出售',
-            images: [
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png'
-            ],
-            price: '152',
-            descript: '',
-            position: '韵苑23栋',
-            time: ''
-          },
-          {
-            id: 10,
-            type: 'things',
-            title: '山地车出售',
-            images: [
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png'
-            ],
-            price: '152',
-            descript: '',
-            position: '韵苑23栋',
-            time: ''
-          },
-          {
-            id: 10,
-            type: 'things',
-            title: '山地车出售',
-            images: [
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png'
-            ],
-            price: '152',
-            descript: '',
-            position: '韵苑23栋',
-            time: ''
-          },
-          {
-            id: 10,
-            type: 'things',
-            title: '山地车出售',
-            images: [
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png'
-            ],
-            price: '152',
-            descript: '',
-            position: '韵苑23栋',
-            time: ''
-          },
-          {
-            id: 10,
-            type: 'things',
-            title: '山地车出售',
-            images: [
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png'
-            ],
-            price: '152',
-            descript: '',
-            position: '韵苑23栋',
-            time: ''
-          }
         ],
         type: 'things'
       }
@@ -146,6 +76,7 @@
     onLoad () {
       let self = this
       let token = this.$parent.globalData.code
+      wx.reportAnalytics('my_borrow', {})
       this.$parent.Request({
         url: 'user/sell'
       }, token).then((res) => {

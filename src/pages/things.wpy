@@ -107,7 +107,7 @@
       letter-spacing: 1.33rpx;
       display: flex;
       margin-left: 33rpx;
-      &.hide{
+      &.hide {
         opacity: 0;
         height: 0;
       }
@@ -159,8 +159,8 @@
 </style>
 
 <template>
-  <view class="container list {{ifNoMargin ? 'my' : ''}}">
-    <view class="listcontainer" hidden="{{tabIndexB != 0}}">
+  <scroll-view class="container list {{ifNoMargin ? 'my' : ''}}">
+    <scroll-view class="listcontainer" hidden="{{tabIndexB != 0}}">
       <view class="mask"></view>
       <view class="filterbox {{showFilter ? 'open' : 'close'}}">
         <filter :ifShow.sync="showFilter"></filter>
@@ -170,7 +170,7 @@
           <image mode="aspectFit" src="../images/icons/search.svg" />
           <input bindfocus="openSearch" bindblur="closeSearch" @confirm="searchHandler" placeholder="搜索闲置物品"></input>
         </view>
-        <view @tap="openFilter"  class="searchlabel {{inputState ? 'hide' : ''}}">
+        <view @tap="openFilter" class="searchlabel {{inputState ? 'hide' : ''}}">
           <view>筛选</view>
           <image src="../images/icons/fliter.svg" mode="aspectFit" />
         </view>
@@ -187,8 +187,8 @@
       <repeat wx:for="{{getThingsList}}" wx:index="index" wx:item="item" wx:key="index">
         <listitem :thingsitem.sync="item" :indexa.sync="index"></listitem>
       </repeat>
-    </view>
-    <view class="listcontainer" hidden="{{tabIndexB != 1}}">
+    </scroll-view>
+    <scroll-view class="listcontainer" hidden="{{tabIndexB != 1}}">
       <toptabsA :tabbar="topTabA"></toptabsA>
       <view hidden="{{rentNotEmpty}}" class="empty">
         <image src="../images/icons/empty_pic.png" mode="aspectFit"></image>
@@ -197,16 +197,16 @@
       <repeat wx:for="{{getRentList}}" wx:index="index" wx:item="item" wx:key="index">
         <listitem :thingsitem.sync="item" :indexa.sync="index"></listitem>
       </repeat>
-    </view>
-    <view class="listcontainer" hidden="{{tabIndexB != 3}}">
+    </scroll-view>
+    <scroll-view class="listcontainer" hidden="{{tabIndexB != 3}}">
       <toptabsB :tabbar="topTabB"></toptabsB>
-      <circle></circle>
-    </view>
-    <view class="listcontainer" hidden="{{tabIndexB != 4}}">
+      <circle :circleList.sync="circleList"></circle>
+    </scroll-view>
+    <scroll-view class="listcontainer" hidden="{{tabIndexB != 4}}">
       <myinfo :myInfo.sync="userInfo"></myinfo>
-    </view>
+    </scroll-view>
     <bottomtabs></bottomtabs>
-  </view>
+  </scroll-view>
 </template>
 
 <script>
@@ -225,14 +225,97 @@
       navigationBarTitleText: '租品',
       enablePullDownRefresh: true
     }
+    onShareAppMessage(res) {
+      if (res.from === 'button') {
+        // 来自页面内转发按钮
+        console.log(res.target)
+      }
+      return {
+        success: function(res) {
+          let tickets = res.shareTickets
+          console.log(tickets)
+          // 转发成功
+        },
+        fail: function(res) {
+          // 转发失败
+        }
+      }
+    }
     onPullDownRefresh() {
       wx.showLoading({
         title: '加载中',
       })
-      this.init().then((res) => {
-        wx.stopPullDownRefresh()
-        wx.hideLoading()
-      })
+      let self = this
+      let filter = this.filter
+      let bottomIndex = this.tabIndexB
+      if (bottomIndex === 0) {
+        self.renderHomeList(filter).then((res) => {
+          wx.stopPullDownRefresh()
+          wx.hideLoading()
+        })
+      } else if (bottomIndex === 1) {
+        let label = this.tabIndexT + 1
+        switch (label) {
+          case 1:
+            wx.reportAnalytics('rent_newset_pd', {})
+            break
+          case 2:
+            wx.reportAnalytics('rent_closest_pd', {})
+            break
+          case 3:
+            wx.reportAnalytics('rent_exp_pd', {})
+            break
+        }
+        self.getRent(label, 1, 1).then((res) => {
+          wx.stopPullDownRefresh()
+          wx.hideLoading()
+          self.rentlist.list = res.data
+        })
+      }
+    }
+    onReachBottom() {
+      let index = this.tabIndexB
+      let label = this.tabIndexT + 1
+      let self = this
+      if (index === 0) {
+        wx.showLoading({
+          title: '加载中'
+        })
+        let page = this.thingsPage + 1
+        let category = this.filter.category
+        self.getThings(label, category, page).then((res) => {
+          wx.hideLoading()
+          if (res.data.length > 0) {
+            self.thingslist.list = self.thingslist.list.concat(res.data)
+            self.thingsPage = page
+            self.$apply()
+          } else {
+            wx.showToast({
+              title: '无更多数据',
+              duration: 1000
+            })
+          }
+        })
+      } else if (index === 1) {
+        wx.showLoading({
+          title: '加载中'
+        })
+        let page = this.rentPage + 1
+        let category = this.filter.category
+        self.getRent(label, category, page).then((res) => {
+          wx.hideLoading()
+          if (res.data.length > 0) {
+            self.rentlist.list = self.rentlist.list.concat(res.data)
+            self.rentPage = page
+            self.$apply()
+          } else {
+            wx.showToast({
+              title: '无更多数据',
+              duration: 1000
+            })
+          }
+        })
+      }
     }
     components = {
       bottomtabs: BottomTabs,
@@ -249,6 +332,12 @@
       cacheThings: null,
       thingsPage: 1,
       rentPage: 1,
+      filter: {
+        type: 1,
+        category: [],
+        address: [],
+        label: 1
+      },
       hotItems: ['自行车', '电脑', '数位板', 'YSL', '熨斗', '吹风机', '电动车'],
       inputState: false,
       titles: ['租品', '求租', '发布', '圈子', '我的'],
@@ -291,6 +380,7 @@
         ],
         position: 'top'
       },
+      circleList: [],
       thingslist: {
         list: [],
         type: 'things'
@@ -347,7 +437,6 @@
       getThingsList() {
         let self = this
         let newList = this.thingslist.list.map(self.listFilter)
-        console.log(newList)
         return newList
       },
       getRentList() {
@@ -358,18 +447,28 @@
     }
     methods = {
       openFilter(e) {
-        console.log(e)
         this.showFilter = true
+        wx.reportAnalytics('filter', {})
         this.$apply()
+      },
+      appendThings(e) {
+        console.log(123)
       },
       searchHandler(event) {
         let content = event.detail.value
+        wx.reportAnalytics('search', {
+          content: content,
+        })
         wx.navigateTo({
           url: 'search?content=' + content
         })
       },
       openSearch(event) {
         this.inputState = true
+        this.getHotSearch().then((res) => {
+          this.hotItems = res.data
+          this.$apply()
+        })
       },
       closeSearch(event) {
         this.inputState = false
@@ -397,8 +496,9 @@
         label: label
       }, token)
     }
-    getThings(label, category = 1) {
+    getThings(label, category = 1, page) {
       let token = this.$parent.globalData.code
+      let tpage = page || this.thingsPage
       // console.log(token)
       return this.$parent.Request({
         url: 'commodity/',
@@ -406,37 +506,20 @@
           label: label,
           category: category,
           type: 1,
-          pages: 1
+          pages: tpage
         }
       }, token)
     }
-    getRank(cb) {
+    getRent(label, category = 1, page) {
       let token = this.$parent.globalData.code
-      let self = this
-      let data = {}
-      return this.$parent.Request({
-        url: 'rank/wechat'
-      }, token).then((res) => {
-        data.wechat = res.data
-        self.$parent.Request({
-          url: 'rank/address'
-        }).then((res) => {
-          data.address = res.data
-          // cb(data)
-          return data
-          console.log(data)
-        })
-      })
-    }
-    getRent(label, category = 1) {
-      let token = this.$parent.globalData.code
+      let tpage = page || this.rentPage
       return this.$parent.Request({
         url: 'commodity/',
         data: {
           label: label,
           category: category,
           type: 2,
-          pages: 1
+          pages: tpage
         }
       }, token)
     }
@@ -448,27 +531,39 @@
         wx.setNavigationBarTitle({
           title: self.titles[index]
         })
+        if (index === 3) {
+          this.renderCircle(1)
+        }
+        if (index >= 3) {
+          wx.hideShareMenu()
+        }
         this.$apply()
       },
       'tab-changeT': (...args) => {
         let index = args[0]
         let self = this
-        this.tabIndexT = index
-        this.$apply()
         let type = self.tabIndexB + 1
         let label = index + 1
-        this.reRenderList(type, label, null)
+        if (type === 2) {
+          this.tabIndexT = index
+          this.reRenderList(type, label, null)
+        } else if (type === 4) {
+          this.renderCircle(label)
+        }
+        console.log(type, label)
+        this.$apply()
       },
       'filter-complete': (data) => {
         console.log(data)
         this.showFilter = false
+        this.filter = data
         this.renderHomeList(data)
         this.$apply()
       }
     }
     renderHomeList(data) {
       let self = this
-      this.$parent.Request({
+      return this.$parent.Request({
         url: 'commodity/home',
         data: {
           type: data.type,
@@ -478,8 +573,32 @@
         }
       }).then((res) => {
         self.thingslist.list = res.data
+        self.filter.type = data.type
+        self.filter.address = data.address
+        self.filter.category = data.category
+        self.thingsPage = 1
         self.$apply()
       })
+    }
+    renderCircle(label) {
+      let self = this
+      if (label === 1) {
+        wx.reportAnalytics('address_click', {})
+        this.$parent.Request({
+          url: 'rank/address'
+        }).then((res) => {
+          self.circleList = res.data
+          self.$apply()
+        })
+      } else {
+        wx.reportAnalytics('wechat_click', {})
+        this.$parent.Request({
+          url: 'rank/wechat'
+        }).then((res) => {
+          self.circleList = res.data
+          self.$apply()
+        })
+      }
     }
     reRenderList(type, label, category, page = 1) {
       let self = this
@@ -527,6 +646,9 @@
       console.log(this.$parent.globalData)
     }
     onLoad(options) {
+      wx.showShareMenu({
+        withShareTicket: true
+      })
       wx.showLoading({
         title: '加载中',
         mask: true

@@ -1,39 +1,40 @@
 <style scoped="true" lang="less">
-.post{
-  margin-top: 80rpx;
-}
-.share{
-  display: flex;
-  align-items: center;
-  box-sizing: border-box;
-  padding: 30rpx;
-  height: 100rpx;
-  width: 100%;
-  justify-content: space-between;
-  font-size:24rpx;
-  color:#3e3835;
-  letter-spacing:1.5rpx;
-  background-color: #ffffff;
-  margin-top: 20rpx;
-  .btn{
-    font-size:24rpx;
-    color:#3e3835;
-    letter-spacing:1.5rpx;
-    text-align: center;
-    border-radius:8rpx;
-    width:118rpx;
-    height:48rpx;
-    line-height: 48rpx;
-    vertical-align: middle;
-    border:1rpx solid #3e3835;
+  .post {
+    margin-top: 80rpx;
   }
-}
+  .share {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 30rpx;
+    height: 100rpx;
+    width: 100%;
+    justify-content: space-between;
+    font-size: 24rpx;
+    color: #3e3835;
+    letter-spacing: 1.5rpx;
+    background-color: #ffffff;
+    margin-top: 20rpx;
+    .btn {
+      font-size: 24rpx;
+      color: #3e3835;
+      letter-spacing: 1.5rpx;
+      text-align: center;
+      border-radius: 8rpx;
+      width: 118rpx;
+      height: 48rpx;
+      line-height: 48rpx;
+      vertical-align: middle;
+      border: 1rpx solid #3e3835;
+    }
+  }
 </style>
+
 <template>
   <view class="container post">
     <toptabsC :tabbar="topTabC"></toptabsC>
     <repeat wx:for="{{thingslist.list}}" wx:index="index" wx:for-item="item" wx:key="index">
-      <listitem4  :thingsitem.sync="item" :indexa.sync="index"></listitem4>
+      <listitem4 :thingsitem.sync="item" :indexa.sync="index"></listitem4>
     </repeat>
   </view>
 </template>
@@ -42,125 +43,43 @@
   import wepy from 'wepy'
   import ListItem4 from '../components/listitem4'
   import TopTabs from '../components/toptabs'
-
   export default class MyFavor extends wepy.page {
     config = {
       navigationBarTitleText: '我发布的'
     }
-
     components = {
       listitem4: ListItem4,
       toptabsC: TopTabs
     }
-
     data = {
-      topTabC:{
+      topTabC: {
         cacheThings: [],
         cacheRent: [],
         color: '#a9a29f',
         selectedColor: '#3e3835',
         backgroundColor: '#ffffff',
         borderStyle: 'black',
-        list: [
-        {
-          text: '发布租品',
-          selected: true
-        },
-        {
-          text: '发布求租',
-          selected: false
-        }
+        list: [{
+            text: '发布租品',
+            selected: true
+          },
+          {
+            text: '发布求租',
+            selected: false
+          }
         ],
         position: 'top'
       },
-      rentlist:{
+      rentlist: {
         list: []
       },
       thingslist: {
-        list: [
-          {
-            id: 10,
-            type: 'things',
-            title: '山地车出售',
-            images: [
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png'
-            ],
-            price: '152',
-            descript: '',
-            position: '韵苑23栋',
-            time: ''
-          },
-          {
-            id: 10,
-            type: 'things',
-            title: '山地车出售',
-            images: [
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png'
-            ],
-            price: '152',
-            descript: '',
-            position: '韵苑23栋',
-            time: ''
-          },
-          {
-            id: 10,
-            type: 'things',
-            title: '山地车出售',
-            images: [
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png'
-            ],
-            price: '152',
-            descript: '',
-            position: '韵苑23栋',
-            time: ''
-          },
-          {
-            id: 10,
-            type: 'things',
-            title: '山地车出售',
-            images: [
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png'
-            ],
-            price: '152',
-            descript: '',
-            position: '韵苑23栋',
-            time: ''
-          },
-          {
-            id: 10,
-            type: 'things',
-            title: '山地车出售',
-            images: [
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png'
-            ],
-            price: '152',
-            descript: '',
-            position: '韵苑23栋',
-            time: ''
-          }
-        ],
+        list: [],
         type: 'things'
       }
     }
-
-    computed = {
-
-    }
-
-    methods = {
-
-    }
-
+    computed = {}
+    methods = {}
     events = {
       'tab-changeT': (...args) => {
         let index = args[0]
@@ -182,14 +101,14 @@
             _id: id
           }
         }).then((res) => {
-            wx.showToast({
-              title: '删除成功',
-              icon: 'success',
-              duration: 1000
-            })
-            console.log(index)
-            self.thingslist.list.splice(index, 1)
-            self.$apply()
+          wx.showToast({
+            title: '删除成功',
+            icon: 'success',
+            duration: 1000
+          })
+          console.log(index)
+          self.thingslist.list.splice(index, 1)
+          self.$apply()
         }, (rej) => {
           wx.showToast({
             title: '删除失败',
@@ -199,20 +118,19 @@
         })
       }
     }
-
-    thingsFilter (item) {
+    thingsFilter(item) {
       return item.type == 1
     }
-
-    rentFilter (item) {
+    rentFilter(item) {
       return item.type == 2
     }
-    onLoad () {
+    onLoad() {
       let self = this
       let token = this.$parent.globalData.code
       wx.showLoading({
         title: '加载中'
       })
+      wx.reportAnalytics('my_pub', {})
       this.$parent.Request({
         url: 'user/pub'
       }, token).then((res) => {
@@ -224,7 +142,10 @@
         self.$apply()
         wx.hideLoading()
       }, (rej) => {
-
+        wx.hideLoading()
+        wx.showToast({
+          name: '无更多数据'
+        })
       })
     }
   }

@@ -267,23 +267,13 @@
     </view>
     <view class="input_list cansold">
       <view class="input_bar cansold">
-        <view class="label">可卖</view>
+        <view class="label">可买</view>
         <checkbox-group bindchange="cansoldInput">
           <checkbox checked="{{postForm.is_deal == 2}}" value="{{true}}" />
         </checkbox-group>
       </view>
     </view>
     <view class="line" wx:if="{{ifOpenMore}}"></view>
-    <view class="moreprice {{ifOpenMore ? 'open' : ''}}">
-      <view class="half">
-        <view class="title">价格</view>
-        <input value="{{postForm.sell_price}}" @input="sellPriceInput" type="digit" placeholder="￥0.00" />
-      </view>
-      <view class="half">
-        <view class="title">原价</view>
-        <input value="{{postForm.origin_price}}" @input="originPriceInput" type="digit" placeholder="￥0.00" />
-      </view>
-    </view>
     <button @tap.stop="postThing" disabled="{{!formOk}}" class="post_btn {{formOk ? 'ok' : ''}}">确认发布</button>
     <view class="upborad {{upborad ? 'open' : ''}}"></view>
   </view>
@@ -293,7 +283,7 @@
   import wepy from 'wepy'
   export default class PostThings extends wepy.page {
     config = {
-      navigationBarTitleText: '发布租品'
+      navigationBarTitleText: '发布求租'
     }
     components = {}
     data = {
@@ -301,7 +291,7 @@
       postForm: {
         title: '',
         description: '',
-        type: 1,
+        type: 2,
         price: null,
         contact_way: '',
         category: 0,
@@ -529,6 +519,7 @@
       let itemId = options.id
       let self = this
       self.uploadPics = []
+      wx.reportAnalytics('pub_rent', {})
       if (itemId) {
         self.itemId = itemId
         self.getInfo(itemId)
@@ -538,6 +529,9 @@
         self.contact_way = userInfo.contact_way
       }
       self.$apply()
+    }
+    onShow() {
+      wx.reportAnalytics('pub_rent', {})
     }
   }
 </script>

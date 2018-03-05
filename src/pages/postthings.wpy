@@ -528,6 +528,7 @@
     onLoad(options) {
       let itemId = options.id
       let self = this
+      wx.reportAnalytics('pub_thing', {})
       self.uploadPics = []
       if (itemId) {
         self.itemId = itemId
@@ -538,6 +539,9 @@
         self.contact_way = userInfo.contact_way
       }
       self.$apply()
+    }
+    onShow() {
+      wx.reportAnalytics('pub_thing', {})
     }
   }
 </script>

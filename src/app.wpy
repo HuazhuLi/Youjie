@@ -120,8 +120,54 @@
         wepy.request(object)
       })
     }
-    onLaunch() {
+    onLaunch(options) {
       this.getAuorize(() => {})
+      let self = this
+      let ticket = options.shareTicket
+      if (ticket) {
+        this.getShareInfo(ticket).then((res) => {
+          console.log(res)
+          self.uploadGid({
+            encrypted_data: res.encryptedData,
+            iv: res.iv
+          })
+        })
+      }
+    }
+    onShow(options) {
+      let self = this
+      let ticket = options.shareTicket
+      if (ticket) {
+        this.getShareInfo(ticket).then((res) => {
+          console.log(res)
+          self.uploadGid({
+            encrypted_data: res.encryptedData,
+            iv: res.iv
+          })
+        })
+      }
+    }
+    getShareInfo(ticket) {
+      return new Promise((res, rej) => {
+        wx.getShareInfo({
+          shareTicket: ticket,
+          success(data) {
+            res(data)
+          },
+          fail(data) {
+            rej(data)
+          }
+        })
+      })
+    }
+    uploadGid(obj) {
+      this.Request({
+        url: 'rank/upload_gid',
+        method: 'POST',
+        data: obj
+      }).then((res) => {
+        console.log('upload gid success')
+      })
     }
     getAuorize(cb) {
       let self = this

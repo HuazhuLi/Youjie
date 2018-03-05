@@ -1,10 +1,11 @@
 <style lang="less">
 
 </style>
+
 <template>
   <view class="container">
     <repeat wx:for="{{thingslist.list}}" wx:index="index" wx:for-item="item" wx:key="index">
-      <listitem2  :thingsitem.sync="item" :indexa.sync="index"></listitem2>
+      <listitem2 :thingsitem.sync="item" :indexa.sync="index"></listitem2>
     </repeat>
   </view>
 </template>
@@ -12,112 +13,32 @@
 <script>
   import wepy from 'wepy'
   import ListItem2 from '../components/listitem2'
-
   export default class MyFavor extends wepy.page {
     config = {
       navigationBarTitleText: '我的收藏'
     }
-
     components = {
       listitem2: ListItem2
     }
-
     data = {
       thingslist: {
-        list: [
-          {
-            id: 10,
-            type: 'things',
-            title: '山地车出售',
-            images: [
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png'
-            ],
-            price: '152',
-            descript: '',
-            position: '韵苑23栋',
-            time: ''
-          },
-          {
-            id: 10,
-            type: 'things',
-            title: '山地车出售',
-            images: [
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png'
-            ],
-            price: '152',
-            descript: '',
-            position: '韵苑23栋',
-            time: ''
-          },
-          {
-            id: 10,
-            type: 'things',
-            title: '山地车出售',
-            images: [
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png'
-            ],
-            price: '152',
-            descript: '',
-            position: '韵苑23栋',
-            time: ''
-          },
-          {
-            id: 10,
-            type: 'things',
-            title: '山地车出售',
-            images: [
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png'
-            ],
-            price: '152',
-            descript: '',
-            position: '韵苑23栋',
-            time: ''
-          },
-          {
-            id: 10,
-            type: 'things',
-            title: '山地车出售',
-            images: [
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png'
-            ],
-            price: '152',
-            descript: '',
-            position: '韵苑23栋',
-            time: ''
-          }
-        ],
+        list: [],
         type: 'things'
       }
     }
-
     computed = {
-
     }
-
     methods = {
-
     }
-
     events = {
-
     }
-
-    onLoad () {
+    onLoad() {
       let self = this
       let token = this.$parent.globalData.code
       wx.showLoading({
         title: '加载中'
       })
+      wx.reportAnalytics('my_favor', {})
       this.$parent.Request({
         url: 'user/collect'
       }, token).then((res) => {

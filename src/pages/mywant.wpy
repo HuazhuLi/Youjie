@@ -25,76 +25,6 @@
     data = {
       thingslist: {
         list: [
-          {
-            id: 10,
-            type: 'things',
-            title: '山地车出售',
-            images: [
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png'
-            ],
-            price: '152',
-            descript: '',
-            position: '韵苑23栋',
-            time: ''
-          },
-          {
-            id: 10,
-            type: 'things',
-            title: '山地车出售',
-            images: [
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png'
-            ],
-            price: '152',
-            descript: '',
-            position: '韵苑23栋',
-            time: ''
-          },
-          {
-            id: 10,
-            type: 'things',
-            title: '山地车出售',
-            images: [
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png'
-            ],
-            price: '152',
-            descript: '',
-            position: '韵苑23栋',
-            time: ''
-          },
-          {
-            id: 10,
-            type: 'things',
-            title: '山地车出售',
-            images: [
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png'
-            ],
-            price: '152',
-            descript: '',
-            position: '韵苑23栋',
-            time: ''
-          },
-          {
-            id: 10,
-            type: 'things',
-            title: '山地车出售',
-            images: [
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png',
-              '../images/icons/empty_pic.png'
-            ],
-            price: '152',
-            descript: '',
-            position: '韵苑23栋',
-            time: ''
-          }
         ],
         type: 'things'
       }
@@ -117,6 +47,7 @@
       wx.showLoading({
         title: '加载中'
       })
+      wx.reportAnalytics('my_want', {})
       let token = this.$parent.globalData.code
       this.$parent.Request({
         url: 'user/buy'

@@ -1,52 +1,83 @@
 <style lang="less">
-
+  .empty {
+    text-align: center;
+    box-sizing: border-box;
+    padding: 111rpx 0 0 0;
+    image {
+      display: block;
+      margin: auto;
+    }
+    text {
+      font-size: 24rpx;
+      margin-top: 17rpx;
+      color: #a59894;
+      letter-spacing: 0.86px;
+    }
+    .gotorent {
+      background: #ff7777;
+      border-radius: 15rpx;
+      width: 180rpx;
+      height: 60rpx;
+      font-size: 32rpx;
+      line-height: 60rpx;
+      vertical-align: middle;
+      color: #ffffff;
+      letter-spacing: 1.14rpx;
+      text-align: center;
+      margin: auto;
+      margin-top: 18rpx;
+    }
+  }
 </style>
+
 <template>
   <view class="container">
     <repeat wx:for="{{getThingsList}}" wx:index="index" wx:for-item="item" wx:key="index">
-      <listitem3  :thingsitem.sync="item" :indexa.sync="index"></listitem3>
+      <listitem3 :thingsitem.sync="item" :indexa.sync="index"></listitem3>
     </repeat>
+    <view hidden="{{rentNotEmpty}}" class="empty">
+      <image src="../images/icons/empty_pic.png" mode="aspectFit"></image>
+      <text>暂时没有东西哦(⊙o⊙)</text>
+    </view>
   </view>
 </template>
 
 <script>
   import wepy from 'wepy'
   import ListItem from '../components/listitem'
-
   const TITLEALLOWLENGTH = 15
   const DESALLOWLENGTH = 22
   export default class MyWant extends wepy.page {
     config = {
       navigationBarTitleText: '搜索结果'
     }
-
     components = {
       listitem3: ListItem
     }
-
     data = {
       thingslist: {
-        list: [
-        ],
+        list: [],
         type: 'things'
       }
     }
-
     computed = {
-      getThingsList () {
+      getThingsList() {
         let self = this
-        let newList =  this.thingslist.list.map(self.listFilter)
+        let newList = this.thingslist.list.map(self.listFilter)
         return newList
+      },
+      rentNotEmpty() {
+        return this.thingslist.list.length != 0
       }
     }
-    listFilter (item) {
+    listFilter(item) {
       let date = new Date()
       let begintime = item.pub_time
       let title = item.title
       let descript = item.description
       let endtime = date.getTime()
       let nTime = endtime - begintime
-      let day = nTime/86400000
+      let day = nTime / 86400000
       let str = ''
       if (day < 1) {
         let hours = day * 24
@@ -67,14 +98,9 @@
       item.pubtime = str
       return item
     }
-    methods = {
-
-    }
-
-    events = {
-
-    }
-    getSearch (content) {
+    methods = {}
+    events = {}
+    getSearch(content = ' ') {
       return this.$parent.Request({
         url: 'search/',
         data: {
@@ -83,7 +109,7 @@
         method: 'POST'
       })
     }
-    onLoad (options) {
+    onLoad(options) {
       let self = this
       let content = options.content
       wx.showLoading({
@@ -92,8 +118,16 @@
       })
       this.getSearch(content).then((res) => {
         self.thingslist.list = res.data
+        console.log(res.data)
         self.$apply()
         wx.hideLoading()
+      }).catch((res) => {
+        wx.hideLoading()
+        wx.showToast({
+          title: '参数错误',
+          duration: 1000,
+          mask: true
+        })
       })
     }
   }

@@ -1,7 +1,25 @@
 <style lang="less">
   .title {
     font-size: 32rpx;
-    text-align: center;
+    text-align: left;
+    width: 100%;
+    margin-top: 50rpx;
+  }
+  .subtitle {
+    font-size: 28rpx;
+    text-align: left;
+    width: 100%;
+  }
+  .subsubtitle {
+    font-size: 25rpx;
+    text-align: left;
+    text-indent: 25rpx;
+    width: 100%;
+  }
+  .subsubsubtitle {
+    font-size: 25rpx;
+    text-align: left;
+    text-indent: 50rpx;
     width: 100%;
   }
   p {
@@ -18,13 +36,39 @@
 
 <template>
   <view class="paper">
-    <p class="title">第一条 概述</p>
-    <p>1、为保障JointForce平台用户合法权益，维护解放号平台正常经营秩序，根据国家相关法律法规制定《JointForce平台须知》（以下简称《平台须知》或本规则）。</p>
-    <p>2、《平台须知》是阐述JointForce平台用户基本行为规则的条款。用户使用解放号平台的服务、在解放号平台交易时，除了应该遵守我国相关法律法规和规章的规定，还应当遵循《平台须知》确定的规则。</p>
-    <p>3、违反《平台须知》行为的认定与处理，应基于解放号平台认定的事实，严格依法依规执行。解放号平台用户在适用本规则上一律平等。</p>
-    <p>4、用户在本平台的活动应当遵守国家法律、法规、规章等规范性文件及《平台须知》的规定。对任何涉嫌违反法律、法规、规章等规范性文件及《平台须知》的行为，本平台有权直接依法依规处理。用户在平台的行为没有相应规范对应的，解放号平台有权本着诚实信用、公平合理的原则酌情处理。但解放号平台对用户的处理不免除相关用户应当承担的法律责任。</p>
-    <p>5、用户在解放号平台上的全部行为仅代表其本人，不代表解放号平台，基于该行为的全部责任应当由用户自行承担。</p>
-    <p>6、在解放号平台上完成的交易，除按照法律规定不能转让或用户另有约定外，交易中涉及的相关的知识产权归属依法律、法规、规章等规范性文件确定或由双方约定。</p>
+    <p class="title">华科有借用户：</p>
+    <p class="subsubsubtitle">你好！请务必认真阅读和理解《用户服务协议》（以下简称《协议》）中所规定的所有权利和限制。除非你接受本《协议》。否则您无权使用有借相关服务。您一旦登陆、使用本产品提供相应服务，即表示您同意接受本《协议》。</p>
+    <p class="title">第一条：真实</p>
+    <p class="subtitle">1、校园卡认证</p>
+    <p class="subtitle">1)必要性：华科有借是一个校园闲置物品共享交易平台。提供一个校园的、安全的的平台。是我们大家共同的愿景。</p>
+    <p class="subtitle">2)基本规则：有借允许用户在不认证情况下浏览别的用户发布的商品信息或者求租订单，但是如果要在有借平台产生交易行为（发布商品、发布求租订单、租赁别人商品、接受求租订单）则需要校园身份认证。</p>
+    <p class="subtitle">3)怎么认证：以下两种情况会触发认证：</p>
+    <p class="subsubtitle">a.“我的”页面会出现未通过认证提醒，点击主动进行身份认证。</p>
+    <p class="subsubtitle">b.用户发生交易行为，会弹出认证信息要求用户进行身份认证。</p>
+    <p class="subtitle">4)认证审核：我们会在24小时之内为您审核通过，为了保证审核通过率，请您务必上传真实校园卡信息。同时为了您的使用体验，我们建议您使用第一种方式主动认证。</p>
+    <p class="subtitle">2、不实信息和行为严肃处理</p>
+    <p class="title">第二条：安全</p>
+    <p class="subtitle">只有当您觉得华科有借的环境是安全的时候，所有的交易才能被发生。</p>
+    <p class="subsubtitle">1、5个不得，2个不支持</p>
+    <p class="subsubtitle">1）不得发布国家法律法规不允许的信息，</p>
+    <p class="subsubtitle">2）不得发布假冒的信息，不得发布侵犯他人合法权益的信息。</p>
+    <p class="subsubtitle">3）不得发布拉人炒信、兼职广告等垃圾广告信息；</p>
+    <p class="subsubtitle">4）不得发布或提供以侮辱、诽谤等方式对他人进行人身攻击的信息；</p>
+    <p class="subsubtitle">5）不得发布涉及媒体舆情的相关内容。</p>
+    <p class="subsubtitle">6）不支持闲置品描述与实际不符的行为；</p>
+    <p class="subsubtitle">7）不支持交易发生后，以牟利或借机进行敲诈勒索为目的恶意行为。</p>
+    <p class="subtitle">以上行为被有借平台发现或用户举报时，我们会对用户采取永久平台内封禁微信ID。其中涉嫌违法的信息及行为我们将配合相关国家机关处理。</p>
+    <p class="subtitle">2、交易</p>
+    <p class="subtitle">有借建议用户了解身份后面对面交易。</p>
+    <p class="subtitle">3、隐私保护</p>
+    <p class="subtitle">所有用户上传资料，有借会提供隐私保障。包含但不限于：不对外公开或向第三发提供用户的注册资料等非公开内容。</p>
+    <p class="title">第三条：平等</p>
+    <p class="subtitle">原则：有借用户交易遵循平等、公平、自愿的原则。</p>
+    <p class="title">第四条：免责声明</p>
+    <p class="subtitle">1、对于因网络服务、计算及系统问题或其他不可抗原因而产生的损失，有借不承担任何责任，但将尽力减少而次带给用户的损失和影响。</p>
+    <p class="subtitle">2、有借致力于提供免费且更好的信息对接服务，对于交易过程中产生的矛盾、纠纷等，有借平台不承担任何责任。</p>
+    <p class="title">第五条：法律及争议解决</p>
+    <p class="subtitle">有借平台和冰岩作坊在法律允许范围内对本协议拥有解释权和修改权。</p>
   </view>
 </template>
 
@@ -35,13 +79,9 @@
       navigationBarTitleText: '租凭须知'
     }
     data = {}
-    computed = {
-    }
-    methods = {
-    }
-    events = {
-    }
-    onLoad() {
-    }
+    computed = {}
+    methods = {}
+    events = {}
+    onLoad() {}
   }
 </script>

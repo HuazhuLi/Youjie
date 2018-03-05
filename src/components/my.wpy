@@ -1,169 +1,170 @@
 <style scoped="true" type="less">
-page{
-  width: 100%;
-}
-.list_box{
-  background:#ffffff;
-  width: 100%;
-  display: flex;
-  box-sizing: border-box;
-  &.first{
-    flex-direction: column;
-    align-items: center;
-    padding: 55rpx 31rpx 14rpx 30rpx;
-    height: 400rpx;
+  page {
+    width: 100%;
   }
-  &.second{
-    flex-direction: column;
-    align-items: center;
-    margin: 14rpx 0 7rpx 0;
-    padding: 0 29rpx 0 29rpx;
-    height: 476rpx;
-  }
-  &.third{
-    flex-direction: column;
-    align-items: center;
-    padding: 0 29rpx 0 29rpx;
-    margin-bottom: 29rpx;
-    height: 356rpx;
-  }
-}
-.list_item{
-  display: flex;
-  width: 100%;
-  box-sizing: border-box;
-  &.first{
-    height: 175rpx;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-  &.second{
-    height: 147rpx;
-    padding: 0 44rpx 0 44rpx;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-  &.third{
-    height: 67rpx;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-  &.four{
+  .list_box {
+    background: #ffffff;
+    width: 100%;
     display: flex;
-    height: 119rpx;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    font-size:28rpx;
-    color:#3e3835;
-    letter-spacing:1rpx;
-    text-align:left;
-    .icon{
-      width: 33rpx;
-      height: 33rpx;
-      transform: scale(2);
-      margin-right: 16rpx;
+    box-sizing: border-box;
+    &.first {
+      flex-direction: column;
+      align-items: center;
+      padding: 55rpx 31rpx 14rpx 30rpx;
+      height: 400rpx;
     }
-    .itemname{
+    &.second {
+      flex-direction: column;
+      align-items: center;
+      margin: 14rpx 0 7rpx 0;
+      padding: 0 29rpx 0 29rpx;
+      height: 476rpx;
+    }
+    &.third {
+      flex-direction: column;
+      align-items: center;
+      padding: 0 29rpx 0 29rpx;
+      margin-bottom: 29rpx;
+      height: 356rpx;
+    }
+  }
+  .list_item {
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+    &.first {
+      height: 175rpx;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+    &.second {
+      height: 147rpx;
+      padding: 0 44rpx 0 44rpx;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+    &.third {
+      height: 67rpx;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+    &.four {
+      display: flex;
+      height: 119rpx;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 28rpx;
+      color: #3e3835;
+      letter-spacing: 1rpx;
+      text-align: left;
+      .icon {
+        width: 33rpx;
+        height: 33rpx;
+        transform: scale(2);
+        margin-right: 16rpx;
+      }
+      .itemname {
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+  .title {
+    height: 88rpx;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    .name {
+      font-size: 36rpx;
+      color: #3e3835;
+      letter-spacing: 1.29rpx;
+      text-align: left;
+    }
+    .money {
+      margin-top: 5rpx;
+      font-size: 24rpx;
+      color: #ff823c;
+      letter-spacing: 0.86rpx;
+      text-align: left;
+    }
+  }
+  .userInfo {
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    display: flex;
+    text-align: right;
+    width: 50%;
+    height: 114rpx;
+    .iconbox {
       display: flex;
       align-items: center;
     }
-  }
-}
-.title{
-  height: 88rpx;
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  width: 50%;
-  .name{
-    font-size:36rpx;
-    color:#3e3835;
-    letter-spacing:1.29rpx;
-    text-align:left;
-  }
-  .money{
-    margin-top: 5rpx;
-    font-size:24rpx;
-    color:#ff823c;
-    letter-spacing:0.86rpx;
-    text-align:left;
-  }
-}
-.userInfo{
-  flex-direction: column;
-  align-items:flex-end;
-  justify-content:center;
-  display: flex;
-  text-align: right;
-  width: 50%;
-  height: 114rpx;
-  .iconbox{
-    display: flex;
-    align-items: center;
-  }
-  .avatar{
-    width: 80rpx;
-    height: 80rpx;
-    border-radius: 100%;
-  }
-  .identify{
-    display: flex;
-    align-items: center;
-    height: 30rpx;
-    image{
-      width: 19rpx;
-      height: 19rpx;
-      transform: scale(2.3);
+    .avatar {
+      width: 80rpx;
+      height: 80rpx;
+      border-radius: 100%;
     }
-    &.fail{
-      color:#aba4a1;
+    .identify {
+      display: flex;
+      align-items: center;
+      height: 30rpx;
+      image {
+        width: 19rpx;
+        height: 19rpx;
+        transform: scale(2.3);
+      }
+      &.fail {
+        color: #aba4a1;
+      }
+      margin-top: 6rpx;
+      margin-right: 15rpx;
+      font-size:20rpx;
+      color:#64d544;
+      letter-spacing:0.71px;
+      text-align:left;
     }
-    margin-top: 6rpx;
-    margin-right: 15rpx;
-    font-size:20rpx;
-    color:#64d544;
-    letter-spacing:0.71px;
-    text-align:left;
   }
-}
-.myinfos{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  .number{
-    font-size:32rpx;
-    color:#3e3835;
-    letter-spacing:1.14rpx;
+  .myinfos {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .number {
+      font-size: 32rpx;
+      color: #3e3835;
+      letter-spacing: 1.14rpx;
+    }
+    .type {
+      font-size: 24rpx;
+      color: #aba4a1;
+      letter-spacing: 0.86rpx;
+    }
   }
-  .type{
-    font-size:24rpx;
-    color:#aba4a1;
-    letter-spacing:0.86rpx;
+  .line {
+    background: #eeeeee;
+    width: 725rpx;
+    height: 2rpx;
   }
-}
-.line{
-  background: #eeeeee;
-  width:725rpx;
-  height:2rpx;
-}
-.circle{
-  font-size:24rpx;
-  color:#5c5754;
-  letter-spacing:0.86rpx;
-  text-align:left;
-}
-.enter{
-  width: 14rpx;
-  height: 25rpx;
-  transform: scale(2.3);
-  margin-left:10rpx;
-}
+  .circle {
+    font-size: 24rpx;
+    color: #5c5754;
+    letter-spacing: 0.86rpx;
+    text-align: left;
+  }
+  .enter {
+    width: 14rpx;
+    height: 25rpx;
+    transform: scale(2.3);
+    margin-left: 10rpx;
+  }
 </style>
+
 <template>
   <view class="list_box first">
     <view class="list_item first">
@@ -176,15 +177,12 @@ page{
           <image class="avatar" mode="aspectFill" src="{{getMyInfo.avatar_url}}"></image>
           <image class="enter" mode="aspectFill" src="../images/icons/enter.svg">
         </view>
-        <view class="identify {{ifIdentify ? '' : 'fail'}}" >
-          <image mode="aspectFill" src="../images/icons/{{ifIdentify ? 'yes.svg' : 'yes_no.svg'}}"/>
-          {{identifyWord}}
+        <view class="identify {{ifIdentify ? '' : 'fail'}}">
+          <image mode="aspectFill" src="../images/icons/{{ifIdentify ? 'yes.svg' : 'yes_no.svg'}}" /> {{identifyWord}}
         </view>
       </navigator>
     </view>
-
     <view class="line"></view>
-
     <view class="list_item second">
       <view class="myinfos">
         <text class="number">{{getMyInfo.num_of_pub}}</text>
@@ -203,54 +201,45 @@ page{
         <text class="type">被想租</text>
       </view>
     </view>
-
     <view class="line"></view>
-
     <view class="list_item third">
       <text class="circle">我的圈子:{{getMyInfo.address}}</text>
       <image class="enter" mode="aspectFill" src="../images/icons/enter.svg">
     </view>
   </view>
-
   <view class="list_box second">
     <block wx:for="{{functionTable1}}" wx:for-item="item" wx:key="index">
       <navigator url="{{item.page}}" class="list_item four">
         <view class="itemname">
-          <image class="icon"  mode="aspectFit" src="{{item.icon}}"/>
-          {{item.name}}
+          <image class="icon" mode="aspectFit" src="{{item.icon}}" /> {{item.name}}
         </view>
         <image class="enter" mode="aspectFill" src="../images/icons/enter.svg">
       </navigator>
-      <view class="line" hidden="{{index == (functionTable1.length - 1)}}"></view>
+      <view class="line" hidden="{{index === 3}}"></view>
     </block>
   </view>
-
   <view class="list_box third">
     <block wx:for="{{functionTable2}}" wx:for-item="item" wx:key="index">
       <navigator url="{{item.page}}" class="list_item four">
         <view class="itemname">
-          <image class="icon"  mode="aspectFit" src="{{item.icon}}"/>
-          {{item.name}}
+          <image class="icon" mode="aspectFit" src="{{item.icon}}" /> {{item.name}}
         </view>
         <image class="enter" mode="aspectFill" src="../images/icons/enter.svg">
       </navigator>
-      <view class="line" hidden="{{index == (functionTable2.length - 1)}}"></view>
+      <view class="line" hidden="{{index === 2}}"></view>
     </block>
   </view>
 </template>
+
 <script>
   import wepy from 'wepy'
-
   export default class My extends wepy.component {
     props = {
-      myInfo: {
-      }
+      myInfo: {}
     }
-    watch = {
-    }
+    watch = {}
     data = {
-      functionTable1: [
-        {
+      functionTable1: [{
           name: '我发布的',
           page: 'mypost',
           icon: '../images/icons/release.svg'
@@ -271,8 +260,7 @@ page{
           icon: '../images/icons/in.svg'
         }
       ],
-      functionTable2: [
-        {
+      functionTable2: [{
           name: '租凭须知',
           page: 'firstknow',
           icon: '../images/icons/notice.svg'
@@ -289,16 +277,15 @@ page{
         }
       ]
     }
-    events = {
-    }
+    events = {}
     computed = {
-      getMyInfo () {
+      getMyInfo() {
         return this.myInfo
       },
-      ifIdentify () {
+      ifIdentify() {
         return this.myInfo.status == 3
       },
-      identifyWord () {
+      identifyWord() {
         let status = this.myInfo.status
         if (status == 1) {
           return '未认证'
@@ -309,7 +296,6 @@ page{
         }
       },
     }
-    methods = {
-    }
+    methods = {}
   }
 </script>
