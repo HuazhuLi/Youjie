@@ -76,6 +76,7 @@
       }
       picker {
         width: 120rpx;
+        height: 80rpx;
         float: right;
         color: #3e3835;
         text-align: right;
@@ -485,8 +486,8 @@
           wx.showToast({
             title: '上传成功',
             icon: 'success',
-            duration: 1000,
-            complete: () => {
+            duration: 1500,
+            complete() {
               wx.navigateBack()
             }
           })
@@ -498,6 +499,18 @@
             duration: 1000
           })
           console.log('fail', rej)
+        }).catch((rej) => {
+          if (rej.data.status === 3303) {
+            wx.showToast({
+              title: '请先验证身份',
+              duration: 1000,
+              complete() {
+                wx.navigateTo({
+                  url: 'vertificateid'
+                })
+              }
+            })
+          }
         })
       }
     }

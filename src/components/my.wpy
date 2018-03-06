@@ -215,7 +215,7 @@
         </view>
         <image class="enter" mode="aspectFill" src="../images/icons/enter.svg">
       </navigator>
-      <view class="line" hidden="{{index === 3}}"></view>
+      <view class="line" wx:if="{{index !== 3}}"></view>
     </block>
   </view>
   <view class="list_box third">
@@ -226,7 +226,7 @@
         </view>
         <image class="enter" mode="aspectFill" src="../images/icons/enter.svg">
       </navigator>
-      <view class="line" hidden="{{index === 2}}"></view>
+      <view class="line" wx:if="{{index !== 2}}"></view>
     </block>
   </view>
 </template>

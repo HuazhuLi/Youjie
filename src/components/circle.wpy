@@ -63,17 +63,17 @@
 </style>
 <template>
   <view class="circle">
-  <view wx:for="{{circleList}}" wx:for-item="item" wx:for-index="index" class="listitem">
+  <view wx:for="{{getCircle}}" wx:for-item="item" wx:for-index="index" class="listitem">
     <view class="namesbox">
       <image wx:if="{{index >= 0 && index <= 2}}" src="../images/icons/medal{{index + 1}}.svg" model = "aspectFill" class="medal"/>
       <view wx:if="{{index > 2}}" class="medalword">{{index + 1}}</view>
       <view class="names">
-        <view class="title">{{item.name}}</view>
+        <view class="title">{{item.address}}</view>
         <open-data wx:if="{{item.gid !== undefined}}" class="title" type="groupName" open-gid="{{item.gid}}"></open-data>
         <view class="money">财力值{{item.wealth_value}}</view>
       </view>
     </view>
-    <view class="button">去逛逛</view>
+    <view wx:if="{{item.gid === undefined}}" class="button">去逛逛</view>
   </view>
   </view>
 </template>
@@ -88,7 +88,9 @@
       
     }
     computed = {
-
+      getCircle () {
+        return this.circleList
+      }
     }
     methods = {
       tap () {

@@ -95,6 +95,9 @@
     }
     Request(object, token) {
       let that = this
+      wx.showLoading({
+        title: '加载中'
+      })
       return new Promise((res, rej) => {
         object.url = BASE_URL + object.url
         object.success = (data) => {
@@ -118,6 +121,12 @@
         }
         // console.log(object, that.globalData.code)
         wepy.request(object)
+      }).catch((rej) => {
+        wx.hideLoading()
+        wx.showToast({
+          title: '服务器错误',
+          duration: 1000
+        })
       })
     }
     onLaunch(options) {
@@ -209,6 +218,10 @@
     }
     getUserInfo(cb, fcb) {
       const that = this
+      if (this.globalData.code !== null) {
+        cb()
+        return
+      }
       wx.login({
         success: function(data) {
           if (data.code) {

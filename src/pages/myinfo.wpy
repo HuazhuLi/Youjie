@@ -99,7 +99,7 @@
     <view class="listitem">
       <text class="title">联系方式</text>
       <view class="descript ">
-        <input type="text" value="{{userInfo.contact_way}}" @input="contactHandler" />
+        <input type="text" value="{{getContact}}" @input="contactHandler" />
         <image class="enter" mode="aspectFill" src="../images/icons/enter.svg" />
       </view>
     </view>
@@ -148,6 +148,9 @@
       },
       getAd2() {
         return this.addressdata2[this.userInfo.address2]
+      },
+      getContact () {
+        return this.userInfo.contact_way
       },
       ifIdentify() {
         return this.userInfo.status == 3

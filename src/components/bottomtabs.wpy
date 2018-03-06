@@ -208,6 +208,7 @@
   // import abc from 'abc'
   export default class BottomTabs extends wepy.component {
     props = {
+      myInfo: {}
     }
     computed = {
       tablist() {
@@ -215,7 +216,6 @@
       }
     }
     data = {
-      userInfo: null,
       tabbar: {
         color: '#a9a29f',
         selectedColor: '#FF4AA6',
@@ -268,14 +268,39 @@
     }
     methods = {
       handleViewTap(event) {
+        let self = this
         let tabid = event.target.dataset.tabId
         // console.log(event.target)
         if (tabid == undefined) return
         let index = parseInt(tabid)
         let state = this.tabbar.list[index].selected
         if (index === 2) {
-          this.tabbar.list[index].selected = !state
-          this.$emit('post-change')
+          let status = this.myInfo.status
+          console.log(status)
+          if (status === 1) {
+            wx.showToast({
+              title: '请先验证身份',
+              duration: 1000,
+              complete() {
+                wx.navigateTo({
+                  url: 'vertificateid'
+                })
+              }
+            })
+          } else if (status === 2) {
+            wx.showToast({
+              title: '您的信息正在审核',
+              duration: 1000
+            })
+          } else if (status === 3) {
+            this.tabbar.list[index].selected = !state
+            this.$emit('post-change')
+          } else {
+            wx.showToast({
+              title: '网络错误',
+              duration: 1000
+            })
+          }
         } else {
           for (let item in this.tabbar.list) {
             this.tabbar.list[item].selected = false

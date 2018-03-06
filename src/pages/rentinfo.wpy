@@ -294,7 +294,7 @@
           data: data,
           success: (res) => {
             wx.showToast({
-              title: '已复制到剪切版',
+              title: '已复制联系方式到剪切版',
               icon: 'success',
               duration: 2000
             })

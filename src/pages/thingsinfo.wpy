@@ -228,9 +228,9 @@
     </view>
     <view class="line"></view>
     <button open-type="share" @tap="shareHandler" size="mini" class="item">
-          <image mode="aspectFit" src="../images/icons/share.svg"></image>
-          <text>分享</text>
-        </button>
+            <image mode="aspectFit" src="../images/icons/share.svg"></image>
+            <text>分享</text>
+          </button>
     <view @tap="contactHandler" class="want">
       我想租
     </view>
@@ -253,10 +253,24 @@
       itemId: null
     }
     onShareAppMessage(res) {
-      let title = '[租品] ' + this.thingsinfo.title
+      let self = this
+      if (res.from === 'button') {
+        // 来自页面内转发按钮
+        console.log(res.target)
+      }
       return {
-        title: title,
         success: function(res) {
+          let tickets = res.shareTickets
+          Promise.all(tickets.map((item) => {
+            return self.$parent.getShareInfo(item).then((res) => {
+              console.log(res)
+              return self.$parent.uploadGid({
+                encrypted_data: res.encryptedData,
+                iv: res.iv
+              })
+            })
+          }))
+          console.log(tickets)
           // 转发成功
         },
         fail: function(res) {
@@ -397,7 +411,7 @@
             data: data,
             success: (res) => {
               wx.showToast({
-                title: '已复制到剪切版',
+                title: '已复制联系方式到剪切版',
                 icon: 'success',
                 duration: 2000
               })
@@ -409,13 +423,12 @@
     }
     events = {}
     getInfo(id) {
-      let token = this.$parent.globalData.code
       return this.$parent.Request({
         url: 'commodity/detail',
         data: {
           _id: id
         }
-      }, token)
+      })
     }
     userInit(cb, fcb) {
       let self = this

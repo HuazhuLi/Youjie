@@ -208,7 +208,7 @@
         let str = this.ifShow ? 'open' : 'close'
         return str
       },
-      getType () {
+      getLabel () {
         return this.typedata.filter((item) => {
           if (item.selected) {
             return true
@@ -235,10 +235,14 @@
           item.map((item) => {
             if (item.selected) {
               let fathername = ''
+              let fullname = ''
               if (item.father < 4) {
                 fathername = self.addressdata[parseInt(item.father - 1)].name
+                fullname = fathername + ' ' + item.name
+              } else {
+                fullname = item.name
               }
-              address.push(fathername + item.name)
+              address.push(fullname)
             }
           })
         })
@@ -288,7 +292,7 @@
       },
       completeHandler (e) {
         let data = {}
-        data.type = this.getType[0]
+        data.label = this.getLabel[0]
         data.category = this.getCategory
         data.address = this.getAddress
         console.log(data)
