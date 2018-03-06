@@ -306,7 +306,8 @@
           wx.hideLoading()
         })
       } else if (bottomIndex === 4) {
-        this.$parent.getUserInfo((userInfo) => {
+        self.$parent.getUserInfo((userInfo) => {
+          console.log(userInfo)
           if (userInfo) {
             self.userInfo = userInfo.data
             wx.stopPullDownRefresh()
@@ -580,6 +581,19 @@
       }, token)
     }
     events = {
+      'circle-click': (...args) => {
+        let address = [].push(args[0])
+        let self = this
+        let data = {
+          address: address,
+          type: 1,
+          label: 1,
+          pages: 1
+        }
+        self.renderHomeList(data)
+        self.tabIndexB = 0
+        self.$apply()
+      },
       'tab-changeB': (...args) => {
         let index = args[0]
         let self = this
@@ -667,7 +681,7 @@
         self.filter.category = data.category
         self.thingsPage = 1
         self.$apply()
-      }) 
+      })
     }
     renderCircle(label) {
       let self = this
@@ -748,8 +762,7 @@
           self.$apply()
           self.init()
         }
-      }, (res) => {
-      })
+      }, (res) => {})
     }
   }
 </script>

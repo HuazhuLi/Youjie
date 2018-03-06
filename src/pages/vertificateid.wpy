@@ -200,6 +200,10 @@
     }
 
     onLoad() {
+      wx.showToast({
+        title: '您需要先验证身份',
+        duration: 1000
+      })
 
     }
   }

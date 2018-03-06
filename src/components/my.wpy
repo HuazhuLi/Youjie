@@ -170,7 +170,7 @@
     <view class="list_item first">
       <view class="title">
         <text class="name">{{getMyInfo.nick_name}}</text>
-        <text class="money">已赚200元</text>
+        <text class="money">已赚{{getMyInfo.money}}元</text>
       </view>
       <navigator url="myinfo" class="userInfo">
         <view class="iconbox">

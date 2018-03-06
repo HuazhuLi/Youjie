@@ -228,9 +228,9 @@
     </view>
     <view class="line"></view>
     <button open-type="share" @tap="shareHandler" size="mini" class="item">
-            <image mode="aspectFit" src="../images/icons/share.svg"></image>
-            <text>分享</text>
-          </button>
+              <image mode="aspectFit" src="../images/icons/share.svg"></image>
+              <text>分享</text>
+            </button>
     <view @tap="contactHandler" class="want">
       我想租
     </view>
@@ -410,10 +410,16 @@
           wepy.setClipboardData({
             data: data,
             success: (res) => {
-              wx.showToast({
-                title: '已复制联系方式到剪切版',
-                icon: 'success',
-                duration: 2000
+              wx.showModal({
+                title: '提示',
+                content: '联系方式（微信ID）已复制到剪贴板',
+                success: function(res) {
+                  if (res.confirm) {
+                    console.log('用户点击确定')
+                  } else if (res.cancel) {
+                    console.log('用户点击取消')
+                  }
+                }
               })
             },
             fail: (res) => {}
@@ -437,7 +443,7 @@
           cb(res)
         }, (rej) => {
           fcb(res)
-        })
+        }, 1)
       })
     }
     onLoad(options) {

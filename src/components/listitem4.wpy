@@ -1,93 +1,93 @@
 <style scoped="true" type="less">
-.listitem {
-  padding: 25rpx 30rpx 25rpx 30rpx;
-  background:#ffffff;
-  box-sizing: border-box;
-  box-shadow:0 2px 4px 0 rgba(0,0,0,0.05);
-  width:100%;
-  height:300rpx;
-  position: relative;
-  margin-top: 20rpx;
-  margin-bottom: 19rpx;
-}
-.infobox{
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-  height: 150rpx;
-  image{
-    width: 150rpx;
-    height: 150rpx;
+  .listitem {
+    padding: 25rpx 30rpx 25rpx 30rpx;
+    background: #ffffff;
+    box-sizing: border-box;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+    width: 100%;
+    height: 300rpx;
+    position: relative;
+    margin-top: 20rpx;
+    margin-bottom: 19rpx;
   }
-  .info{
-    margin-left: 24rpx;
-    height: 150rpx;
-    width: 80%;
-    flex-shrink: .2;
-    .title{
-      font-size:28rpx;
-      color:#3e3835;
-      letter-spacing:1.75rpx;
-    }
-    .price{
-      margin-top: 20rpx;
-      font-size:24rpx;
-      color:#ff4b4b;
-    }
-    .label{
-      margin-top: 20rpx;
-      font-size:24rpx;
-      color:#a9a29f;
-      letter-spacing:1.5rpx;
-    }
-  }
-}
-.line{
-  background-color: #ededed;
-  width:684rpx;
-  height:1rpx;
-  margin-top: 18rpx;
-}
-.functionbox{
-  display: flex;
-  align-items: center;
-  height: 60rpx;
-  justify-content: space-between;
-  margin-top: 13rpx;
-  .label{
-    font-size:18rpx;
-    color:#a9a29f;
-    letter-spacing:1.25rpx;
-    line-height:35rpx;
-    vertical-align: middle;
-  }
-  .btnbox{
+  .infobox {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    width: 260rpx;
-    .functionbtn{
-      font-size:24rpx;
-      color:#3e3835;
-      letter-spacing:1.5rpx;
-      text-align: center;
-      border-radius:8rpx;
-      width:118rpx;
-      height:48rpx;
-      line-height: 48rpx;
-      vertical-align: middle;
-      margin: 0 10rpx 0 10rpx;
-      border:1rpx solid #3e3835;
+    justify-content: flex-start;
+    width: 100%;
+    height: 150rpx;
+    image {
+      width: 150rpx;
+      height: 150rpx;
+    }
+    .info {
+      margin-left: 24rpx;
+      height: 150rpx;
+      width: 80%;
+      flex-shrink: .2;
+      .title {
+        font-size: 28rpx;
+        color: #3e3835;
+        letter-spacing: 1.75rpx;
+      }
+      .price {
+        margin-top: 20rpx;
+        font-size: 24rpx;
+        color: #ff4b4b;
+      }
+      .label {
+        margin-top: 20rpx;
+        font-size: 24rpx;
+        color: #a9a29f;
+        letter-spacing: 1.5rpx;
+      }
     }
   }
-}
-
+  .line {
+    background-color: #ededed;
+    width: 684rpx;
+    height: 1rpx;
+    margin-top: 18rpx;
+  }
+  .functionbox {
+    display: flex;
+    align-items: center;
+    height: 60rpx;
+    justify-content: space-between;
+    margin-top: 13rpx;
+    .label {
+      font-size: 18rpx;
+      color: #a9a29f;
+      letter-spacing: 1.25rpx;
+      line-height: 35rpx;
+      vertical-align: middle;
+    }
+    .btnbox {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 260rpx;
+      .functionbtn {
+        font-size: 24rpx;
+        color: #3e3835;
+        letter-spacing: 1.5rpx;
+        text-align: center;
+        border-radius: 8rpx;
+        width: 118rpx;
+        height: 48rpx;
+        line-height: 48rpx;
+        vertical-align: middle;
+        margin: 0 10rpx 0 10rpx;
+        border: 1rpx solid #3e3835;
+      }
+    }
+  }
 </style>
+
 <template>
-  <view   class="listitem">
+  <view class="listitem">
     <view class="infobox">
-      <image mode="aspectFill" src="{{thingsitem.pictures[0]}}"/>
+      <image mode="aspectFill" src="{{thingsitem.pictures[0]}}" />
       <view class="info">
         <view class="title">{{thingsitem.title}}</view>
         <view class="price">￥{{thingsitem.price}}</view>
@@ -104,25 +104,34 @@
     </view>
   </view>
 </template>
+
 <script>
   import wepy from 'wepy'
-
   export default class ListItemPanel extends wepy.component {
     props = {
       thingsitem: {},
       indexa: 0
     }
-    data = {
-    }
-    computed = {
-    }
+    data = {}
+    computed = {}
     methods = {
-      deleteHandler (e) {
+      deleteHandler(e) {
         let id = e.currentTarget.dataset.itemid
         let index = e.currentTarget.dataset.itemindex
-        this.$emit('delete', id, index)
+        let self = this
+        wx.showModal({
+          title: '警告',
+          content: '删除后只能通过客服恢复！',
+          success: function(res) {
+            if (res.confirm) {
+              self.$emit('delete', id, index)
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
+          }
+        })
       },
-      reviseHandler (e) {
+      reviseHandler(e) {
         let id = e.currentTarget.dataset.itemid
         let type = e.currentTarget.dataset.type
         let str = type == 1 ? 'postthings?id=' : 'postrent?id='

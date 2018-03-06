@@ -29,7 +29,7 @@
 <template>
   <view class="container">
     <view class="share">
-      一共赚到了120.0元
+      一共赚到了{{getMoney}}元
       <view class="btn">
         去炫耀
       </view>
@@ -52,17 +52,19 @@
     components = {
       listitem3: ListItem3
     }
-
     data = {
       thingslist: {
         list: [
         ],
-        type: 'things'
+        type: 'things',
+        money: 0
       }
     }
 
     computed = {
-
+      getMoney () {
+        return this.money
+      }
     }
 
     methods = {
@@ -75,13 +77,18 @@
 
     onLoad () {
       let self = this
-      let token = this.$parent.globalData.code
+      wx.showLoading({
+        title: '加载中'
+      })
       wx.reportAnalytics('my_borrow', {})
       this.$parent.Request({
         url: 'user/sell'
-      }, token).then((res) => {
+      }).then((res) => {
         let data = res.data
+        self.money = self.$parent.globalData.userInfo2.money
+        console.log(self.$parent.globalData.userInfo2.money)
         self.thingslist.list = data
+        wx.hideLoading()
         self.$apply()
       })
     }

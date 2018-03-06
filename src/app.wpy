@@ -64,6 +64,7 @@
     }
     globalData = {
       userInfo: null,
+      userInfo2: null,
       categorys: null,
       code: null
     }
@@ -95,9 +96,6 @@
     }
     Request(object, token) {
       let that = this
-      wx.showLoading({
-        title: '加载中'
-      })
       return new Promise((res, rej) => {
         object.url = BASE_URL + object.url
         object.success = (data) => {
@@ -122,7 +120,6 @@
         // console.log(object, that.globalData.code)
         wepy.request(object)
       }).catch((rej) => {
-        wx.hideLoading()
         wx.showToast({
           title: '服务器错误',
           duration: 1000
@@ -216,10 +213,11 @@
         fcb(rej)
       })
     }
-    getUserInfo(cb, fcb) {
+    getUserInfo(cb, fcb, ifCheck = 0) {
+      console.log(ifCheck)
       const that = this
-      if (this.globalData.code !== null) {
-        cb()
+      if (ifCheck && (that.globalData.code !== null)) {
+        cb(that.globalData.userInfo2)
         return
       }
       wx.login({
@@ -252,6 +250,7 @@
                       url: 'user'
                     }, that.globalData.code).then((res) => {
                       // console.log(res)
+                      that.globalData.userInfo2 = res.data
                       cb(res)
                     }, (rej) => {
                       fcb(rej)

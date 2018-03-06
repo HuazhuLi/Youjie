@@ -73,7 +73,7 @@
         <view class="money">财力值{{item.wealth_value}}</view>
       </view>
     </view>
-    <view wx:if="{{item.gid === undefined}}" class="button">去逛逛</view>
+    <view wx:if="{{item.gid === undefined}}" data-address="{{item.address}}" class="button" @tap="goSearch">去逛逛</view>
   </view>
   </view>
 </template>
@@ -93,7 +93,9 @@
       }
     }
     methods = {
-      tap () {
+      goSearch (e) {
+        let address = e.currentTarget.dataset.address
+        this.$emit('circle-click', address)
       }
     }
   }

@@ -483,12 +483,15 @@
         this.postFormToNet(obj).then((res) => {
           console.log('succee', res)
           wx.hideLoading()
-          wx.showToast({
-            title: '上传成功',
-            icon: 'success',
-            duration: 1500,
-            complete() {
-              wx.navigateBack()
+          wx.showModal({
+            title: '提示',
+            content: '上传成功',
+            success: function(res) {
+              if (res.confirm) {
+                wx.navigateBack()
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+              }
             }
           })
         }, (rej) => {

@@ -280,8 +280,8 @@
           if (status === 1) {
             wx.showToast({
               title: '请先验证身份',
-              duration: 1000,
-              complete() {
+              duration: 1500,
+              complete: () => {
                 wx.navigateTo({
                   url: 'vertificateid'
                 })

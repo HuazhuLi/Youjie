@@ -304,6 +304,7 @@
         self.userInfo.contact_way = res.data.contact_way
         self.userInfo.status = res.data.status
         self.$apply()
+        wx.hideLoading()
       })
     }
     onLoad() {
