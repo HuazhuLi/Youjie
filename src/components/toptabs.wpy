@@ -57,7 +57,8 @@
 
   export default class BottomTabs extends wepy.component {
     props = {
-      tabbar: {}
+      tabbar: {},
+      id: '0'
     }
     computed = {
       itemindex () {
@@ -76,6 +77,7 @@
     methods = {
       handleViewTap (event) {
         let index = parseInt(event.target.dataset.tabId)
+        let id = this.id
         // console.log(event.target, index)
         let state = this.tabbar.list[index].selected
 
@@ -83,7 +85,7 @@
           this.tabbar.list[item].selected = false
         }
         this.tabbar.list[index].selected = true
-        this.$emit('tab-changeT', index)
+        this.$emit('tab-changeT', index, id)
       }
     }
   }

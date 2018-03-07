@@ -202,7 +202,7 @@
       </repeat>
     </scroll-view>
     <scroll-view class="listcontainer" hidden="{{tabIndexB != 1}}">
-      <toptabsA :tabbar="topTabA"></toptabsA>
+      <toptabsA :tabbar="topTabA" :id="0"></toptabsA>
       <view hidden="{{rentNotEmpty}}" class="empty">
         <image src="../images/icons/empty_pic.png" mode="aspectFit"></image>
         <text>暂时没有东西哦(⊙o⊙)</text>
@@ -212,7 +212,7 @@
       </repeat>
     </scroll-view>
     <scroll-view class="listcontainer" hidden="{{tabIndexB != 3}}">
-      <toptabsB :tabbar="topTabB"></toptabsB>
+      <toptabsB :tabbar="topTabB" :id="1"></toptabsB>
       <circle :circleList.sync="getCircle"></circle>
     </scroll-view>
     <scroll-view class="listcontainer" hidden="{{tabIndexB != 4}}">
@@ -271,14 +271,15 @@
       let self = this
       let filter = this.filter
       let bottomIndex = this.tabIndexB
-      let label = this.tabIndexT + 1
+      let label1 = this.tabIndexT1 + 1
+      let label2 = this.tabIndexT2 + 1
       if (bottomIndex === 0) {
         self.renderHomeList(filter).then((res) => {
           wx.stopPullDownRefresh()
           wx.hideLoading()
         })
       } else if (bottomIndex === 1) {
-        switch (label) {
+        switch (label1) {
           case 1:
             wx.reportAnalytics('rent_newset_pd', {})
             break
@@ -289,18 +290,18 @@
             wx.reportAnalytics('rent_exp_pd', {})
             break
         }
-        self.getRent(label, 1, 1).then((res) => {
+        self.getRent(label1, 1, 1).then((res) => {
           wx.stopPullDownRefresh()
           wx.hideLoading()
           self.rentlist.list = res.data
           self.$apply()
         })
       } else if (bottomIndex === 3) {
-        console.log(label)
+        console.log(label2)
         wx.showLoading({
           title: '加载中'
         })
-        self.renderCircle(label).then((res) => {
+        self.renderCircle(label2).then((res) => {
           wx.hideLoading()
           wx.stopPullDownRefresh()
           wx.hideLoading()
@@ -330,7 +331,8 @@
     }
     onReachBottom() {
       let index = this.tabIndexB
-      let label = this.tabIndexT + 1
+      let label1 = this.tabIndexT1 + 1
+      let label2 = this.tabIndexT2 + 1
       let filter = this.filter
       let self = this
       if (index === 0) {
@@ -356,7 +358,7 @@
           title: '加载中'
         })
         let page = this.rentPage + 1
-        self.getRent(label, 1, page).then((res) => {
+        self.getRent(label1, 1, page).then((res) => {
           wx.hideLoading()
           if (res.data.length > 0) {
             self.rentlist.list = self.rentlist.list.concat(res.data)
@@ -396,7 +398,8 @@
       inputState: false,
       titles: ['租品', '求租', '发布', '圈子', '我的'],
       tabIndexB: 0,
-      tabIndexT: 0,
+      tabIndexT1: 0,
+      tabIndexT2: 0,
       userInfo: {},
       topTabB: {
         color: '#a9a29f',
@@ -597,7 +600,8 @@
       'tab-changeB': (...args) => {
         let index = args[0]
         let self = this
-        let label = this.tabIndexT + 1
+        let label1 = this.tabIndexT1 + 1
+        let label2 = this.tabIndexT2 + 1
         this.tabIndexB = index
         wx.setNavigationBarTitle({
           title: self.titles[index]
@@ -606,7 +610,7 @@
           wx.showLoading({
             title: '加载中'
           })
-          this.reRenderList(2, label, 1, 1).then((res) => {
+          this.reRenderList(2, label1, 1, 1).then((res) => {
             wx.hideLoading()
           })
         }
@@ -614,7 +618,7 @@
           wx.showLoading({
             title: '加载中'
           })
-          this.renderCircle(label).then((res) => {
+          this.renderCircle(label2).then((res) => {
             wx.hideLoading()
           })
         }
@@ -629,10 +633,17 @@
       },
       'tab-changeT': (...args) => {
         let index = args[0]
+        let id = args[1]
         let self = this
         let type = self.tabIndexB + 1
         let label = index + 1
-        self.tabIndexT = index
+        switch (id) {
+          case '0':
+            self.tabIndexT1 = index
+            break
+          case '1':
+            self.tabIndexT2 = index
+        }
         if (type === 2) {
           wx.showLoading({
             title: '加载中'

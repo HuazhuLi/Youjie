@@ -60,8 +60,8 @@
 </style>
 
 <template>
-  <view data-itemid="{{thingsitem._id}}" data-type="{{thingsitem.type}}" class="listitem">
-    <view class="infobox">
+  <view class="listitem">
+    <view catchtap="openInfo" data-itemid="{{thingsitem._id}}" data-type="{{thingsitem.type}}" class="infobox">
       <image mode="aspectFill" src="{{thingsitem.pictures[0]}}" />
       <view class="info">
         <view class="title">{{thingsitem.title}}</view>
@@ -89,14 +89,33 @@
         wepy.setClipboardData({
           data: data,
           success: (res) => {
-            wx.showToast({
-              title: '已复制到剪切版',
-              icon: 'success',
-              duration: 2000
+            wx.showModal({
+              title: '提示',
+              content: '联系方式（微信ID）已复制到剪贴板',
+              success: function(res) {
+                if (res.confirm) {
+                  console.log('用户点击确定')
+                } else if (res.cancel) {
+                  console.log('用户点击取消')
+                }
+              }
             })
           },
           fail: (res) => {}
         })
+      },
+      openInfo(e) {
+        let type = e.currentTarget.dataset.type
+        let id = e.currentTarget.dataset.itemid
+        if (type == 1) {
+          wx.navigateTo({
+            url: 'thingsinfo?id=' + id
+          })
+        } else {
+          wx.navigateTo({
+            url: 'rentinfo?id=' + id
+          })
+        }
       }
     }
   }

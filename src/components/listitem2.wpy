@@ -1,92 +1,90 @@
 <style scoped="true" type="less">
-.listitem {
-  padding: 31rpx;
-  background:#ffffff;
-  box-sizing: border-box;
-  box-shadow:0 2px 4px 0 rgba(0,0,0,0.05);
-  width:100%;
-  height:420rpx;
-  position: relative;
-  margin-top: 10rpx;
-  margin-bottom: 19rpx;
-}
-.title{
-  width: 100%;
-  height: 45rpx;
-  line-height: 45rpx;
-  vertical-align: middle;
-}
-.images{
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  margin-top: 15rpx;
-  height: 257rpx;
-  overflow-x: scroll;
-  overflow-y: hidden;
-}
-
-.image{
-  float: left;
-  display: inline-block;
-  height: 225rpx;
-  width: 225rpx;
-  background: '../images/icons/empty_pic.png';
-}
-
-.descript{
-  margin-top: 8rpx;
-  height: 40rpx;
-  line-height: 40rpx;
-}
-.line{
-  background-color: #ededed;
-  width:684rpx;
-  height:1rpx;
-  margin-top: 18rpx;
-}
-.info{
-  font-size:24rpx;
-  margin-top: 13rpx;
-  height: 30rpx;
-  line-height: 30rpx;
-}
-.font{
-  color:#b8b3b0;
-  &.title{
-    color:#3e3835;
-    font-size: 32rpx;
-    font-weight: bold;
-    letter-spacing: 2rpx;
-    margin-top: 6rpx;
+  .listitem {
+    padding: 31rpx;
+    background: #ffffff;
+    box-sizing: border-box;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+    width: 100%;
+    height: 420rpx;
+    position: relative;
+    margin-top: 10rpx;
+    margin-bottom: 19rpx;
   }
-  &.price{
-    color:#ff4b4b;
-    letter-spacing: 0rpx;
-    font-size: 36rpx;
-    float: right;
-    font-weight: bold;
+  .title {
+    width: 100%;
+    height: 45rpx;
+    line-height: 45rpx;
+    vertical-align: middle;
   }
-  &.descript{
+  .images {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 15rpx;
+    height: 257rpx;
+    overflow-x: scroll;
+    overflow-y: hidden;
+  }
+  .image {
+    float: left;
+    display: inline-block;
+    height: 225rpx;
+    width: 225rpx;
+    background: '../images/icons/empty_pic.png';
+  }
+  .descript {
     margin-top: 8rpx;
-    font-size: 28rpx;
-    color:#3e3835;
-    letter-spacing: 1rpx;
+    height: 40rpx;
+    line-height: 40rpx;
   }
-  &.position{
-    font-size: 22rpx;
-    letter-spacing: 0.79rpx;
+  .line {
+    background-color: #ededed;
+    width: 684rpx;
+    height: 1rpx;
+    margin-top: 18rpx;
   }
-  &.time{
-    font-size: 22rpx;
-    letter-spacing: 0.79rpx;
-    float: right;
+  .info {
+    font-size: 24rpx;
+    margin-top: 13rpx;
+    height: 30rpx;
+    line-height: 30rpx;
   }
-}
-
+  .font {
+    color: #b8b3b0;
+    &.title {
+      color: #3e3835;
+      font-size: 32rpx;
+      font-weight: bold;
+      letter-spacing: 2rpx;
+      margin-top: 6rpx;
+    }
+    &.price {
+      color: #ff4b4b;
+      letter-spacing: 0rpx;
+      font-size: 36rpx;
+      float: right;
+      font-weight: bold;
+    }
+    &.descript {
+      margin-top: 8rpx;
+      font-size: 28rpx;
+      color: #3e3835;
+      letter-spacing: 1rpx;
+    }
+    &.position {
+      font-size: 22rpx;
+      letter-spacing: 0.79rpx;
+    }
+    &.time {
+      font-size: 22rpx;
+      letter-spacing: 0.79rpx;
+      float: right;
+    }
+  }
 </style>
+
 <template>
-  <view  catchtap="openInfo" data-itemid="{{thingsitem._id}}" data-type="{{thingsitem.type}}" class="listitem">
+  <view catchtap="openInfo" data-itemid="{{thingsitem._id}}" data-type="{{thingsitem.type}}" class="listitem">
     <view class="title">
       <text class="font title">{{thingsitem.title}}</text>
       <text class="font price">￥{{thingsitem.price}}</text>
@@ -101,19 +99,17 @@
     </view>
   </view>
 </template>
+
 <script>
   import wepy from 'wepy'
-
   export default class ListItem2 extends wepy.component {
     props = {
       thingsitem: {}
     }
-    data = {
-    }
-    computed = {
-    }
+    data = {}
+    computed = {}
     methods = {
-      openInfo (e) {
+      openInfo(e) {
         let type = e.currentTarget.dataset.type
         let id = e.currentTarget.dataset.itemid
         if (type == 1) {

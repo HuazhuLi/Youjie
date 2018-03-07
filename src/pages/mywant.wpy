@@ -3,7 +3,7 @@
 </style>
 <template>
   <view class="container">
-    <repeat wx:for="{{thingslist.list}}" wx:index="index" wx:for-item="item" wx:key="index">
+    <repeat wx:for="{{getThings}}" wx:index="index" wx:for-item="item" wx:key="index">
       <listitem3  :thingsitem.sync="item" :indexa.sync="index"></listitem3>
     </repeat>
   </view>
@@ -31,7 +31,9 @@
     }
 
     computed = {
-
+      getThings () {
+        return this.thingslist.list
+      }
     }
 
     methods = {

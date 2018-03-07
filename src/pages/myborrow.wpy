@@ -34,7 +34,7 @@
         去炫耀
       </view>
     </view>
-    <repeat wx:for="{{thingslist.list}}" wx:index="index" wx:for-item="item" wx:key="index">
+    <repeat wx:for="{{getThings}}" wx:index="index" wx:for-item="item" wx:key="index">
       <listitem3  :thingsitem.sync="item" :indexa.sync="index"></listitem3>
     </repeat>
   </view>
@@ -64,6 +64,9 @@
     computed = {
       getMoney () {
         return this.money
+      },
+      getThings () {
+        return this.thingslist.list
       }
     }
 

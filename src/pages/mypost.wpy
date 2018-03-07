@@ -33,7 +33,7 @@
 <template>
   <view class="container post">
     <toptabsC :tabbar="topTabC"></toptabsC>
-    <repeat wx:for="{{thingslist.list}}" wx:index="index" wx:for-item="item" wx:key="index">
+    <repeat wx:for="{{getList}}" wx:index="index" wx:for-item="item" wx:key="index">
       <listitem4 :thingsitem.sync="item" :indexa.sync="index"></listitem4>
     </repeat>
   </view>
@@ -78,7 +78,11 @@
         type: 'things'
       }
     }
-    computed = {}
+    computed = {
+      getList () {
+        return this.thingslist.list
+      }
+    }
     methods = {}
     events = {
       'tab-changeT': (...args) => {
