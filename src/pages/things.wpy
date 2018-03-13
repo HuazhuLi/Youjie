@@ -232,7 +232,7 @@
   import Filter from '../components/filter'
   import Circle from '../components/circle'
   const TITLEALLOWLENGTH = 15
-  const DESALLOWLENGTH = 22
+  const DESALLOWLENGTH = 18
   export default class Things extends wepy.page {
     config = {
       navigationBarTitleText: '租品',
@@ -450,8 +450,8 @@
     listFilter(item) {
       let date = new Date()
       let begintime = item.pub_time
-      let title = item.title
-      let descript = item.description
+      let title = item.title.replace(/\n/g,' ')
+      let descript = item.description.replace(/\n/g,' ')
       let endtime = date.getTime()
       let nTime = endtime - begintime
       let day = nTime / 86400000
