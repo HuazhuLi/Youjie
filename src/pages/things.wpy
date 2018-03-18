@@ -756,7 +756,8 @@
       let self = this
       wx.getSystemInfo({
         success: function(res) {
-          if (res.model == 'iphonerx') {
+          console.log(res)
+          if (res.model == 'iPhone X') {
             self.$broadcast('adjust-iphonex', true)
           }
         }
