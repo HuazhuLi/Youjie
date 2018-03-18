@@ -1,100 +1,101 @@
 <style scoped="true" type="less">
-.listitem{
-  height: 200rpx;
-  background:#ffffff;
-  border-bottom: 1px solid #eeeeee;
-  display: flex;
-  box-sizing: border-box;
-  padding: 55rpx 21rpx 64rpx 41rpx;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-.namesbox{
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-}
-.names{
-  .title{
-    font-size:32rpx;
-    color:#3e3835;
-    letter-spacing:1.14rpx;
-    text-align:left;
+  .listitem {
+    height: 200rpx;
+    background: #ffffff;
+    border-bottom: 1px solid #eeeeee;
+    display: flex;
+    box-sizing: border-box;
+    padding: 55rpx 21rpx 64rpx 41rpx;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
   }
-  .money{
-    margin-top: 2rpx;
-    font-size:24rpx;
-    color:#fe8e4f;
-    letter-spacing:0.86rpx;
-    text-align:left;
+  .namesbox {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
   }
-}
-.button{
-  border:1rpx solid #ff823c;
-  width:123rpx;
-  height:48rpx;
-  font-size:28rpx;
-  color:#ff823c;
-  letter-spacing:1rpx;
-  text-align: center;
-  line-height: 48rpx;
-  vertical-align: middle;
-}
-.circle{
-  width: 100%;
-}
-.medal{
-  width: 72rpx;
-  height: 72rpx;
-  transform: scale(2);
-  text-align: center;
-}
-.medalword{
-  width: 72rpx;
-  height: 72rpx;
-  line-height: 72rpx;
-  vertical-align: middle;
-  text-align: center;
-  font-size:36rpx;
-  color:#3e3835;
-}
+  .names {
+    .title {
+      font-size: 32rpx;
+      color: #3e3835;
+      letter-spacing: 1.14rpx;
+      text-align: left;
+    }
+    .money {
+      margin-top: 2rpx;
+      font-size: 24rpx;
+      color: #fe8e4f;
+      letter-spacing: 0.86rpx;
+      text-align: left;
+    }
+  }
+  .button {
+    border: 1rpx solid #ff823c;
+    width: 123rpx;
+    height: 48rpx;
+    font-size: 28rpx;
+    color: #ff823c;
+    letter-spacing: 1rpx;
+    text-align: center;
+    line-height: 48rpx;
+    vertical-align: middle;
+  }
+  .circle {
+    width: 100%;
+  }
+  .medal {
+    width: 72rpx;
+    height: 72rpx;
+    transform: scale(2);
+    text-align: center;
+  }
+  .medalword {
+    width: 72rpx;
+    height: 72rpx;
+    line-height: 72rpx;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 36rpx;
+    color: #3e3835;
+  }
 </style>
+
 <template>
   <view class="circle">
-  <view wx:for="{{getCircle}}" wx:for-item="item" wx:for-index="index" class="listitem">
-    <view class="namesbox">
-      <image wx:if="{{index >= 0 && index <= 2}}" src="../images/icons/medal{{index + 1}}.svg" model = "aspectFill" class="medal"/>
-      <view wx:if="{{index > 2}}" class="medalword">{{index + 1}}</view>
-      <view class="names">
-        <view class="title">{{item.address}}</view>
-        <open-data wx:if="{{item.gid !== undefined}}" class="title" type="groupName" open-gid="{{item.gid}}"></open-data>
-        <view class="money">财力值{{item.wealth_value}}</view>
+    <view wx:for="{{getCircle}}" wx:for-item="item" wx:for-index="index" class="listitem">
+      <view class="namesbox">
+        <image wx:if="{{index >= 0 && index <= 2}}" src="../images/icons/medal{{index + 1}}.svg" model="aspectFill" class="medal" />
+        <view wx:if="{{index > 2}}" class="medalword">{{index + 1}}</view>
+        <view class="names">
+          <view class="title">{{item.address}}</view>
+          <open-data wx:if="{{item.gid !== undefined}}" class="title" type="groupName" open-gid="{{item.gid}}"></open-data>
+          <view class="money">财力值{{item.wealth_value}}</view>
+        </view>
       </view>
+      <view wx:if="{{item.gid === undefined}}" data-address="{{item.address}}" class="button" @tap="goSearch">去逛逛</view>
     </view>
-    <view wx:if="{{item.gid === undefined}}" data-address="{{item.address}}" class="button" @tap="goSearch">去逛逛</view>
-  </view>
   </view>
 </template>
+
 <script>
   import wepy from 'wepy'
-
   export default class Circle extends wepy.component {
     props = {
       circleList: []
     }
     data = {
-      
     }
     computed = {
-      getCircle () {
+      getCircle() {
         return this.circleList
       }
     }
     methods = {
-      goSearch (e) {
+      goSearch(e) {
         let address = e.currentTarget.dataset.address
+        console.log(address)
         this.$emit('circle-click', address)
       }
     }

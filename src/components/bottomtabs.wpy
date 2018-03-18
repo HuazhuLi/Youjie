@@ -175,10 +175,13 @@
   .post_borrow:hover {
     transform: scale(1.1);
   }
+  .iphoneX {
+    bottom: 32rpx;
+  }
 </style>
 
 <template>
-  <view class="tabbar_box" style="background-color:{{tabbar.backgroundColor}}; border-top-color:{{tabbar.borderStyle}}; {{tabbar.position == 'top' ? 'top:0' : 'bottom:0'}}">
+  <view class="tabbar_box" style="{{blockStyle}}">
     <navigator url="postthings" hover-class="post_rent_hover" class="post_rent {{tablist[2].selected ? 'open' : ''}}">
       <image src="../images/icons/post_rent.svg"></image>
       <text>发布租品</text>
@@ -187,7 +190,7 @@
       <image src="../images/icons/post_borrow.svg"></image>
       <text>求租租品</text>
     </navigator>
-    <view catchtap="handleViewTap" data-tab-id="2" class="post_box ">
+    <view catchtap="handleViewTap" data-tab-id="2" style="{{btnStyle}}" class="post_box ">
       <view id="mask" class="mask {{tablist[2].selected ? 'open' : ''}}"></view>
       <view id="tab" data-tab-id="2" class="post_box_content {{tablist[2].selected ? 'rotate' : ''}}">
         <view class="bar column {{tablist[2].selected ? 'rotate' : ''}}"></view>
@@ -213,14 +216,37 @@
     computed = {
       tablist() {
         return this.tabbar.list
+      },
+      blockStyle() {
+        let offset = this.tabbar.offset
+        if (this.ifX) {
+          offset = 32
+        }
+        return `
+              backgroundColor: ${this.tabbar.backgroundColor};
+              borderTopColor: ${this.tabbar.borderStyle};
+              padding-bottom: ${offset}rpx;
+            `
+      },
+      btnStyle() {
+        let offset = 47
+        let self = this
+        if (this.ifX) {
+          offset = 79
+        }
+        return `
+              bottom: ${offset}rpx;
+            `
       }
     }
     data = {
+      ifX: false,
       tabbar: {
         color: '#a9a29f',
         selectedColor: '#FF4AA6',
         backgroundColor: '#ffffff',
         borderStyle: 'black',
+        offset: 0,
         list: [{
             pagePath: '/pages/things',
             text: '租品',
@@ -260,7 +286,20 @@
         position: 'bottom'
       }
     }
-    events = {}
+    events = {
+      'btab-change': (...args) => {
+        let index = args[0]
+        let self = this
+        for (let item in this.tabbar.list) {
+          self.tabbar.list[item].selected = false
+        }
+        this.tabbar.list[index].selected = true
+        this.$apply()
+      },
+      'adjust-iphonex': (...args) => {
+        this.ifX = args[0]
+      }
+    }
     watch = {
       num(curVal, oldVal) {
         console.log(`旧值：${oldVal}，新值：${curVal}`)

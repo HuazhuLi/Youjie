@@ -235,7 +235,7 @@
       <view class="line"></view>
       <view class="input_bar descript">
         <view class="label">描述</view>
-        <textarea bindinput="descriptInput" maxlength="{{100}}" value="{{postForm.description}}" confirm-type="next" placeholder="描述一下你要借出的物品吧！100字以内哦。"></textarea>
+        <textarea bindinput="descriptInput" maxlength="{{100}}" value="{{postForm.description}}" confirm-type="next" placeholder="请在此处描述一下你要出借的物品和一次租用的时长吧！100字以内哦。"></textarea>
       </view>
       <view class="imagesinputbox">
         <block wx:for="{{uploadImages}}">
@@ -364,7 +364,7 @@
               return 0
             }
           }
-          if (this.postForm['is_deal'] == 1 && item != 'picturesSrc' && item != 'pictures' && (item != 'sell_price' && item != 'origin_price') && (value == undefined || value == null || value.length == 0)) {
+          if (this.postForm['is_deal'] == 1 && item != 'picturesSrc' && item != 'pictures' && (value == undefined || value == null || value.length == 0)) {
             // console.log(item, value)
             return 0
           }

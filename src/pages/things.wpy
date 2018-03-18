@@ -450,8 +450,8 @@
     listFilter(item) {
       let date = new Date()
       let begintime = item.pub_time
-      let title = item.title.replace(/\n/g,' ')
-      let descript = item.description.replace(/\n/g,' ')
+      let title = item.title.replace(/\n/g, ' ')
+      let descript = item.description.replace(/\n/g, ' ')
       let endtime = date.getTime()
       let nTime = endtime - begintime
       let day = nTime / 86400000
@@ -585,16 +585,18 @@
     }
     events = {
       'circle-click': (...args) => {
-        let address = [].push(args[0])
+        let address = args[0]
         let self = this
         let data = {
-          address: address,
+          address: [address],
           type: 1,
           label: 1,
-          pages: 1
+          pages: 1,
+          category: []
         }
         self.renderHomeList(data)
         self.tabIndexB = 0
+        self.$broadcast('btab-change', 0)
         self.$apply()
       },
       'tab-changeB': (...args) => {
@@ -752,6 +754,13 @@
     }
     async init() {
       let self = this
+      wx.getSystemInfo({
+        success: function(res) {
+          if (res.model == 'iphonerx') {
+            self.$broadcast('adjust-iphonex', true)
+          }
+        }
+      })
       const tdata = await self.renderHomeList(self.filter)
       // const rankdata = await self.getRank()
       // self.rankData = rankdata.data

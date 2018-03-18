@@ -20,7 +20,7 @@
 .images{
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: flex-start;
   margin-top: 15rpx;
   height: 257rpx;
   overflow-x: scroll;

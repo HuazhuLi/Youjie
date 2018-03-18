@@ -1,133 +1,139 @@
 <style lang="less">
-.listitem{
-  background:#ffffff;
-  width:750rpx;
-  height:120rpx;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-  padding: 38rpx 30rpx 42rpx 30rpx;
-  &.two{
-    margin-top: 20rpx;
-  }
-  .title{
-    font-size:28rpx;
-    color:#3e3835;
-    letter-spacing:1rpx;
-  }
-  input{
-    font-size:28rpx;
-    color:#aba4a1;
-    letter-spacing:1rpx;
-    text-align:right;
-
-  }
-}
-.uploadbox{
-  width: 100%;
-  background:#ffffff;
-  margin-top: 28rpx;
-  display: flex;
-  box-sizing: border-box;
-  padding: 22rpx;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  image{
-    width:281rpx;
-    height:173rpx;
-  }
-  .descript{
-    &.title{
-      margin-top: 15rpx;
-      font-size:28rpx;
-      color:#aba4a1;
-      letter-spacing:1rpx;
+  .listitem {
+    background: #ffffff;
+    width: 750rpx;
+    height: 120rpx;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 38rpx 30rpx 42rpx 30rpx;
+    &.two {
+      margin-top: 20rpx;
     }
-    &.sub{
-      margin-top: 7rpx;
-      font-size:20rpx;
-      color:#cdc2bd;
-      letter-spacing:0.71rpx;
+    .title {
+      font-size: 28rpx;
+      color: #3e3835;
+      letter-spacing: 1rpx;
+    }
+    input {
+      font-size: 28rpx;
+      color: #aba4a1;
+      letter-spacing: 1rpx;
+      text-align: right;
     }
   }
-}
-.btn{
-  transition: all .5s;
-  margin-top: 149rpx;
-  background:#9c9c9c;
-  width:640rpx;
-  height:75rpx;
-  line-height: 75rpx;
-  vertical-align: middle;
-  text-align: center;
-  font-size:32rpx;
-  color:#ffffff;
-  letter-spacing:2rpx;
-  &.pass{
-    background:#ff4949;
+  .uploadbox {
+    width: 100%;
+    background: #ffffff;
+    margin-top: 28rpx;
+    display: flex;
+    box-sizing: border-box;
+    padding: 22rpx;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    image {
+      width: 281rpx;
+      height: 173rpx;
+    }
+    .descript {
+      &.title {
+        margin-top: 15rpx;
+        font-size: 28rpx;
+        color: #aba4a1;
+        letter-spacing: 1rpx;
+      }
+      &.sub {
+        margin-top: 7rpx;
+        font-size: 20rpx;
+        color: #cdc2bd;
+        letter-spacing: 0.71rpx;
+      }
+    }
   }
-}
+  .btn {
+    transition: all .5s;
+    margin-top: 149rpx;
+    background: #9c9c9c;
+    width: 640rpx;
+    height: 75rpx;
+    line-height: 75rpx;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 32rpx;
+    color: #ffffff;
+    letter-spacing: 2rpx;
+    &.pass {
+      background: #ff4949;
+    }
+  }
+  .lock {
+    width: 40rpx;
+    height: 100%;
+    position: absolute;
+    right: 120rpx;
+  }
 </style>
+
 <template>
   <view class="container">
     <view class="listitem">
       <text class="title">姓名</text>
-      <input @input="nameHandler" value="{{name}}" placeholder="请输入姓名" type="text"/>
+      <input disabled="{{ifInVertifying}}" @input="nameHandler" value="{{name}}" placeholder="请输入姓名" type="text" />
     </view>
     <view wx:if="{{item.type != 'id'}}" class="line"></view>
     <view class="listitem">
       <text class="title">证件类型</text>
-      <input disabled="true" value="校园卡" placeholder="请输入证件" type="text"/>
+      <image class="lock" src="../images/icons/lock.svg" />
+      <input disabled="true" value="校园卡" placeholder="请输入证件" type="text" />
     </view>
     <view wx:if="{{item.type != 'id'}}" class="line"></view>
     <view class="listitem">
       <text class="title">学号</text>
-      <input @input="cardHandler" value="{{card_number}}" placeholder="请输入学号" type="text"/>
+      <input disabled="{{ifInVertifying}}" @input="cardHandler" value="{{card_number}}" placeholder="请输入学号" type="text" />
     </view>
     <view class="listitem two">
       <text class="title">联系方式</text>
-      <input  @input="contactHandler" value="{{contact_way}}" placeholder="请输入微信号" type="text"/>
+      <input disabled="{{ifInVertifying}}" @input="contactHandler" value="{{contact_way}}" placeholder="请输入微信号" type="text" />
     </view>
     <view class="uploadbox">
       <image @tap="imageHandler" src="{{imageSrc}}"></image>
       <view class="descript title">请拍照上传学生证正面</view>
       <view class="descript sub">别怕！保密！</view>
     </view>
-    <view @tap="uploadVertify" class="btn {{formOk ? 'pass' : ''}}">确认</view>
+    <view @tap="uploadVertify" class="btn {{formOk ? 'pass' : ''}}">{{message}}</view>
   </view>
 </template>
 
 <script>
   import wepy from 'wepy'
-
   export default class VertificateID extends wepy.page {
     config = {
       navigationBarTitleText: '身份认证'
     }
-
-    components = {
-    }
-
+    components = {}
     data = {
       name: undefined,
       card_type: 1,
       card_number: undefined,
       cachepics: [],
-      contact_way: undefined
+      contact_way: undefined,
+      ifVertifing: false
     }
-
     computed = {
-      imageSrc () {
+      imageSrc() {
         let cachepics = this.cachepics
         if (cachepics[0] && cachepics[0].length != 0) {
           return cachepics[0]
         }
         return '../images/icons/addpic.svg'
       },
-      formOk () {
+      formOk() {
         let obj = this.data
+        if (this.data.ifVertifing) {
+          return false
+        }
         for (let item in obj) {
           let val = obj[item]
           if (val == undefined || (item == 'cachepics' && val.length == 0)) {
@@ -135,24 +141,36 @@
           }
         }
         return 1
+      },
+      message() {
+        let str = '确认'
+        if (this.ifVertifing) {
+          str = '正在审核中，请稍后'
+        }
+        return str
+      },
+      ifInVertifying() {
+        return this.ifVertifing
       }
     }
-
     methods = {
-      nameHandler (e) {
+      nameHandler(e) {
         this.name = e.detail.value
         this.$apply()
       },
-      cardHandler (e) {
+      cardHandler(e) {
         this.card_number = e.detail.value
         this.$apply()
       },
-      contactHandler (e) {
+      contactHandler(e) {
         this.contact_way = e.detail.value
         this.$apply()
       },
-      imageHandler (e) {
+      imageHandler(e) {
         let self = this
+        if (self.ifVertifing) {
+          return
+        }
         wepy.chooseImage({
           count: 1,
           success: (res) => {
@@ -161,7 +179,7 @@
           }
         })
       },
-      uploadVertify () {
+      uploadVertify() {
         let self = this
         let data = this.data
         if (this.formOk) {
@@ -180,6 +198,7 @@
               title: '上传成功',
               duration: 1000,
               complete: () => {
+                self.$parent.globalData.userInfo2.status = 2
                 wx.navigateBack()
               }
             })
@@ -187,24 +206,38 @@
             wx.showToast({
               title: '上传失败',
               duration: 1000,
-              success: () => {
-              }
+              success: () => {}
             })
           })
         }
       }
     }
-
-    events = {
-
-    }
-
+    events = {}
     onLoad() {
-      wx.showToast({
-        title: '您需要先验证身份',
-        duration: 1000
-      })
-
+      let self = this
+      let status = self.$parent.globalData.userInfo2.status
+      if (status == 1) {
+        wx.showToast({
+          title: '您需要先验证身份',
+          duration: 1000
+        })
+      } else if (status == 2) {
+        self.ifVertifing = true
+        self.$apply()
+      }
+    }
+    onShow() {
+      let self = this
+      let status = self.$parent.globalData.userInfo2.status
+      if (status == 1) {
+        wx.showToast({
+          title: '您需要先验证身份',
+          duration: 1000
+        })
+      } else if (status == 2) {
+        self.ifVertifing = true
+        self.$apply()
+      }
     }
   }
 </script>
