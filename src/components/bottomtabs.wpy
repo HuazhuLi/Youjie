@@ -298,6 +298,7 @@
       },
       'adjust-iphonex': (...args) => {
         this.ifX = args[0]
+        this.$apply()
       }
     }
     watch = {

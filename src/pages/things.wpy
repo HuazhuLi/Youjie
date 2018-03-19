@@ -751,6 +751,14 @@
         title: '加载中',
         mask: true
       })
+      wx.getSystemInfo({
+        success: function(res) {
+          console.log(res)
+          if (res.model == 'iPhone X') {
+            self.$broadcast('adjust-iphonex', true)
+          }
+        }
+      })
     }
     async init() {
       let self = this
