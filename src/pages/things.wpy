@@ -744,6 +744,7 @@
     }
     onShow() {}
     onLoad(options) {
+      let self = this
       wx.showShareMenu({
         withShareTicket: true
       })
