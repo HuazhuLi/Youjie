@@ -755,7 +755,7 @@
       wx.getSystemInfo({
         success: function(res) {
           console.log(res)
-          if (res.model == 'iPhone X') {
+          if (res.model.indexOf('iPhone X') != -1) {
             self.$broadcast('adjust-iphonex', true)
           }
         }
@@ -766,7 +766,7 @@
       wx.getSystemInfo({
         success: function(res) {
           console.log(res)
-          if (res.model == 'iPhone X') {
+          if (res.model.indexOf('iPhone X') != -1) {
             self.$broadcast('adjust-iphonex', true)
           }
         }
