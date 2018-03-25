@@ -199,6 +199,9 @@
       return arr
     }
     events = {
+      'reset-filter': (...args) => {
+        this.resetHandler()
+      }
     }
 
     watch = {

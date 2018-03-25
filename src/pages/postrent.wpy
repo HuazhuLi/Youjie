@@ -276,7 +276,6 @@
     </view>
     <view class="line" wx:if="{{ifOpenMore}}"></view>
     <button @tap.stop="postThing" disabled="{{!formOk}}" class="post_btn {{formOk ? 'ok' : ''}}">确认发布</button>
-    <view class="upborad {{upborad ? 'open' : ''}}"></view>
   </view>
 </template>
 
@@ -298,8 +297,6 @@
         category: 0,
         upload_times: 1,
         is_deal: 1,
-        origin_price: undefined,
-        sell_price: undefined,
         pictures: []
       },
       uploadPics: [],
@@ -358,13 +355,13 @@
             return 0
           }
           // console.log(this.postForm['is_deal'], value)
-          if (this.postForm['is_deal'] == 2 && item != 'picturesSrc' && item != 'pictures') {
+          if (item != 'picturesSrc' && item != 'pictures') {
             if (value == undefined || value == null || value.length == 0) {
               // console.log(item, value)
               return 0
             }
           }
-          if (this.postForm['is_deal'] == 1 && item != 'picturesSrc' && item != 'pictures' && (value == undefined || value == null || value.length == 0)) {
+          if (item != 'picturesSrc' && item != 'pictures' && (value == undefined || value == null || value.length == 0)) {
             // console.log(item, value)
             return 0
           }

@@ -4,7 +4,7 @@
 <template>
   <view class="container">
     <repeat wx:for="{{getThings}}" wx:index="index" wx:for-item="item" wx:key="index">
-      <listitem3  :thingsitem.sync="item" :indexa.sync="index"></listitem3>
+      <listitem3 :ifShowContact.sync="ifShowContact" :thingsitem.sync="item" :indexa.sync="index"></listitem3>
     </repeat>
   </view>
 </template>
@@ -31,6 +31,9 @@
     }
 
     computed = {
+      ifShowContact () {
+        return true
+      },
       getThings () {
         return this.thingslist.list
       }

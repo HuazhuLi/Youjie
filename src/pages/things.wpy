@@ -170,7 +170,7 @@
 </style>
 
 <template>
-  <scroll-view class="container list {{ifNoMargin ? 'my' : ''}}">
+  <scroll-view bindtouchstart="handletouchstart" bindtouchmove="handletouchmove" class="container list {{ifNoMargin ? 'my' : ''}}">
     <scroll-view class="listcontainer" hidden="{{tabIndexB != 0}}">
       <view class="mask"></view>
       <view class="filterbox {{showFilter ? 'open' : 'close'}}">
@@ -384,6 +384,8 @@
       circle: Circle
     }
     data = {
+      lastX: 0,
+      lastY: 0,
       showFilter: false,
       cacheThings: null,
       thingsPage: 1,
@@ -506,6 +508,21 @@
       }
     }
     methods = {
+      handletouchstart(e) {
+        this.lastX = e.touches[0].pageX
+        this.lastY = e.touches[0].pageY
+        this.$apply()
+      },
+      handletouchmove(e) {
+        let currentX = e.touches[0].pageX
+        let ifShowFilter = this.showFilter
+        let self = this
+        let offset = currentX - self.lastX
+        if ((offset > 45) && ifShowFilter) {
+          self.showFilter = false
+          self.$apply()
+        }
+      },
       openFilter(e) {
         this.showFilter = true
         wx.reportAnalytics('filter', {})
@@ -608,6 +625,15 @@
         wx.setNavigationBarTitle({
           title: self.titles[index]
         })
+        if (index === 0) {
+          let filter = {
+            type: 1,
+            category: [],
+            address: [],
+            label: 1
+          }
+          self.renderHomeList(filter)
+        }
         if (index === 1) {
           wx.showLoading({
             title: '加载中'
@@ -720,7 +746,6 @@
     }
     reRenderList(type, label, category, page = 1) {
       let self = this
-      let token = this.$parent.globalData.code
       let obj = {
         type: type,
         label: label,
@@ -732,7 +757,7 @@
       return this.$parent.Request({
         url: 'commodity/',
         data: obj
-      }, token).then((res) => {
+      }).then((res) => {
         let data = res.data
         if (type == 1) {
           self.thingslist.list = data

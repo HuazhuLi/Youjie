@@ -228,9 +228,9 @@
     </view>
     <view class="line"></view>
     <button open-type="share" @tap="shareHandler" size="mini" class="item">
-              <image mode="aspectFit" src="../images/icons/share.svg"></image>
-              <text>分享</text>
-            </button>
+                <image mode="aspectFit" src="../images/icons/share.svg"></image>
+                <text>分享</text>
+              </button>
     <view @tap="contactHandler" class="want">
       我想租
     </view>
@@ -410,6 +410,7 @@
           wepy.setClipboardData({
             data: data,
             success: (res) => {
+              wx.reportAnalytics('contact_click', {})
               wx.showModal({
                 title: '提示',
                 content: '联系方式（微信ID）已复制到剪贴板',

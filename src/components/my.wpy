@@ -204,7 +204,6 @@
     <view class="line"></view>
     <view class="list_item third">
       <text class="circle">我的圈子:{{getMyInfo.address}}</text>
-      <image class="enter" mode="aspectFill" src="../images/icons/enter.svg">
     </view>
   </view>
   <view class="list_box second">

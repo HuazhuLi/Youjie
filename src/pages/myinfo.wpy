@@ -144,9 +144,11 @@
         return this.classdata[this.userInfo.class]
       },
       getAd1() {
+        console.log(this.userInfo.address1)
         return this.addressdata1[this.userInfo.address1]
       },
       getAd2() {
+        console.log(this.userInfo.address2)
         return this.addressdata2[this.userInfo.address2]
       },
       getContact () {
@@ -207,7 +209,7 @@
             self.addressdata2 = self.generateArray(28)
             break
           case '2':
-            self.addressdata2 = self.generateArray(8)
+            self.addressdata2 = self.generateArray(13)
             break
           case '3':
             self.addressdata2 = self.generateArray(13)
