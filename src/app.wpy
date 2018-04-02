@@ -50,7 +50,8 @@
         'pages/aboutus',
         'pages/feedback',
         'pages/myfavor',
-        'pages/vertificateid'
+        'pages/vertificateid',
+        'pages/starvertify'
       ],
       networkTimeout: {
         request: 10000
@@ -66,7 +67,8 @@
       userInfo: null,
       userInfo2: null,
       categorys: null,
-      code: null
+      code: null,
+      ifiPhoneX: false
     }
     constructor() {
       super()
@@ -120,15 +122,32 @@
         // console.log(object, that.globalData.code)
         wepy.request(object)
       }).catch((rej) => {
-        wx.showToast({
-          title: '服务器错误',
-          duration: 1000
-        })
+        let status = rej.data.status
+        let data = rej.data.data
+        if (status == 4400) {
+          wx.showToast({
+            title: data,
+            duration: 1000
+          })
+        } else if (status == 5500) {
+          wx.showToast({
+            title: '服务器错误',
+            duration: 1000
+          })
+        }
+        console.log(rej)
       })
     }
     onLaunch(options) {
       this.getAuorize(() => {})
       let self = this
+      wx.getSystemInfo({
+        success: function(res) {
+          if (res.model.indexOf('iPhone X') != -1) {
+            self.globalData.ifiPhoneX = true
+          }
+        }
+      })
       let ticket = options.shareTicket
       if (ticket) {
         this.getShareInfo(ticket).then((res) => {

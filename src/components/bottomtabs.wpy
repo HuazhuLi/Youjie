@@ -223,10 +223,10 @@
           offset = 32
         }
         return `
-              backgroundColor: ${this.tabbar.backgroundColor};
-              borderTopColor: ${this.tabbar.borderStyle};
-              padding-bottom: ${offset}rpx;
-            `
+                backgroundColor: ${this.tabbar.backgroundColor};
+                borderTopColor: ${this.tabbar.borderStyle};
+                padding-bottom: ${offset}rpx;
+              `
       },
       btnStyle() {
         let offset = 47
@@ -235,8 +235,8 @@
           offset = 79
         }
         return `
-              bottom: ${offset}rpx;
-            `
+                bottom: ${offset}rpx;
+              `
       }
     }
     data = {
@@ -316,31 +316,8 @@
         let state = this.tabbar.list[index].selected
         if (index === 2) {
           let status = this.myInfo.status
-          console.log(status)
-          if (status === 1) {
-            wx.showToast({
-              title: '请先验证身份',
-              duration: 1500,
-              complete: () => {
-                wx.navigateTo({
-                  url: 'vertificateid'
-                })
-              }
-            })
-          } else if (status === 2) {
-            wx.showToast({
-              title: '您的信息正在审核',
-              duration: 1000
-            })
-          } else if (status === 3) {
-            this.tabbar.list[index].selected = !state
-            this.$emit('post-change')
-          } else {
-            wx.showToast({
-              title: '网络错误',
-              duration: 1000
-            })
-          }
+          this.tabbar.list[index].selected = !state
+          this.$emit('post-change')
         } else {
           for (let item in this.tabbar.list) {
             this.tabbar.list[item].selected = false

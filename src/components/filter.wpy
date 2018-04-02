@@ -183,7 +183,7 @@
     }
     onLoad () {
       this.addressdata0 = this.generateArray(28, 1)
-      this.addressdata1 = this.generateArray(8, 2)
+      this.addressdata1 = this.generateArray(13, 2)
       this.addressdata2 = this.generateArray(13, 3)
     }
     generateArray (range, father) {

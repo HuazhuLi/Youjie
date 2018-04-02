@@ -207,10 +207,10 @@
     </view>
   </view>
   <view class="list_box second">
-    <block wx:for="{{functionTable1}}" wx:for-item="item" wx:key="index">
-      <navigator url="{{item.page}}" class="list_item four">
+    <block wx:for="{{functionTable1}}" wx:for-item="item1" wx:key="{{index + 1}}">
+      <navigator url="{{item1.page}}" class="list_item four">
         <view class="itemname">
-          <image class="icon" mode="aspectFit" src="{{item.icon}}" /> {{item.name}}
+          <image class="icon" mode="aspectFit" src="{{item1.icon}}" /> {{item1.name}}
         </view>
         <image class="enter" mode="aspectFill" src="../images/icons/enter.svg">
       </navigator>
@@ -218,14 +218,14 @@
     </block>
   </view>
   <view class="list_box third">
-    <block wx:for="{{functionTable2}}" wx:for-item="item" wx:key="index">
-      <navigator url="{{item.page}}" class="list_item four">
+    <block wx:for="{{functionTable2}}" wx:for-item="item2" wx:key="{{index + 5}}">
+      <navigator url="{{item2.page}}" class="list_item four">
         <view class="itemname">
-          <image class="icon" mode="aspectFit" src="{{item.icon}}" /> {{item.name}}
+          <image class="icon" mode="aspectFit" src="{{item2.icon}}" /> {{item2.name}}
         </view>
         <image class="enter" mode="aspectFill" src="../images/icons/enter.svg">
       </navigator>
-      <view class="line" wx:if="{{index !== 2}}"></view>
+      <view class="line" wx:if="{{index !== 3}}"></view>
     </block>
   </view>
 </template>
@@ -260,7 +260,7 @@
         }
       ],
       functionTable2: [{
-          name: '租凭须知',
+          name: '租赁须知',
           page: 'firstknow',
           icon: '../images/icons/notice.svg'
         },
@@ -273,6 +273,11 @@
           name: '反馈建议',
           page: 'feedback',
           icon: '../images/icons/feedback.svg'
+        },
+        {
+          name: '活跃认证',
+          page: 'starvertify',
+          icon: '../images/icons/favor.svg'
         }
       ]
     }

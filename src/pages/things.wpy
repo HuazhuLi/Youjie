@@ -758,6 +758,7 @@
         url: 'commodity/',
         data: obj
       }).then((res) => {
+        // console.log(res)
         let data = res.data
         if (type == 1) {
           self.thingslist.list = data

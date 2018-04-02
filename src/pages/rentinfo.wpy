@@ -171,6 +171,14 @@
     transform: scale(2.3);
     margin-right: 18rpx;
   }
+  .star {
+    width: 29rpx;
+    height: 29rpx;
+    margin-right: 18rpx;
+  }
+  .iphoneX {
+    padding-bottom: 32rpx;
+  }
 </style>
 
 <template>
@@ -204,12 +212,20 @@
         </view>
       </view>
     </view>
+    <view wx:if="{{ifStar}}" class="list_box third">
+      <view class="list_item five">
+        <view class="canSold">
+          <image class="star" src="../images/icons/star.svg" />
+          <text>星标活跃用户发布</text>
+        </view>
+      </view>
+    </view>
   </view>
-  <view class="bottomtabs">
+  <view class="bottomtabs {{ifPX ? 'iphoneX' : ''}}">
     <button @tap="shareHandler" open-type="share" size="mini" class="item">
-        <image mode="aspectFit" src="../images/icons/share.svg"></image>
-        <text>分享</text>
-      </button>
+            <image mode="aspectFit" src="../images/icons/share.svg"></image>
+            <text>分享</text>
+          </button>
     <view @tap="contactHandler" class="want">
       去帮助
     </view>
@@ -224,7 +240,10 @@
     }
     components = {}
     data = {
-      thingsinfo: {}
+      thingsinfo: {
+        star: 0
+      },
+      ifX: false
     }
     onShareAppMessage(res) {
       let title = '[求助] ' + this.thingsinfo.title
@@ -239,6 +258,12 @@
       }
     }
     computed = {
+      ifStar() {
+        return this.thingsinfo.star
+      },
+      ifPX() {
+        return this.ifX
+      },
       iteminfo() {
         let date = new Date()
         let item = this.thingsinfo
@@ -295,13 +320,11 @@
               }
             })
           },
-          fail: (res) => {
-          }
+          fail: (res) => {}
         })
       }
     }
-    events = {
-    }
+    events = {}
     getInfo(id) {
       let token = this.$parent.globalData.code
       return this.$parent.Request({
@@ -328,6 +351,8 @@
       })
       let id = options.id
       let self = this
+      self.ifX = this.$parent.globalData.ifiPhoneX
+      self.$apply()
       this.userInit((res) => {
         this.getInfo(id).then((res) => {
           self.thingsinfo = res.data

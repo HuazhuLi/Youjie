@@ -235,7 +235,7 @@
       <view class="line"></view>
       <view class="input_bar descript">
         <view class="label">描述</view>
-        <textarea bindinput="descriptInput" maxlength="{{100}}" value="{{postForm.description}}" confirm-type="next" placeholder="请在此处描述一下你要出借的物品和一次租用的时长吧！100字以内哦。"></textarea>
+        <textarea bindinput="descriptInput" maxlength="{{100}}" value="{{postForm.description}}" confirm-type="next" placeholder="请在此处描述一下你想要求租的物品和租用时长吧！100字以内哦。"></textarea>
       </view>
       <view class="imagesinputbox">
         <block wx:for="{{uploadImages}}">
@@ -416,7 +416,7 @@
           filePath: val,
           url: 'commodity/photo'
         })
-        codePics.push(val)
+        codePics = JSON.parse(resData).data.pictures
       }
       return Promise.resolve(resData)
     }
@@ -470,6 +470,7 @@
       postThing(e) {
         let obj = this.postForm
         let itemId = this.itemId
+        let status = this.$parent.globalData.userInfo2.status
         wx.showLoading({
           title: '上传中',
           mask: true
@@ -484,6 +485,21 @@
             title: '提示',
             content: '上传成功',
             success: function(res) {
+              if (status == 1) {
+                wx.showModal({
+                  title: '警告',
+                  content: '安全起见，发布信息需要先通过实名认证',
+                  success: function(res) {
+                    if (res.confirm) {
+                      wx.navigateTo({
+                        url: 'vertificateid'
+                      })
+                    } else if (res.cancel) {
+                      console.log('用户点击取消')
+                    }
+                  }
+                })
+              }
               if (res.confirm) {
                 wx.navigateBack()
               } else if (res.cancel) {

@@ -199,7 +199,17 @@
               duration: 1000,
               complete: () => {
                 self.$parent.globalData.userInfo2.status = 2
-                wx.navigateBack()
+                wx.showModal({
+                  title: '警告',
+                  content: '上传成功，24小时内完成审核，通过后您发布的信息将自动发布到平台',
+                  success: function(res) {
+                    if (res.confirm) {
+                      wx.navigateBack()
+                    } else if (res.cancel) {
+                      console.log('用户点击取消')
+                    }
+                  }
+                })
               }
             })
           }, (rej) => {
@@ -216,12 +226,7 @@
     onLoad() {
       let self = this
       let status = self.$parent.globalData.userInfo2.status
-      if (status == 1) {
-        wx.showToast({
-          title: '您需要先验证身份',
-          duration: 1000
-        })
-      } else if (status == 2) {
+      if (status == 1) {} else if (status == 2) {
         self.ifVertifing = true
         self.$apply()
       }

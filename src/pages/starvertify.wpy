@@ -1,0 +1,96 @@
+<style scoped="true" lang="less">
+  input {
+    background: white;
+    margin-top: 26rpx;
+    padding: 8rpx;
+    font-size: 28rpx;
+    width: 95%;
+  }
+  button {
+    margin-top: 28rpx;
+    font-size: 28rpx;
+  }
+</style>
+
+<template>
+  <view class="container">
+    <input bindinput="starInput" type="text" placeholder="请输入邀请码"></input>
+    <button disabled="{{ifDisable}}" @tap="uploadStar">{{getText}}</button>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import ListItem3 from '../components/listitem3'
+  export default class MyFavor extends wepy.page {
+    config = {
+      navigationBarTitleText: '邀请码'
+    }
+    components = {
+      listitem3: ListItem3
+    }
+    data = {
+      startext: '',
+      star: 0
+    }
+    computed = {
+      ifDisable() {
+        console.log(this.star != 0)
+        let star = this.star
+        if (star == 0) {
+          return false
+        } else {
+          return true
+        }
+      },
+      getText() {
+        let star = this.star
+        if (star == 1) {
+          return '审核中'
+        } else if (star == 2) {
+          return '审核成功，无需继续提交'
+        } else {
+          return '提交'
+        }
+      }
+    }
+    methods = {
+      starInput(e) {
+        this.startext = e.detail.value
+      },
+      uploadStar(e) {
+        let self = this
+        self.$parent.Request({
+          url: 'user/invite',
+          method: 'POST',
+          data: {
+            code: self.startext
+          }
+        }).then((res) => {
+          console.log(res)
+          if (res) {
+            wx.showModal({
+              title: '警告',
+              content: '提交完成，我们将在24小时内审核完成',
+              success: function(res) {
+                self.star = 2
+                self.$parent.globalData.userInfo2.star = 2
+                self.$apply()
+                if (res.confirm) {
+                  wx.navigateBack()
+                } else if (res.cancel) {
+                  console.log('用户点击取消')
+                }
+              }
+            })
+          }
+        })
+      }
+    }
+    events = {}
+    onLoad() {
+      this.star = this.$parent.globalData.userInfo2.star
+      this.$apply()
+    }
+  }
+</script>

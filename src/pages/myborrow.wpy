@@ -18,7 +18,7 @@
       letter-spacing: 1.5rpx;
       text-align: center;
       border-radius: 8rpx;
-      width: 118rpx;
+      margin: 0
       height: 48rpx;
       line-height: 48rpx;
       vertical-align: middle;
@@ -31,9 +31,9 @@
   <view class="container">
     <view class="share">
       一共赚到了{{getMoney}}元
-      <view class="btn">
-        去炫耀
-      </view>
+      <button open-type="share" class="btn">
+          去炫耀
+        </button>
     </view>
     <repeat wx:for="{{getThings}}" wx:index="index" wx:for-item="item" wx:key="index">
       <listitem3 :ifShowContact.sync="ifShowContact" :thingsitem.sync="item" :indexa.sync="index"></listitem3>
@@ -72,6 +72,9 @@
     methods = {}
     events = {}
     onLoad() {
+      wx.showShareMenu({
+        withShareTicket: true
+      })
       let self = this
       wx.showLoading({
         title: '加载中'

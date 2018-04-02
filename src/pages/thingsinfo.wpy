@@ -173,6 +173,14 @@
     transform: scale(2.3);
     margin-right: 18rpx;
   }
+  .star {
+    margin-right: 18rpx;
+    width: 29rpx;
+    height: 29rpx;
+  }
+  .iphoneX {
+    padding-bottom: 32rpx;
+  }
 </style>
 
 <template>
@@ -215,8 +223,16 @@
         </view>
       </view>
     </view>
+    <view wx:if="{{ifStar}}" class="list_box second">
+      <view class="list_item five">
+        <view class="canSold">
+          <image class="star" src="../images/icons/star.svg" />
+          <text>星标活跃用户发布</text>
+        </view>
+      </view>
+    </view>
   </view>
-  <view class="bottomtabs">
+  <view class="bottomtabs {{ifPX ? 'iphoneX' : ''}}">
     <view @tap="favorHandler" class="item {{!getIfCollect ? 'gray' : ''}}">
       <image mode="aspectFit" src="{{getCollectSrc}}"></image>
       <text>收藏</text>
@@ -228,9 +244,9 @@
     </view>
     <view class="line"></view>
     <button open-type="share" @tap="shareHandler" size="mini" class="item">
-                <image mode="aspectFit" src="../images/icons/share.svg"></image>
-                <text>分享</text>
-              </button>
+                        <image mode="aspectFit" src="../images/icons/share.svg"></image>
+                        <text>分享</text>
+                      </button>
     <view @tap="contactHandler" class="want">
       我想租
     </view>
@@ -247,8 +263,10 @@
     data = {
       thingsinfo: {
         is_like: 0,
-        is_collect: 0
+        is_collect: 0,
+        star: 0
       },
+      ifX: false,
       date: null,
       itemId: null
     }
@@ -279,6 +297,12 @@
       }
     }
     computed = {
+      ifStar () {
+        return this.thingsinfo.star
+      },
+      ifPX() {
+        return this.ifX
+      },
       getLikeSrc() {
         let str = this.thingsinfo.is_like == 0 ? '../images/icons/heart_no.svg' : '../images/icons/heart.svg'
         return str
@@ -457,6 +481,8 @@
       })
       let id = options.id
       let self = this
+      self.ifX = this.$parent.globalData.ifiPhoneX
+      self.$apply()
       this.userInit((res) => {
         this.getInfo(id).then((res) => {
           self.thingsinfo = res.data
