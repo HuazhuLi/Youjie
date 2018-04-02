@@ -25,7 +25,8 @@
   p {
     font-size: 28rpx;
     display: inline-block;
-    line-height: 48rpx;
+    line-height: 52rpx;
+    letter-spacing: 6rpx;
   }
   .paper {
     box-sizing: border-box;

@@ -4,8 +4,9 @@
   }
   p {
     font-size: 28rpx;
-    line-height: 48rpx;
     display: inline-block;
+    line-height: 52rpx;
+    letter-spacing: 6rpx;
   }
   .paper {
     box-sizing: border-box;

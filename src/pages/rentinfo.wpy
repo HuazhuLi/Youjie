@@ -260,7 +260,7 @@
     }
     computed = {
       ifStar() {
-        return this.thingsinfo.star
+        return this.thingsinfo.star == 2
       },
       ifPX() {
         return this.ifX

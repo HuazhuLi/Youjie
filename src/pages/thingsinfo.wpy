@@ -299,7 +299,7 @@
     }
     computed = {
       ifStar () {
-        return this.thingsinfo.star
+        return this.thingsinfo.star == 2
       },
       ifPX() {
         return this.ifX
@@ -358,7 +358,6 @@
         })
       },
       favorHandler() {
-        let token = this.$parent.globalData.code
         let id = this.itemId
         let self = this
         this.$parent.Request({
@@ -367,20 +366,20 @@
           data: {
             _id: id
           }
-        }, token).then((res) => {
+        }).then((res) => {
           self.thingsinfo.is_collect = !self.thingsinfo.is_collect
-          let str = ''
-          if (self.thingsinfo.is_collect) {
-            str = '收藏成功'
-          } else {
-            str = '取消收藏成功'
-          }
+          // let str = ''
+          // if (self.thingsinfo.is_collect) {
+          //   str = '收藏成功'
+          // } else {
+          //   str = '取消收藏成功'
+          // }
           self.$apply()
-          wx.showToast({
-            title: str,
-            icon: 'success',
-            duration: 1000
-          })
+          // wx.showToast({
+          //   title: str,
+          //   icon: 'success',
+          //   duration: 1000
+          // })
         }, (rej) => {
           wx.showToast({
             title: '请稍后再试',
@@ -390,7 +389,6 @@
         })
       },
       likeHandler() {
-        let token = this.$parent.globalData.code
         let id = this.itemId
         let self = this
         this.$parent.Request({
@@ -399,20 +397,20 @@
           data: {
             _id: id
           }
-        }, token).then((res) => {
+        }).then((res) => {
           self.thingsinfo.is_like = !self.thingsinfo.is_like
-          let str = ''
-          if (self.thingsinfo.is_like) {
-            str = '喜欢成功'
-          } else {
-            str = '取消喜欢成功'
-          }
+          // let str = ''
+          // if (self.thingsinfo.is_like) {
+          //   str = '喜欢成功'
+          // } else {
+          //   str = '取消喜欢成功'
+          // }
           self.$apply()
-          wx.showToast({
-            title: str,
-            icon: 'success',
-            duration: 1000
-          })
+          // wx.showToast({
+          //   title: str,
+          //   icon: 'success',
+          //   duration: 1000
+          // })
         }, (rej) => {
           wx.showToast({
             title: '请稍后再试',

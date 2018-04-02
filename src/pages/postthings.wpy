@@ -566,6 +566,7 @@
       let self = this
       wx.reportAnalytics('pub_thing', {})
       self.uploadPics = []
+      self.postForm.contact_way = self.$parent.globalData.userInfo2.contact_way
       if (itemId) {
         self.itemId = itemId
         self.getInfo(itemId)

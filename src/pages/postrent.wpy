@@ -549,6 +549,7 @@
     onLoad(options) {
       let itemId = options.id
       let self = this
+      self.postForm.contact_way = self.$parent.globalData.userInfo2.contact_way
       self.uploadPics = []
       wx.reportAnalytics('pub_rent', {})
       if (itemId) {

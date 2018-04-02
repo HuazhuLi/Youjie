@@ -269,6 +269,7 @@
           title: '上传成功',
           duration: 1000,
           complete: () => {
+            self.$parent.globalData.userInfo2.contact_way = self.userInfo.contact_way
             wx.navigateBack()
           }
         })
