@@ -104,7 +104,7 @@
       </view>
     </view>
     <view wx:if="{{item.type != 'id'}}" class="line"></view>
-    <view @tap="openVertify" class="listitem">
+    <view @tap="openVertify" class="listitem" style="margin-top: 20rpx">
       <text class="title">校园身份验证</text>
       <view class="descript  {{ifIdentify ? 'identify' : ''}}">
         <image wx:if="{{ifIdentify}}" class="enter pass" mode="aspectFill" src="../images/icons/yes.svg" /> {{identifyWord}}
