@@ -263,7 +263,7 @@
     <view class="input_list contact">
       <view class="input_bar contact">
         <view class="label">联系方式</view>
-        <input value="{{postForm.contact_way}}" bindinput="contactInput" cursor-spacing="{{10}}" type="text" placeholder="未填写" />
+        <input value="{{getContact}}" bindinput="contactInput" cursor-spacing="{{10}}" type="text" placeholder="未填写" />
       </view>
     </view>
     <view class="input_list cansold">
@@ -317,6 +317,9 @@
       ]
     }
     computed = {
+      getContact() {
+        return this.postForm.contact_way
+      },
       uploadImages() {
         let index = -1
         let oldPics = []
@@ -555,10 +558,6 @@
       if (itemId) {
         self.itemId = itemId
         self.getInfo(itemId)
-      }
-      let userInfo = self.$parent.globalData.userInfo
-      if (userInfo) {
-        self.contact_way = userInfo.contact_way
       }
       self.$apply()
     }
