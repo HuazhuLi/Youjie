@@ -271,8 +271,8 @@
       let self = this
       let filter = this.filter
       let bottomIndex = this.tabIndexB
-      let label1 = this.tabIndexT1 + 1
-      let label2 = this.tabIndexT2 + 1
+      let label1 = this.tabIndexT1
+      let label2 = this.tabIndexT2
       if (bottomIndex === 0) {
         self.renderHomeList(filter).then((res) => {
           wx.stopPullDownRefresh()
@@ -400,8 +400,8 @@
       inputState: false,
       titles: ['租品', '求租', '发布', '圈子', '我的'],
       tabIndexB: 0,
-      tabIndexT1: 0,
-      tabIndexT2: 0,
+      tabIndexT1: 1,
+      tabIndexT2: 1,
       userInfo: {},
       topTabB: {
         color: '#a9a29f',
@@ -619,8 +619,8 @@
       'tab-changeB': (...args) => {
         let index = args[0]
         let self = this
-        let label1 = this.tabIndexT1 + 1
-        let label2 = this.tabIndexT2 + 1
+        let label1 = this.tabIndexT1
+        let label2 = this.tabIndexT2
         this.tabIndexB = index
         wx.setNavigationBarTitle({
           title: self.titles[index]
@@ -673,6 +673,7 @@
             self.tabIndexT2 = index
         }
         if (type === 2) {
+          self.tabIndexT1 = label
           wx.showLoading({
             title: '加载中'
           })
@@ -680,6 +681,7 @@
             wx.hideLoading()
           })
         } else if (type === 4) {
+          self.tabIndexT2 = label
           wx.showLoading({
             title: '加载中'
           })

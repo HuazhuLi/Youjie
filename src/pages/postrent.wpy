@@ -561,6 +561,22 @@
       }
       self.$apply()
     }
+    onHide() {
+      this.itemId = null
+      this.postForm = {
+        title: '',
+        description: '',
+        type: 2,
+        price: null,
+        contact_way: '',
+        category: 0,
+        upload_times: 1,
+        is_deal: 1,
+        pictures: []
+      }
+      this.uploadPics = []
+      this.$apply()
+    }
     onShow() {
       wx.reportAnalytics('pub_rent', {})
     }
